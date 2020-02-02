@@ -30,3 +30,15 @@ button {
   font-size: 13px;
   color: #767a83;
 }
+
+input {
+  height: 40px;
+  padding: 4px 10px;
+  font-size: 12px;
+  border: 1px solid #dbdde2;
+  width: 100%;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}

@@ -5,6 +5,7 @@ import SectionBody from '../../../../components/SectionBody';
 import IsSelling from './IsSelling';
 import IsDisplaying from './IsDisplaying';
 import Categories from './Categories';
+import ProvisionNotice from './ProvisionNotice';
 
 const GeneralInfo = () => {
   return (
@@ -14,6 +15,7 @@ const GeneralInfo = () => {
         <IsSelling />
         <IsDisplaying />
         <Categories />
+        <ProvisionNotice />
       </SectionBody>
     </BoxDesign>
   );
