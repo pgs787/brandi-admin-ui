@@ -1,6 +1,8 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: #edf0f5;
+  font-family: 'Nanum Gothic', sans-serif;
 }
 
 * {
@@ -8,4 +10,23 @@ body {
   list-style: none;
   margin: 0;
   padding: 0;
+  outline: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: normal;
+}
+
+button {
+  height: 34px;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #ddd;
+  padding: 8px 20px;
+  font-size: 13px;
+  color: #767a83;
 }
