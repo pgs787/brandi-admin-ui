@@ -6,6 +6,9 @@ import IsSelling from './IsSelling';
 import IsDisplaying from './IsDisplaying';
 import Categories from './Categories';
 import ProvisionNotice from './ProvisionNotice';
+import ProductName from './ProductName';
+import ProductDescription from './ProductDescription';
+import ImageUpload from './ImageUpload';
 
 const GeneralInfo = () => {
   return (
@@ -16,6 +19,9 @@ const GeneralInfo = () => {
         <IsDisplaying />
         <Categories />
         <ProvisionNotice />
+        <ProductName />
+        <ProductDescription />
+        <ImageUpload />
       </SectionBody>
     </BoxDesign>
   );
