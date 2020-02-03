@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -17,12 +18,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import hoverList from './Data';
-
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 // component
 import SideList from './SideList';
 
-const Layout = () => {
-  console.log(hoverList);
+const Layout = ({ children }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -33,6 +34,10 @@ const Layout = () => {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const deleteSession = () => {
+    sessionStorage.removeItem('access_token');
+    history.push('/login');
   };
 
   return (
@@ -59,6 +64,15 @@ const Layout = () => {
             Mini variant drawer
           </Typography>
         </Toolbar>
+        <LogoutTool>
+          <Link to="/login">
+            <Tooltip title="Log Out" interactive>
+              <Button className={classes.logout} onclick={deleteSession}>
+                USERNAME
+              </Button>
+            </Tooltip>
+          </Link>
+        </LogoutTool>
       </AppBar>
       <Drawer
         variant="permanent"
@@ -89,7 +103,7 @@ const Layout = () => {
         </div>
         <Divider />
         <List className={clsx({ [classes.hide]: open })}>
-          {hoverList[0].map((text, index) => (
+          {hoverList.map((text, index) => (
             <ListItem button key={text[0]} className={classes.listItem}>
               <ListItemIcon className={classes.icon}>{text[1]}</ListItemIcon>
               <ListItemText className={classes.listText}>
@@ -97,7 +111,9 @@ const Layout = () => {
                   <ListName>{text[0]}</ListName>
                   <HoverList>
                     {text[2].map(item => (
-                      <HoverItem key={item.id}>{item.name}</HoverItem>
+                      <Link to={item.link}>
+                        <HoverItem key={item.id}>{item.name}</HoverItem>
+                      </Link>
                     ))}
                   </HoverList>
                 </HoverListBox>
@@ -109,35 +125,7 @@ const Layout = () => {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        {children}
       </main>
     </div>
   );
@@ -150,7 +138,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   appBar: {
-    backgroundColor: '#35363A',
+    backgroundColor: '#36363A',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -177,6 +165,14 @@ const useStyles = makeStyles(theme => ({
   },
   logo: {
     color: '#999',
+  },
+
+  logout: {
+    color: '#999',
+    height: '100%',
+    '&:hover': {
+      backgroundColor: '#2B2B30',
+    },
   },
   hide: {
     display: 'none',
@@ -232,11 +228,6 @@ const useStyles = makeStyles(theme => ({
   listText: {
     color: '#999',
     display: 'none',
-    /* display: 'none',
-    'listItem&:hover': {
-      display: 'block',
-      position: 'absolute',
-    }, */
   },
   toolbar: {
     display: 'flex',
@@ -253,13 +244,15 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    width: `calc(100% - ${drawerWidth}px)`,
   },
 }));
+
 const HoverListBox = styled('div')({
   backgroundColor: '#2B2B30',
   width: '180px',
 });
+
 const ListName = styled('div')({
   padding: '8px 0px 8px 5px',
 });
@@ -270,9 +263,11 @@ const HoverList = styled('div')({
   width: '99%',
   right: '0',
 });
+
 const HoverItem = styled('div')({
   padding: '7px 0px 7px 12px',
   fontSize: '14px',
+  color: '#999',
   '&:hover': {
     animation: 'fade 0.5s ease forwards',
   },
@@ -282,6 +277,11 @@ const HoverItem = styled('div')({
       color: '#FFFFFF',
     },
   },
+});
+const LogoutTool = styled('div')({
+  position: 'absolute',
+  height: '100%',
+  right: '60px',
 });
 
 export default Layout;
