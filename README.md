@@ -9,6 +9,7 @@
 - Redux: v4.0.5
 - React-redux: v7.1.3
 - Material-UI: v4.9.0
+- Styled-Components: v5.0.0
 
 ## 기능
 
