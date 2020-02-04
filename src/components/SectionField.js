@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import FieldLabel from './FieldLabel';
 import MoreInfo from './MoreInfo';
 
-const SectionField = ({ children, moreInfoText, label }) => {
+const SectionField = ({ children, moreInfoText, label, isRequired }) => {
   return (
     <FieldWrapper>
-      <FieldLabel label={label} />
+      <FieldLabel label={label} isRequired={isRequired} />
       <FieldContent>
         {children}
         {moreInfoText && <MoreInfo text={moreInfoText} />}

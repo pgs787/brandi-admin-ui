@@ -1,35 +1,111 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled, { css } from 'styled-components';
 import SectionField from '../../../../components/SectionField';
-import ToggleButtonGroup from '../../../../components/ToggleButtonGroup';
-import InputBox from '../../../../components/InputBox';
-import SelectBox from '../../../../components/SelectBox';
 import TodayIcon from '@material-ui/icons/Today';
 import DatePicker from 'react-datepicker';
+import Select from 'react-select';
+import { connect } from 'react-redux';
+import {
+  setManufacturer,
+  setManufactureDate,
+  setOriginCountry,
+} from '../../../../redux/actions';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const ProvisionNotice = () => {
-  const [isDirectInput] = React.useState(true);
-  const [date, setDate] = React.useState(new Date());
+const options = [
+  { value: '기타', label: '기타' },
+  { value: '중국', label: '중국' },
+  { value: '한국', label: '한국' },
+  { value: '베트남', label: '베트남' },
+];
 
-  const onChange = date => {
+const availableStatus = [{ value: '상품상세 참조' }, { value: '직접입력' }];
+
+const customStyles = {
+  control: () => ({
+    height: 40,
+    borderRadius: 0,
+    fontSize: 12,
+    border: '1px solid #dbdde2',
+    display: 'flex',
+    alignItems: 'center',
+  }),
+  container: base => ({
+    ...base,
+    width: '100%',
+  }),
+  indicatorsContainer: () => null,
+};
+
+const ProvisionNotice = ({
+  setManufacturer,
+  setManufactureDate,
+  setOriginCountry,
+}) => {
+  const [activeId, setActiveId] = useState(0);
+  const [manufacturerText, setManufacturerText] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  useEffect(() => {
+    if (activeId === 0) {
+      setManufacturerText('');
+      setDate('');
+      setSelectedOption(null);
+      setManufacturer('');
+      setManufactureDate('');
+      setOriginCountry(null);
+    }
+  }, [activeId]);
+
+  const onClick = id => {
+    setActiveId(id);
+  };
+
+  const onChangeManufacturer = e => {
+    setManufacturerText(e.target.value);
+    setManufacturer(e.target.value);
+  };
+
+  const onChangeDate = date => {
     setDate(date);
+    setManufactureDate(date);
+  };
+
+  const onChangeOption = ({ value }) => {
+    setSelectedOption(value);
+    setOriginCountry(value);
   };
 
   return (
-    <SectionField label="상품 정보 고시">
-      <ToggleButtonGroup options={['상품상세 참조', '직접입력']} />
-      {isDirectInput && (
+    <SectionField label="상품 정보 고시" isRequired>
+      <ButtonGroupWrapper>
+        {availableStatus.map((status, idx) => (
+          <OptionButton
+            key={idx}
+            id={idx}
+            onClick={() => onClick(idx)}
+            isActive={activeId === idx}
+          >
+            {status.value}
+          </OptionButton>
+        ))}
+      </ButtonGroupWrapper>
+      {activeId === 1 && (
         <ProvisionNoticeDetailsWrapper>
           <FormWrapper>
             <FormLabel>제조사(수입사):</FormLabel>
-            <InputBox placeholder="제조사(수입사)를 입력해주세요" />
+            <InputTag
+              value={manufacturerText}
+              onChange={onChangeManufacturer}
+              placeholder="제조사(수입사)를 입력해주세요"
+            />
           </FormWrapper>
           <TempField>
             <FormLabel>제조일자:</FormLabel>
             <DatePicker
               selected={date}
-              onChange={onChange}
+              onChange={onChangeDate}
               dateFormat="yyyy-MM-dd"
             />
             <CalendarButton>
@@ -38,12 +114,12 @@ const ProvisionNotice = () => {
           </TempField>
           <FormWrapper>
             <FormLabel>원산지:</FormLabel>
-            <SelectBox defaultValue="한국">
-              <option value="기타">기타</option>
-              <option value="중국">중국</option>
-              <option value="한국">한국</option>
-              <option value="베트남">베트남</option>
-            </SelectBox>
+            <Select
+              onChange={onChangeOption}
+              options={options}
+              styles={customStyles}
+              placeholder="원산지"
+            />
           </FormWrapper>
         </ProvisionNoticeDetailsWrapper>
       )}
@@ -51,7 +127,11 @@ const ProvisionNotice = () => {
   );
 };
 
-export default ProvisionNotice;
+export default connect(null, {
+  setManufacturer,
+  setManufactureDate,
+  setOriginCountry,
+})(ProvisionNotice);
 
 // Styled Components
 const TempField = styled.div`
@@ -62,7 +142,7 @@ const TempField = styled.div`
 
 const ProvisionNoticeDetailsWrapper = styled.div`
   margin-top: 20px;
-  width: 400px;
+  width: 350px;
 `;
 
 const FormWrapper = styled.form`
@@ -79,9 +159,38 @@ const FormLabel = styled.label`
 const CalendarButton = styled.button`
   background-color: #f8f9fd;
   height: 40px;
-  width: 70px;
+  width: 50px;
+  padding: 0;
   border: 1px solid #dbdde2;
   position: absolute;
   right: 0;
   pointer-events: none;
+  display: flex;
+  justify-content: center;
+`;
+
+const ButtonGroupWrapper = styled.div``;
+
+const OptionButton = styled.button`
+  border: 1px solid #ddd;
+  width: 140px;
+  padding: 8px 20px;
+  font-size: 13px;
+  color: #767a83;
+  ${props =>
+    props.isActive &&
+    css`
+      color: white;
+      background-color: #36363a;
+      border: 1px solid #36363a;
+    `}
+`;
+
+const InputTag = styled.input`
+  width: 100%;
+  background-color: #f8f9fd;
+  &:focus {
+    border-color: #999999;
+    background-color: white;
+  }
 `;
