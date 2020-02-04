@@ -145,13 +145,6 @@ const SignUpInfo = ({ handleClick }) => {
           onChange={onChange}
           errors={errors}
         />
-        {/* {validation.id === false && (
-          <PErrorMsg>
-            {inputState.id.length === 0
-              ? '필수 입력 항목입니다.'
-              : '아이디의 최소 길이는 5글자입니다.'}
-          </PErrorMsg>
-        )} */}
       </DivInputWrap>
       <DivInputWrap>
         <InfoInput
@@ -163,13 +156,6 @@ const SignUpInfo = ({ handleClick }) => {
           onChange={onChange}
           errors={errors}
         />
-        {/* {validation.password === false && (
-          <PErrorMsg>
-            {inputState.password.length === 0
-              ? '필수 입력 항목입니다.'
-              : '비밀번호의 최소 길이는 4글자입니다.'}
-          </PErrorMsg>
-        )} */}
       </DivInputWrap>
       <DivInputWrap>
         <InfoInput
@@ -181,13 +167,6 @@ const SignUpInfo = ({ handleClick }) => {
           onChange={onChange}
           errors={errors}
         />
-        {/* {validation.rePassword === false && (
-          <PErrorMsg>
-            {inputState.password.length === 0
-              ? '필수 입력 항목입니다.'
-              : '비밀번호가 일치하지 않습니다.'}
-          </PErrorMsg>
-        )} */}
       </DivInputWrap>
       <H4InfoTitle>
         담당자 정보 <SpanSubInfo>(*실제 샵을 운영하시는 분)</SpanSubInfo>
@@ -202,13 +181,6 @@ const SignUpInfo = ({ handleClick }) => {
           onChange={onChange}
           errors={errors}
         />
-        {/* {validation.phoneNumber === false && (
-          <PErrorMsg>
-            {inputState.phoneNumber.length === 0
-              ? '필수 입력 항목입니다.'
-              : '올바른 정보를 입력해주세요.'}
-          </PErrorMsg>
-        )} */}
       </DivInputWrap>
       <SpanSubInfo
         style={{
@@ -301,11 +273,6 @@ const SignUpInfo = ({ handleClick }) => {
           onChange={onChange}
           errors={errors}
         />
-        {/* {validation.sellerName === false && (
-          <PErrorMsg>
-            {inputState.sellerName.length === 0 ? '필수 입력 항목입니다.' : ''}
-          </PErrorMsg>
-        )} */}
       </DivInputWrap>
       <DivInputWrap>
         <InfoInput
@@ -317,11 +284,6 @@ const SignUpInfo = ({ handleClick }) => {
           onChange={onChange}
           errors={errors}
         />
-        {/* {validation.sellerNameEng === false && (
-          <PErrorMsg>
-            {inputState.sellerName.length === 0 ? '필수 입력 항목입니다.' : ''}
-          </PErrorMsg>
-        )} */}
       </DivInputWrap>
       <DivInputWrap>
         <InfoInput
@@ -333,11 +295,6 @@ const SignUpInfo = ({ handleClick }) => {
           onChange={onChange}
           errors={errors}
         />
-        {/* {validation.csNumber === false && (
-          <PErrorMsg>
-            {inputState.csNumber.length === 0 ? '필수 입력 항목입니다.' : ''}
-          </PErrorMsg>
-        )} */}
       </DivInputWrap>
       <DivInputWrap>
         <InfoInput
@@ -349,11 +306,6 @@ const SignUpInfo = ({ handleClick }) => {
           onChange={onChange}
           errors={errors}
         />
-        {/* {validation.sellerSite === false && (
-          <PErrorMsg>
-            {inputState.csNumber.length === 0 ? '필수 입력 항목입니다.' : ''}
-          </PErrorMsg>
-        )} */}
       </DivInputWrap>
       <DivInputWrap>
         <InfoInput
