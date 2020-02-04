@@ -1,18 +1,33 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled, { css } from 'styled-components';
 
-const InfoInput = ({ img, placeholder, name, type, value, onChange }) => {
+const InfoInput = props => {
+  const { img, placeholder, name, type, onChange, errors = [] } = props;
+
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const message = errors
+      .filter(error => error.key === name)
+      .concat({ message: '' })[0].message;
+
+    setError(message);
+  }, [name, errors]);
+
+  // errors.filter(error => error.name === name)
+
   return (
     <DivInputIcon>
-      <IInputIcon img={img} />
+      <IInputIcon img={img} check={!!error} />
       <InputAccount
         placeholder={placeholder}
         name={name}
-        value={value}
         type={type}
         autoComplete="off"
         onChange={onChange}
+        check={!!error}
       />
+      {error && <PErrorMsg>{error}</PErrorMsg>}
     </DivInputIcon>
   );
 };
@@ -21,7 +36,6 @@ export default InfoInput;
 
 const DivInputIcon = styled.div`
   position: relative;
-  margin-bottom: 15px;
 `;
 
 const IInputIcon = styled.i`
@@ -38,6 +52,11 @@ const IInputIcon = styled.i`
   &:before {
   content: '${({ img }) => img}';
   }
+  ${({ check }) =>
+    check &&
+    css`
+      color: #b94a48;
+    `}
 `;
 
 const InputAccount = styled.input`
@@ -55,5 +74,22 @@ const InputAccount = styled.input`
     outline: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
+    ${({ check }) =>
+      check &&
+      css`
+        border-color: #a94442;
+      `}
   }
+  ${({ check }) =>
+    check &&
+    css`
+      border-color: #a94442;
+    `}
+`;
+
+const PErrorMsg = styled.p`
+  color: #a94442;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 13px;
 `;
