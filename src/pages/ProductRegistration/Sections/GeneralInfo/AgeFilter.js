@@ -1,8 +1,34 @@
 import React from 'react';
 import SectionField from '../../../../components/SectionField';
-import ToggleButtonGroup from '../../../../components/ToggleButtonGroup';
+import { data } from '../../../../../config';
+import Select from 'react-select';
+import { connect } from 'react-redux';
+import { setAgeFilter } from '../../../../redux/actions';
 
-const AgeFilter = () => {
+const options = data.generalInfo.ageFilter;
+
+const customStyles = {
+  control: () => ({
+    height: 40,
+    borderRadius: 0,
+    fontSize: 13,
+    border: '1px solid #dbdde2',
+    display: 'flex',
+    alignItems: 'center',
+  }),
+  container: base => ({
+    ...base,
+    width: '400px',
+  }),
+};
+
+const AgeFilter = ({ setAgeFilter }) => {
+  const onChange = selectedOptions => {
+    let selectedOptionVals = [];
+    selectedOptions.map(option => selectedOptionVals.push(option.value));
+    setAgeFilter(selectedOptionVals);
+  };
+
   return (
     <SectionField
       label="연령필터"
@@ -13,9 +39,15 @@ const AgeFilter = () => {
       ]}
       isRequired
     >
-      <ToggleButtonGroup options={['10대', '20대', '30대', '40대', '50대']} />
+      <Select
+        onChange={onChange}
+        options={options}
+        styles={customStyles}
+        placeholder="연령을 선택하세요"
+        isMulti
+      />
     </SectionField>
   );
 };
 
-export default AgeFilter;
+export default connect(null, { setAgeFilter })(AgeFilter);
