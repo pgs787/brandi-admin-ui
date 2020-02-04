@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -16,23 +16,52 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const reducer = (state, action) => {
-  return {
-    ...state,
-    [action.name]: action.value
-  };
-};
-
 const LoginForm = ({ handleClick, toSignUp }) => {
   const [checkbox, setCheckbox] = useState(false);
-  const [inputState, dispatch] = useReducer(reducer, {
-    id: '',
-    password: ''
-  });
+  const [idState, setId] = useState('');
+  const [pwState, setPw] = useState('');
+  const [failMsg, setFailMsg] = useState(false);
   const classes = useStyles();
 
-  const handleChange = e => {
-    dispatch(e.target);
+  useEffect(() => {
+    const id = localStorage.getItem('saved_id');
+    const pw = localStorage.getItem('saved_pw');
+    if (!!id) {
+      const decryptedId = CryptoJS.AES.decrypt(id, '1234');
+      const decryptedPw = CryptoJS.AES.decrypt(pw, '1234');
+      const resolveId = decryptedId.toString(CryptoJS.enc.Utf8);
+      const resolvePw = decryptedPw.toString(CryptoJS.enc.Utf8);
+      setId(resolveId);
+      setPw(resolvePw);
+    }
+  }, []);
+
+  const handleId = e => {
+    setId(e.target.value);
+  };
+
+  const handlePw = e => {
+    setPw(e.target.value);
+  };
+
+  const handleSubmit = e => {
+    if (checkbox) {
+      const passphrase = '1234';
+      const encryptId = CryptoJS.AES.encrypt(idState, passphrase);
+      const encryptPw = CryptoJS.AES.encrypt(pwState, passphrase);
+      localStorage.setItem('saved_id', encryptId);
+      localStorage.setItem('saved_pw', encryptPw);
+    } else {
+      localStorage.clear();
+    }
+    // api 포스트 보내고 틀리면 에러메시지 맞으면 라우팅
+  };
+
+  const handleKeyPress = e => {
+    if (e.keyCode === 13) {
+      console.log('hi');
+      handleSubmit();
+    }
   };
 
   return (
@@ -40,23 +69,34 @@ const LoginForm = ({ handleClick, toSignUp }) => {
       <DivContent>
         <form>
           <H3LoginTitle>셀러 로그인</H3LoginTitle>
+          <DivLoginFail visible={failMsg}>
+            <p>아이디 또는 패스워드를 확인해주세요.</p>
+            <ButtonClose
+              onClick={e => {
+                e.preventDefault();
+                setFailMsg(false);
+              }}
+            />
+          </DivLoginFail>
           <DivInputIcon>
             <IInputIcon img="\f007" />
             <InputAccount
               placeholder="셀러 아이디"
               name="id"
-              value={inputState.id}
+              value={idState}
               type="text"
+              onKeyDown={handleKeyPress}
               autoComplete="off"
-              onChange={handleChange}
+              onChange={handleId}
             />
           </DivInputIcon>
           <DivInputIcon>
             <IInputIcon img="\f023" />
             <InputAccount
+              onKeyDown={handleKeyPress}
               name="password"
-              onChange={handleChange}
-              value={inputState.password}
+              onChange={handlePw}
+              value={pwState}
               placeholder="셀러 비밀번호"
               type="password"
             />
@@ -89,6 +129,7 @@ const LoginForm = ({ handleClick, toSignUp }) => {
               className={classes.signin}
               variant="contained"
               color="primary"
+              onClick={handleSubmit}
             >
               로그인
             </Button>
@@ -133,7 +174,7 @@ export default LoginForm;
 
 const DivMargin = styled.div`
   width: 100%;
-  height: 17.5vh;
+  height: 18vh;
 `;
 
 const DivContent = styled.div`
@@ -273,4 +314,33 @@ const PCsInfo = styled.p`
   color: #222;
   font-size: 13px;
   margin-bottom: 10px;
+`;
+
+const DivLoginFail = styled.div`
+  background-color: #f2dede;
+  color: #a94442;
+  padding: 15px;
+  font-size: 13px;
+  border-color: #ebccd1;
+  border: 1px solid transparent;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  ${({ visible }) =>
+    !visible &&
+    css`
+      display: none;
+    `}
+`;
+
+const ButtonClose = styled.button`
+  width: 9px;
+  height: 9px;
+  text-indent: -10000px;
+  opacity: 0.2;
+  border: 0;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-image: url('http://sadmin.brandi.co.kr/include/img/remove-icon-small.png');
 `;
