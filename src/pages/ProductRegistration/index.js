@@ -2,10 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import BoxDesign from '../../components/BoxDesign';
 import GeneralInfo from './Sections/GeneralInfo';
+import Navigation from '../../components/Navigation/Navigation';
 
 const ProductRegistration = () => {
   return (
-    <>
+    <Navigation>
       <PageWrapper>
         <BoxDesign>
           <PageTitle>
@@ -14,7 +15,7 @@ const ProductRegistration = () => {
         </BoxDesign>
         <GeneralInfo />
       </PageWrapper>
-    </>
+    </Navigation>
   );
 };
 
