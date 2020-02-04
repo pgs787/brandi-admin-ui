@@ -16,6 +16,7 @@ const ToggleButtonGroup = ({ options }) => {
           id={idx}
           onClick={() => onClick(idx)}
           activeId={activeId === idx}
+          value={option}
         >
           {option}
         </OptionButton>

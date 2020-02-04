@@ -2,6 +2,7 @@ import React from 'react';
 import BoxDesign from '../../../../components/BoxDesign';
 import SectionTitle from '../../../../components/SectionTitle';
 import SectionBody from '../../../../components/SectionBody';
+import SelectSeller from './SelectSeller';
 import IsSelling from './IsSelling';
 import IsDisplaying from './IsDisplaying';
 import Categories from './Categories';
@@ -20,6 +21,7 @@ const GeneralInfo = () => {
     <BoxDesign>
       <SectionTitle title="기본 정보" />
       <SectionBody>
+        <SelectSeller />
         <IsSelling />
         <IsDisplaying />
         <Categories />

@@ -14,6 +14,11 @@ const ProductRegistration = () => {
           </PageTitle>
         </BoxDesign>
         <GeneralInfo />
+        <ButtonGroupWrapper>
+          <SaveButton>임시저장</SaveButton>
+          <SaveButton>등록하기</SaveButton>
+          <CancelButton>취소</CancelButton>
+        </ButtonGroupWrapper>
       </PageWrapper>
     </Navigation>
   );
@@ -37,4 +42,31 @@ const RequiredSpan = styled.small`
   font-size: 14px;
   margin-left: 8px;
   color: red;
+`;
+
+const ButtonGroupWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const SaveButton = styled.button`
+  margin: 0 5px;
+  width: 150px;
+  height: 50px;
+  padding: 8px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #36363a;
+  border: 1px solid #36363a;
+`;
+
+const CancelButton = styled.button`
+  margin: 0 5px;
+  width: 150px;
+  height: 50px;
+  padding: 8px 20px;
+  font-size: 16px;
+  background-color: white;
+  border: 1px solid #ddd;
+  color: #767a83;
 `;

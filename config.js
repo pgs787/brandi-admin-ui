@@ -1,0 +1,45 @@
+export const data = {
+  generalInfo: {
+    categories: {
+      firstCategory: [
+        { value: 'option1', label: 'Option 1' },
+        { value: 'option2', label: 'Option 2' },
+        { value: 'option3', label: 'Option 3' },
+      ],
+      secondCategory: [
+        { value: 'option4', label: 'Option 4' },
+        { value: 'option5', label: 'Option 5' },
+        { value: 'option6', label: 'Option 6' },
+      ],
+    },
+    styleFilter: [
+      '선택안함',
+      '심플베이직',
+      '러블리',
+      '페미닌',
+      '캐주얼',
+      '섹시글램',
+    ],
+    ageFilter: ['10대', '20대', '30대', '40대', '50대'],
+    colorFilter: [
+      { valueKor: '빨강', valueEng: 'Red' },
+      { valueKor: '주황', valueEng: 'Orange' },
+      { valueKor: '노랑', valueEng: 'Yellow' },
+      { valueKor: '베이지', valueEng: 'Beige' },
+      { valueKor: '갈색', valueEng: 'Brown' },
+      { valueKor: '초록', valueEng: 'Green' },
+      { valueKor: '민트', valueEng: 'Mint' },
+      { valueKor: '하늘', valueEng: 'Skyblue' },
+      { valueKor: '파랑', valueEng: 'Blue' },
+      { valueKor: '남색', valueEng: 'Navy' },
+      { valueKor: '보라', valueEng: 'Violet' },
+      { valueKor: '분홍', valueEng: 'Pink' },
+      { valueKor: '흰색', valueEng: 'White' },
+      { valueKor: '회색', valueEng: 'Gray' },
+      { valueKor: '검정', valueEng: 'Black' },
+      { valueKor: '골드', valueEng: 'Gold' },
+      { valueKor: '로즈골드', valueEng: 'Rosegold' },
+      { valueKor: '실버', valueEng: 'Silver' },
+    ],
+  },
+};

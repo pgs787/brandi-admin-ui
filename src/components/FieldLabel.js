@@ -1,8 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import RequiredIcon from './RequiredIcon';
 
-const FieldLabel = ({ label }) => {
-  return <LabelWrapper>{label}</LabelWrapper>;
+const FieldLabel = ({ label, isRequired }) => {
+  return (
+    <LabelWrapper>
+      {label}
+      {isRequired && <RequiredIcon />}
+    </LabelWrapper>
+  );
 };
 
 export default FieldLabel;

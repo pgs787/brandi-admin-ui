@@ -1,13 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import SectionField from '../../../../components/SectionField';
-import InputBox from '../../../../components/InputBox';
+import { connect } from 'react-redux';
+import { setProductDesc } from '../../../../redux/actions';
 
-const ProductDescription = () => {
+const ProductDescription = ({ setProductDesc }) => {
+  const [name, setName] = useState('');
+
+  const onChange = e => {
+    setName(e.target.value);
+    setProductDesc(e.target.value);
+  };
+
   return (
     <SectionField label="한줄 상품 설명">
-      <InputBox placeholder="한줄 상품 설명을 입력해주세요" />
+      <InputTag
+        value={name}
+        onChange={onChange}
+        placeholder="상품명을 입력해주세요"
+      />
     </SectionField>
   );
 };
 
-export default ProductDescription;
+export default connect(null, { setProductDesc })(ProductDescription);
+
+// Styled Components
+
+const InputTag = styled.input`
+  width: 100%;
+  background-color: #f8f9fd;
+  &:focus {
+    border-color: #999999;
+    background-color: white;
+  }
+`;
