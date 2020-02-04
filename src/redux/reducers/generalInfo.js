@@ -12,6 +12,10 @@ const initialState = {
   },
   productName: '',
   productDesc: '',
+  colorFilter: '',
+  styleFilter: '',
+  ageFilter: [],
+  youtubeUrl: '',
 };
 
 export default function generalInfo(state = initialState, action) {
@@ -63,6 +67,26 @@ export default function generalInfo(state = initialState, action) {
       return {
         ...state,
         productDesc: action.payload,
+      };
+    case 'SET_COLOR_FILTER':
+      return {
+        ...state,
+        colorFilter: action.payload,
+      };
+    case 'SET_STYLE_FILTER':
+      return {
+        ...state,
+        styleFilter: action.payload,
+      };
+    case 'SET_AGE_FILTER':
+      return {
+        ...state,
+        ageFilter: action.payload,
+      };
+    case 'SET_YOUTUBE_URL':
+      return {
+        ...state,
+        youtubeUrl: action.payload,
       };
     default:
       return state;

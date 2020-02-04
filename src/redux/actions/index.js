@@ -60,3 +60,31 @@ export const setProductDesc = desc => {
     payload: desc,
   };
 };
+
+export const setColorFilter = color => {
+  return {
+    type: 'SET_COLOR_FILTER',
+    payload: color,
+  };
+};
+
+export const setStyleFilter = style => {
+  return {
+    type: 'SET_STYLE_FILTER',
+    payload: style,
+  };
+};
+
+export const setAgeFilter = age => {
+  return {
+    type: 'SET_AGE_FILTER',
+    payload: age,
+  };
+};
+
+export const setYoutubeUrl = url => {
+  return {
+    type: 'SET_YOUTUBE_URL',
+    payload: url,
+  };
+};

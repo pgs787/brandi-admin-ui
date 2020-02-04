@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import SectionField from '../../../../components/SectionField';
 import { data } from '../../../../../config';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { connect } from 'react-redux';
+import { setColorFilter } from '../../../../redux/actions';
 
 const availableStatus = [{ value: '사용 안함' }, { value: '사용함' }];
 const availableColors = data.generalInfo.colorFilter;
 
-const ColorFilter = () => {
+const ColorFilter = ({ setColorFilter }) => {
   const [activeId, setActiveId] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [tempColor, setTempColor] = useState('');
@@ -17,6 +18,12 @@ const ColorFilter = () => {
 
   const onClickButton = id => {
     setActiveId(id);
+    if (id === 0) {
+      setInit(true);
+      setSelectedColor('');
+      setTempColor('');
+      setColorFilter('');
+    }
   };
 
   const onClickColor = id => {
@@ -31,6 +38,7 @@ const ColorFilter = () => {
     setInit(false);
     setShowModal(!showModal);
     setSelectedColor(tempColor);
+    setColorFilter(tempColor);
   };
 
   const onCancelColor = () => {
@@ -38,14 +46,14 @@ const ColorFilter = () => {
     setTempColor('');
   };
 
-  useEffect(() => {
-    if (activeId === 0) {
-      setInit(true);
-      setSelectedColor('');
-      setTempColor('');
-      console.log('useEffect called');
-    }
-  }, [activeId]);
+  // useEffect(() => {
+  //   if (activeId === 0) {
+  //     setInit(true);
+  //     setSelectedColor('');
+  //     setTempColor('');
+  //     setColorFilter('');
+  //   }
+  // }, [activeId]);
 
   return (
     <>
@@ -111,7 +119,7 @@ const ColorFilter = () => {
   );
 };
 
-export default ColorFilter;
+export default connect(null, { setColorFilter })(ColorFilter);
 
 // Styled Components
 const ButtonGroupWrapper = styled.div``;

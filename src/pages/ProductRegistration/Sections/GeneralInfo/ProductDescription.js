@@ -5,17 +5,17 @@ import { connect } from 'react-redux';
 import { setProductDesc } from '../../../../redux/actions';
 
 const ProductDescription = ({ setProductDesc }) => {
-  const [name, setName] = useState('');
+  const [desc, setDesc] = useState('');
 
   const onChange = e => {
-    setName(e.target.value);
+    setDesc(e.target.value);
     setProductDesc(e.target.value);
   };
 
   return (
     <SectionField label="한줄 상품 설명">
       <InputTag
-        value={name}
+        value={desc}
         onChange={onChange}
         placeholder="상품명을 입력해주세요"
       />

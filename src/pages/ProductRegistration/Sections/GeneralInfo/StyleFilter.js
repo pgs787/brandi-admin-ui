@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
 import SectionField from '../../../../components/SectionField';
-import ToggleButtonGroup from '../../../../components/ToggleButtonGroup';
+import { data } from '../../../../../config';
+import { connect } from 'react-redux';
+import { setStyleFilter } from '../../../../redux/actions';
 
-const StyleFilter = () => {
+const options = data.generalInfo.styleFilter;
+
+const StyleFilter = ({ setStyleFilter }) => {
+  const [activeId, setActiveId] = useState(0);
+  const [selectedOption, setSelectedOption] = useState('');
+
+  const onClick = id => {
+    setActiveId(id);
+    setSelectedOption(options[id].value);
+
+    id === 0 ? setStyleFilter('') : setStyleFilter(options[id].value);
+  };
+
   return (
     <SectionField
       label="스타일필터"
@@ -12,18 +27,37 @@ const StyleFilter = () => {
       ]}
       isRequired
     >
-      <ToggleButtonGroup
-        options={[
-          '선택안함',
-          '심플베이직',
-          '러블리',
-          '페미닌',
-          '캐주얼',
-          '섹시글램',
-        ]}
-      />
+      <ButtonGroupWrapper>
+        {options.map((option, idx) => (
+          <OptionButton
+            key={idx}
+            onClick={() => onClick(idx)}
+            isActive={activeId === idx}
+          >
+            {option.value}
+          </OptionButton>
+        ))}
+      </ButtonGroupWrapper>
     </SectionField>
   );
 };
 
-export default StyleFilter;
+export default connect(null, { setStyleFilter })(StyleFilter);
+
+// Styled Components
+const ButtonGroupWrapper = styled.div``;
+
+const OptionButton = styled.button`
+  border: 1px solid #ddd;
+  width: 140px;
+  padding: 8px 20px;
+  font-size: 13px;
+  color: #767a83;
+  ${props =>
+    props.isActive &&
+    css`
+      color: white;
+      background-color: #36363a;
+      border: 1px solid #36363a;
+    `}
+`;
