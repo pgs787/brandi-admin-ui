@@ -17,9 +17,10 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import hoverList from './Data';
+import data from './Data';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
+import logoImg from '../../images/logo_2.png';
 // component
 import SideList from './SideList';
 
@@ -60,14 +61,17 @@ const Layout = ({ children }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap className={classes.logo}>
-            Mini variant drawer
-          </Typography>
+          <LogoBox>
+            <Link to="/">
+              <LogoImg src={logoImg} />
+            </Link>
+            {/* <LogoTag>staging</LogoTag> */}
+          </LogoBox>
         </Toolbar>
         <LogoutTool>
-          <Link to="/login">
+          <Link to="/login" className={classes.link}>
             <Tooltip title="Log Out" interactive>
-              <Button className={classes.logout} onclick={deleteSession}>
+              <Button className={classes.logout} onClick={deleteSession}>
                 USERNAME
               </Button>
             </Tooltip>
@@ -103,16 +107,20 @@ const Layout = ({ children }) => {
         </div>
         <Divider />
         <List className={clsx({ [classes.hide]: open })}>
-          {hoverList.map((text, index) => (
-            <ListItem button key={text[0]} className={classes.listItem}>
-              <ListItemIcon className={classes.icon}>{text[1]}</ListItemIcon>
+          {data.hoverList.map((item, index) => (
+            <ListItem button key={item.id} className={classes.listItem}>
+              <ListItemIcon className={classes.icon}>{item.icon}</ListItemIcon>
               <ListItemText className={classes.listText}>
                 <HoverListBox>
-                  <ListName>{text[0]}</ListName>
+                  <ListName>{item.name}</ListName>
                   <HoverList>
-                    {text[2].map(item => (
-                      <Link to={item.link}>
-                        <HoverItem key={item.id}>{item.name}</HoverItem>
+                    {item.list.map(listItem => (
+                      <Link
+                        to={listItem.link}
+                        className={classes.link}
+                        key={listItem.id}
+                      >
+                        <HoverItem>{listItem.name}</HoverItem>
                       </Link>
                     ))}
                   </HoverList>
@@ -125,6 +133,7 @@ const Layout = ({ children }) => {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
+        {children}
         {children}
       </main>
     </div>
@@ -166,9 +175,8 @@ const useStyles = makeStyles(theme => ({
   logo: {
     color: '#999',
   },
-
   logout: {
-    color: '#999',
+    color: '#FFFFFF',
     height: '100%',
     '&:hover': {
       backgroundColor: '#2B2B30',
@@ -248,6 +256,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const LogoBox = styled.div`
+  padding-top: 5px;
+  position: relative;
+  width: 200px;
+`;
+
+const LogoImg = styled.img`
+  width: 100px;
+`;
+/* const LogoTag = styled.span`
+  position: absolute;
+  right: 0;
+`; */
 const HoverListBox = styled('div')({
   backgroundColor: '#2B2B30',
   width: '180px',

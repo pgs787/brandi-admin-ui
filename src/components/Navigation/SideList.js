@@ -1,16 +1,15 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import Typography from '@material-ui/core/Typography';
-import HomeIcon from '@material-ui/icons/Home';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import PersonIcon from '@material-ui/icons/Person';
 import RemoveIcon from '@material-ui/icons/Remove';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import data from './Data';
 
 const useTreeItemStyles = makeStyles(theme => ({
   root: {
@@ -30,6 +29,7 @@ const useTreeItemStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
     borderTopRightRadius: theme.spacing(2),
     borderBottomRightRadius: theme.spacing(2),
+    padding: '4px 0px',
     paddingRight: theme.spacing(1),
     fontWeight: theme.typography.fontWeightMedium,
     '$expanded > &': {
@@ -70,6 +70,9 @@ const useTreeItemStyles = makeStyles(theme => ({
   item: {
     marginTop: '20px',
     marginBottom: '20px',
+  },
+  link: {
+    textDecoration: 'none',
   },
 }));
 
@@ -140,78 +143,31 @@ const SideList = ({ open }) => {
         defaultExpandIcon={<ArrowRightIcon className={classes.arrow} />}
         defaultEndIcon={<div style={{ width: 24 }} />}
       >
-        <StyledTreeItem
-          nodeId="1"
-          labelText="홈"
-          labelIcon={HomeIcon}
-          bgColor="#E6F4EA"
-          className={classes.item}
-        />
-        <StyledTreeItem
-          nodeId="2"
-          labelText="상품관리"
-          labelIcon={ShoppingCartIcon}
-          bgColor="#E6F4EA"
-          className={classes.item}
-        >
+        {data.sideList.map(item => (
           <StyledTreeItem
-            nodeId="5"
-            labelText="상품 관리"
-            labelIcon={RemoveIcon}
-            color="#1a73e8"
+            key={item.id}
+            nodeId={item.id}
+            labelText={item.name}
+            labelIcon={item.icon}
             bgColor="#E6F4EA"
-          />
-          <StyledTreeItem
-            nodeId="6"
-            labelText="상품 등록"
-            labelIcon={RemoveIcon}
-            color="#e3742f"
-            bgColor="#E6F4EA"
-          />
-          <StyledTreeItem
-            nodeId="7"
-            labelText="연동상품관리"
-            labelIcon={RemoveIcon}
-            color="#a250f5"
-            bgColor="#E6F4EA"
-          />
-          <StyledTreeItem
-            nodeId="8"
-            labelText="연동상품 카테고리관리"
-            labelIcon={RemoveIcon}
-            color="#3c8039"
-            bgColor="#e6f4ea"
-          />
-        </StyledTreeItem>
-        <StyledTreeItem
-          nodeId="3"
-          labelText="회원 관리"
-          labelIcon={PersonIcon}
-          bgColor="#E6F4EA"
-          className={classes.item}
-        >
-          <StyledTreeItem
-            nodeId="9"
-            labelText="셀러 정보 관리"
-            labelIcon={RemoveIcon}
-            color="#1a73e8"
-            bgColor="#E6F4EA"
-          />
-          <StyledTreeItem
-            nodeId="10"
-            labelText="패널티 셀러 관리"
-            labelIcon={RemoveIcon}
-            color="#e3742f"
-            bgColor="#E6F4EA"
-          />
-          <StyledTreeItem
-            nodeId="11"
-            labelText="도매처 관리"
-            labelIcon={RemoveIcon}
-            color="#a250f5"
-            bgColor="#E6F4EA"
-          />
-        </StyledTreeItem>
+            className={classes.item}
+          >
+            {item.list.map(listItem => (
+              <Link
+                to={listItem.link}
+                key={listItem.id}
+                className={classes.link}
+              >
+                <StyledTreeItem
+                  nodeId={listItem.id}
+                  labelText={listItem.name}
+                  labelIcon={RemoveIcon}
+                  bgColor="#E6F4EA"
+                />
+              </Link>
+            ))}
+          </StyledTreeItem>
+        ))}
       </TreeView>
     </Hide>
   );
