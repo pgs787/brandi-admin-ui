@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import BoxDesign from '../../../../components/BoxDesign';
 import SectionTitle from '../../../../components/SectionTitle';
 import SectionBody from '../../../../components/SectionBody';
@@ -17,26 +18,45 @@ import ProductDetails from './ProductDetails';
 import YoutubeLink from './YoutubeLink';
 
 const GeneralInfo = () => {
+  const [showContent, setShowContent] = useState(true);
+
+  const onClick = () => {
+    setShowContent(!showContent);
+  };
+
   return (
     <BoxDesign>
-      <SectionTitle title="기본 정보" />
-      <SectionBody>
-        <SelectSeller />
-        <IsSelling />
-        <IsDisplaying />
-        <Categories />
-        <ProvisionNotice />
-        <ProductName />
-        <ProductDescription />
-        <ImageUpload />
-        <ColorFilter />
-        <StyleFilter />
-        <AgeFilter />
-        <ProductDetails />
-        <YoutubeLink />
-      </SectionBody>
+      <ClickableHeader onClick={onClick}>
+        <SectionTitle title="기본 정보" />
+      </ClickableHeader>
+      <BodyWrapper showContent={showContent}>
+        <SectionBody>
+          <SelectSeller />
+          <IsSelling />
+          <IsDisplaying />
+          <Categories />
+          <ProvisionNotice />
+          <ProductName />
+          <ProductDescription />
+          <ImageUpload />
+          <ColorFilter />
+          <StyleFilter />
+          <AgeFilter />
+          <ProductDetails />
+          <YoutubeLink />
+        </SectionBody>
+      </BodyWrapper>
     </BoxDesign>
   );
 };
 
 export default GeneralInfo;
+
+// Styled Components
+const ClickableHeader = styled.div`
+  cursor: pointer;
+`;
+
+const BodyWrapper = styled.div`
+  ${props => (props.showContent ? '' : 'display: none')}
+`;
