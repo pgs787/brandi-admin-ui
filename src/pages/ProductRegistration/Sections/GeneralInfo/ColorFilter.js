@@ -1,46 +1,58 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import SectionField from 'components/SectionField';
+import ToggleButtonGroup from 'components/ToggleButtonGroup';
 import { data } from '../../../../../config';
 import { connect } from 'react-redux';
-import { setColorFilter } from '../../../../redux/actions';
+import { setColorFilter } from 'store/actions';
 
-const availableStatus = [{ value: '사용 안함' }, { value: '사용함' }];
+// 버튼 옵션
+const availableStatus = [
+  { value: false, label: '사용 안함' },
+  { value: true, label: '사용함' },
+];
+
+// 컬러 옵션
 const availableColors = data.generalInfo.colorFilter;
 
 const ColorFilter = ({ setColorFilter }) => {
-  const [activeId, setActiveId] = useState(0);
+  // 버튼 상태값 (디폴트: '사용 안함')
+  const [active, setActive] = useState(false);
+  // 모달 렌더 여부 상태값
   const [showModal, setShowModal] = useState(false);
+  // 잠정 선택 컬러 상태값 (컬러 선택시 바뀜)
   const [tempColor, setTempColor] = useState('');
+  // 최종 선택 컬러 상태값
   const [selectedColor, setSelectedColor] = useState('');
-  const [init, setInit] = useState(true);
-  const [initColor] = useState('');
 
-  const onClickButton = id => {
-    setActiveId(id);
-    if (id === 0) {
-      setInit(true);
+  const onClickButton = value => {
+    setActive(value);
+    if (!value) {
       setSelectedColor('');
       setTempColor('');
-      setColorFilter('');
+      // 액션 함수 (store)
+      setColorFilter(null);
     }
   };
 
-  const onClickColor = id => {
-    setTempColor(id);
+  // 컬러 선택 핸들링
+  const onClickColor = value => {
+    setTempColor(value);
   };
 
+  // 모달 렌더 핸들링
   const onShowModal = () => {
     setShowModal(!showModal);
   };
 
+  // 컬러 선택 후 '적용' 누를 시 호출
   const onApplyColor = () => {
-    setInit(false);
     setShowModal(!showModal);
     setSelectedColor(tempColor);
     setColorFilter(tempColor);
   };
 
+  // '취소' 누를 시 호출
   const onCancelColor = () => {
     setShowModal(!showModal);
     setTempColor('');
@@ -55,27 +67,17 @@ const ColorFilter = ({ setColorFilter }) => {
           '썸네일 이미지의 1개 색상만 선택 가능하며, 뷰티 및 다이어트 카테고리의 상품의 경우 선택하실 수 없습니다.',
         ]}
       >
-        <ButtonGroupWrapper>
-          {availableStatus.map((status, idx) => (
-            <OptionButton
-              key={idx}
-              id={idx}
-              onClick={() => onClickButton(idx)}
-              isActive={activeId === idx}
-            >
-              {status.value}
-            </OptionButton>
-          ))}
-        </ButtonGroupWrapper>
-        {activeId === 1 && (
+        <ToggleButtonGroup
+          options={availableStatus}
+          onClick={onClickButton}
+          defaultVal={false}
+        />
+        {active && (
           <ChooseColorWrapper>
             <FormLabel>적용할 색상 찾기:</FormLabel>
-            <InputBox
-              value={init ? initColor : availableColors[selectedColor].valueKor}
-              readOnly
-            />
+            <InputBox value={!selectedColor ? '' : selectedColor} readOnly />
             <SearchButton onClick={onShowModal}>색상 찾기</SearchButton>
-            {showModal && <Backdrop />}
+            {showModal && <Backdrop onClick={onCancelColor} />}
             {showModal && (
               <ColorSelectModal>
                 <ColorHeader>
@@ -85,13 +87,13 @@ const ColorFilter = ({ setColorFilter }) => {
                   </ColorHeaderMoreInfo>
                 </ColorHeader>
                 <ColorBody>
-                  {availableColors.map((color, idx) => (
+                  {availableColors.map(color => (
                     <ColorBox
-                      key={idx}
-                      onClick={() => onClickColor(idx)}
-                      isSelected={tempColor === idx}
+                      key={color.valueKor}
+                      onClick={() => onClickColor(color.valueKor)}
+                      isSelected={tempColor === color.valueKor}
                     >
-                      <ColorIcon></ColorIcon>
+                      <ColorIcon />
                       <ColorNameKor>{color.valueKor}</ColorNameKor>
                       <ColorNameEng>{color.valueEng}</ColorNameEng>
                     </ColorBox>
@@ -113,23 +115,6 @@ const ColorFilter = ({ setColorFilter }) => {
 export default connect(null, { setColorFilter })(ColorFilter);
 
 // Styled Components
-const ButtonGroupWrapper = styled.div``;
-
-const OptionButton = styled.button`
-  border: 1px solid #ddd;
-  width: 140px;
-  padding: 8px 20px;
-  font-size: 13px;
-  color: #767a83;
-  ${props =>
-    props.isActive &&
-    css`
-      color: white;
-      background-color: #36363a;
-      border: 1px solid #36363a;
-    `}
-`;
-
 const InputBox = styled.input`
   width: 250px;
   height: 34px;

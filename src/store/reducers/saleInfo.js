@@ -1,14 +1,15 @@
 const initialState = {
-  wholesalePrice: 0,
-  salePrice: 0,
+  wholesalePrice: null,
+  salePrice: null,
   discountInfo: {
-    discountRate: 0,
-    discountedPrice: 0,
-    discountPeriod: '',
+    discountRate: null,
+    discountedPrice: null,
+    discountPeriod: null,
   },
-  minVolume: 0,
-  maxVolume: 0,
+  minVolume: null,
+  maxVolume: null,
   productTags: [],
+  useRelationProduct: null,
 };
 
 export default function saleInfo(state = initialState, action) {
@@ -37,6 +38,21 @@ export default function saleInfo(state = initialState, action) {
           ...state.discountInfo,
           discountPeriod: action.payload,
         },
+      };
+    case 'SET_MIN_VOLUME':
+      return {
+        ...state,
+        minVolume: action.payload,
+      };
+    case 'SET_MAX_VOLUME':
+      return {
+        ...state,
+        maxVolume: action.payload,
+      };
+    case 'SET_USE_RELATION_PRODUCT':
+      return {
+        ...state,
+        useRelationProduct: action.payload,
       };
     default:
       return state;

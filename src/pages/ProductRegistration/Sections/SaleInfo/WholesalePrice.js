@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 
 const WholesalePrice = () => {
   const [wholesalePriceLocal, setWholesalePriceLocal] = useState('');

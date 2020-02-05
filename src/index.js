@@ -7,7 +7,7 @@ import './styles/reset.css';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import rootReducer from './redux/reducers/rootReducer';
+import rootReducer from 'store/reducers/rootReducer';
 
 const store = createStore(rootReducer, composeWithDevTools());
 

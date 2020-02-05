@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 import { connect } from 'react-redux';
-import { setYoutubeUrl } from '../../../../redux/actions';
+import { setYoutubeUrl } from 'store/actions';
 
 const YoutubeLink = ({ setYoutubeUrl }) => {
   const [youtubeUrlLocal, setYoutubeUrlLocal] = useState('');

@@ -4,7 +4,7 @@ import Select from 'react-select';
 import SectionField from 'components/SectionField';
 import { data } from '../../../../../config';
 import { connect } from 'react-redux';
-import { setFirstCategory, setSecondCategory } from '../../../../redux/actions';
+import { setFirstCategory, setSecondCategory } from 'store/actions';
 
 const firstCategory = data.generalInfo.categories.firstCategory;
 const secondCategory = data.generalInfo.categories.secondCategory;

@@ -5,6 +5,7 @@ import Navigation from '../../components/Navigation/Navigation';
 import GeneralInfo from './Sections/GeneralInfo';
 import OptionInfo from './Sections/OptionInfo';
 import SaleInfo from './Sections/SaleInfo';
+import RelationProduct from './Sections/RelationProduct';
 
 const ProductRegistration = () => {
   return (
@@ -18,6 +19,7 @@ const ProductRegistration = () => {
         <GeneralInfo />
         <OptionInfo />
         <SaleInfo />
+        <RelationProduct />
         <ButtonGroupWrapper>
           <SaveButton>임시저장</SaveButton>
           <SaveButton>등록하기</SaveButton>

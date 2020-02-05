@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 import { connect } from 'react-redux';
+import { setMinVolume } from 'store/actions';
 
-const MinimumVolume = () => {
+const MinimumVolume = ({ setMinVolume }) => {
   const [minVolumeLocal, setMinVolumeLocal] = useState(1);
   const [isValid, setIsValid] = useState(true);
 
   const onChange = e => {
     const val = e.target.value;
     setMinVolumeLocal(val);
+    setMinVolume(val);
 
     val < 1 || val > 20 ? setIsValid(false) : setIsValid(true);
   };
@@ -37,7 +39,7 @@ const MinimumVolume = () => {
   );
 };
 
-export default MinimumVolume;
+export default connect(null, { setMinVolume })(MinimumVolume);
 
 // Styled Components
 

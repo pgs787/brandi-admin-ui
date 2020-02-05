@@ -1,21 +1,18 @@
-import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
-import SectionField from '../../../../components/SectionField';
+import React from 'react';
+import SectionField from 'components/SectionField';
+import ToggleButtonGroup from 'components/ToggleButtonGroup';
 import { data } from '../../../../../config';
 import { connect } from 'react-redux';
-import { setStyleFilter } from '../../../../redux/actions';
+import { setStyleFilter } from 'store/actions';
 
-const options = data.generalInfo.styleFilter;
+// 버튼 옵션
+const availableOptions = data.generalInfo.styleFilter;
 
 const StyleFilter = ({ setStyleFilter }) => {
-  const [activeId, setActiveId] = useState(0);
-  const [selectedOption, setSelectedOption] = useState('');
-
-  const onClick = id => {
-    setActiveId(id);
-    setSelectedOption(options[id].value);
-
-    id === 0 ? setStyleFilter('') : setStyleFilter(options[id].value);
+  // 버튼 선택
+  const onClick = value => {
+    // '선택안함' 선택 시 스토어 상태 초기화 아니면 값 저장
+    !value ? setStyleFilter(null) : setStyleFilter(value);
   };
 
   return (
@@ -27,37 +24,13 @@ const StyleFilter = ({ setStyleFilter }) => {
       ]}
       isRequired
     >
-      <ButtonGroupWrapper>
-        {options.map((option, idx) => (
-          <OptionButton
-            key={idx}
-            onClick={() => onClick(idx)}
-            isActive={activeId === idx}
-          >
-            {option.value}
-          </OptionButton>
-        ))}
-      </ButtonGroupWrapper>
+      <ToggleButtonGroup
+        options={availableOptions}
+        onClick={onClick}
+        defaultVal={false}
+      />
     </SectionField>
   );
 };
 
 export default connect(null, { setStyleFilter })(StyleFilter);
-
-// Styled Components
-const ButtonGroupWrapper = styled.div``;
-
-const OptionButton = styled.button`
-  border: 1px solid #ddd;
-  width: 140px;
-  padding: 8px 20px;
-  font-size: 13px;
-  color: #767a83;
-  ${props =>
-    props.isActive &&
-    css`
-      color: white;
-      background-color: #36363a;
-      border: 1px solid #36363a;
-    `}
-`;
