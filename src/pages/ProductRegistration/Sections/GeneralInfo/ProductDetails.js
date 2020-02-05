@@ -1,6 +1,7 @@
 import React from 'react';
 import SectionField from '../../../../components/SectionField';
 import ToggleButtonGroup from '../../../../components/ToggleButtonGroup';
+import ProductEditor from './CKEditor';
 
 const ProductDetails = () => {
   return (
@@ -10,6 +11,7 @@ const ProductDetails = () => {
       isRequired
     >
       <ToggleButtonGroup options={['간편 업로드', '에디터 사용 ']} />
+      <ProductEditor />
     </SectionField>
   );
 };
