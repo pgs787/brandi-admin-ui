@@ -88,3 +88,38 @@ export const setYoutubeUrl = url => {
     payload: url,
   };
 };
+
+export const setWholesalePrice = price => {
+  return {
+    type: 'SET_WHOLESALE_PRICE',
+    payload: price,
+  };
+};
+
+export const setSalePrice = price => {
+  return {
+    type: 'SET_SALE_PRICE',
+    payload: price,
+  };
+};
+
+export const setDiscountRate = rate => {
+  return {
+    type: 'SET_DISCOUNT_RATE',
+    payload: rate,
+  };
+};
+
+export const setDiscountedPrice = price => {
+  return {
+    type: 'SET_DISCOUNTED_PRICE',
+    payload: price,
+  };
+};
+
+export const setDiscountPeriod = period => {
+  return {
+    type: 'SET_DISCOUNT_PERIOD',
+    payload: period,
+  };
+};

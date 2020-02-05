@@ -46,15 +46,6 @@ const ColorFilter = ({ setColorFilter }) => {
     setTempColor('');
   };
 
-  // useEffect(() => {
-  //   if (activeId === 0) {
-  //     setInit(true);
-  //     setSelectedColor('');
-  //     setTempColor('');
-  //     setColorFilter('');
-  //   }
-  // }, [activeId]);
-
   return (
     <>
       <SectionField

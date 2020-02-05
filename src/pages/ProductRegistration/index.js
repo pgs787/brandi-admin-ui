@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import BoxDesign from '../../components/BoxDesign';
-import GeneralInfo from './Sections/GeneralInfo';
 import Navigation from '../../components/Navigation/Navigation';
+import GeneralInfo from './Sections/GeneralInfo';
+import SaleInfo from './Sections/SaleInfo';
 
 const ProductRegistration = () => {
   return (
@@ -14,6 +15,7 @@ const ProductRegistration = () => {
           </PageTitle>
         </BoxDesign>
         <GeneralInfo />
+        <SaleInfo />
         <ButtonGroupWrapper>
           <SaveButton>임시저장</SaveButton>
           <SaveButton>등록하기</SaveButton>
