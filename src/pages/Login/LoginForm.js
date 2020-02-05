@@ -33,6 +33,7 @@ const LoginForm = ({ handleClick, toSignUp }) => {
       const resolvePw = decryptedPw.toString(CryptoJS.enc.Utf8);
       setId(resolveId);
       setPw(resolvePw);
+      setCheckbox(true);
     }
   }, []);
 
