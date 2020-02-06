@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionField from '../../../../components/SectionField';
 import ToggleButtonGroup from '../../../../components/ToggleButtonGroup';
-import ProductEditor from './CKEditor';
+import ProductEditor from './ProductEditor';
 
 const ProductDetails = () => {
   return (

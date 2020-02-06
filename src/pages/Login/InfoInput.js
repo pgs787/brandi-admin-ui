@@ -69,6 +69,8 @@ const InputAccount = styled.input`
   width: 100%;
   height: 34px;
   padding: 6px 12px 5px 33px;
+  -webkit-appearance: none;
+  margin: 0;
   &:focus {
     border-color: #999999;
     outline: 0;

@@ -1,7 +1,11 @@
 import React, { useReducer, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import InfoInput from './InfoInput';
-import { checkId, checkUrl } from '../../utils/checValidation';
+import {
+  checkId,
+  checkUrl,
+  checkPhoneNumber
+} from '../../utils/checValidation';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
@@ -60,7 +64,14 @@ const SignUpInfo = ({ handleClick }) => {
       !(value.length > 3) && '비밀번호의 최소 길이는 4글자입니다.',
     rePassword: value =>
       !(value === inputState.password) && '비밀번호가 일치하지 않습니다',
-    phoneNumber: value => !(value.length > 0) && '필수 입력항목입니다.',
+    phoneNumber: value => {
+      if (value.length === 0) {
+        return '필수 입력항목입니다.';
+      }
+      if (!checkPhoneNumber(value)) {
+        return '올바른 정보를 입력해주세요. (ex. 01012345678)';
+      }
+    },
     sellerName: value => !(value.length > 0) && '필수 입력항목입니다.',
     sellerNameEng: value => !(value.length > 0) && '필수 입력항목입니다.',
     csNumber: value => !(value.length > 0) && '필수 입력항목입니다.',
