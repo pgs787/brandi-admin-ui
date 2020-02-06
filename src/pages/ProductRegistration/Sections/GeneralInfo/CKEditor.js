@@ -10,7 +10,6 @@ const ProductEditor = () => {
     setEditor({
       data: e.target.value
     });
-    console.log('hihihihi');
   };
 
   const onEditorChange = e => {
