@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Select from 'react-select';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import styled, { css } from 'styled-components';
+import Select from 'react-select';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,6 +11,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { data } from './Data';
 // component
+
+// redux
+import { connect } from 'react-redux';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -29,6 +32,24 @@ const StyledTableRow = withStyles(theme => ({
     },
   },
 }))(TableRow);
+
+const customStyles = {
+  menu: (provided, state) => ({
+    ...provided,
+  }),
+  control: () => ({
+    height: 40,
+    borderRadius: 0,
+    fontSize: 13,
+    border: '1px solid #dbdde2',
+    display: 'flex',
+    alignItems: 'center',
+  }),
+  container: base => ({
+    ...base,
+    width: '80%',
+  }),
+};
 
 const useStyles = makeStyles({
   container: {
@@ -55,85 +76,86 @@ const useStyles = makeStyles({
   },
 });
 
-const customStyles = {
-  menu: (provided, state) => ({
-    ...provided,
-  }),
-  control: () => ({
-    height: 40,
-    borderRadius: 0,
-    fontSize: 13,
-    border: '1px solid #dbdde2',
-    display: 'flex',
-    alignItems: 'center',
-  }),
-  container: base => ({
-    ...base,
-    width: '400px',
-  }),
-};
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
-const SelectOptionList = () => {
+const SelectOptionList = ({ basicColor, basicSize, selectedList }) => {
   const classes = useStyles();
   const [activeId, setActiveId] = useState(0);
 
+  const selectedColor = color => {
+    console.log(color);
+  };
+  const selectedSize = size => {
+    console.log(size);
+  };
   const onClick = id => {
+    console.log(id);
     setActiveId(id);
   };
-  const onChange = selectedOptions => {
-    let selectedOptionVals = [];
-    selectedOptions.map(option => selectedOptionVals.push(arr.value));
-  };
-
+  console.log(basicColor);
+  console.log(basicSize);
+  console.log(selectedList);
   return (
     <TableContainer component={Paper} className={classes.container}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead className={classes.title}>
           <TableRow>
             <StyledTableCell className={classes.titleCell}>
-              기본옵션 항목 선택
+              색 상
             </StyledTableCell>
-            <StyledTableCell className={classes.info} align="right">
-              asd
+            <StyledTableCell className={classes.info} align="left">
+              사이즈
             </StyledTableCell>
-            <StyledTableCell className={classes.info} align="right">
-              asd
+            <StyledTableCell className={classes.info} align="left">
+              일반재고
             </StyledTableCell>
-            <StyledTableCell className={classes.info} align="right">
-              asd
-            </StyledTableCell>
+            <StyledTableCell
+              className={classes.info}
+              align="left"
+            ></StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <StyledTableRow key={row.name}>
+          {selectedList.map((element, index) => (
+            <StyledTableRow key={index}>
               <StyledTableCell
                 component="th"
                 scope="row"
                 className={classes.titleCell}
               >
-                {row.name}
+                <Select
+                  styles={customStyles}
+                  options={data.colorData}
+                  onChange={selectedColor}
+                  defaultValue={{ value: element.color, label: element.color }}
+                />
               </StyledTableCell>
-              <StyledTableCell className={classes.info} align="right">
-                asd
+              <StyledTableCell className={classes.info} align="left">
+                <Select
+                  styles={customStyles}
+                  options={data.sizeData}
+                  onChange={selectedSize}
+                  defaultValue={{ value: element.size, label: element.size }}
+                />
               </StyledTableCell>
-              <StyledTableCell className={classes.info} align="right">
-                asd
+              <StyledTableCell className={classes.info} align="left">
+                <ButtonGroupWrapper>
+                  {['수량 관리 안함', '재고 수량 관리'].map((option, idx) => (
+                    <OptionButton
+                      key={idx}
+                      id={idx}
+                      onClick={() => onClick(idx)}
+                      activeId={element.stock === idx}
+                      value={option}
+                    >
+                      {option}
+                    </OptionButton>
+                  ))}
+                </ButtonGroupWrapper>
+                <InputTag disabled={activeId === 0 ? true : false}></InputTag>
               </StyledTableCell>
-              <StyledTableCell className={classes.info} align="right">
-                asd
-              </StyledTableCell>
+              <StyledTableCell
+                className={classes.info}
+                align="left"
+              ></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
@@ -141,7 +163,10 @@ const SelectOptionList = () => {
     </TableContainer>
   );
 };
-const ButtonGroupWrapper = styled.div``;
+// styled-components
+const ButtonGroupWrapper = styled.div`
+  display: inline;
+`;
 
 const OptionButton = styled.button`
   border: 1px solid #ddd;
@@ -158,4 +183,23 @@ const OptionButton = styled.button`
     `}
 `;
 
-export default SelectOptionList;
+const InputTag = styled.input`
+  width: 10%;
+  height: 34px;
+  position: absolute;
+  background-color: #f8f9fd;
+  &:focus {
+    border-color: #999999;
+    background-color: white;
+  }
+`;
+
+// store
+const mapStateToProps = state => {
+  return {
+    basicColor: state.optionInfo.basicColor,
+    basicSize: state.optionInfo.basicSize,
+    selectedList: state.optionInfo.selectedList,
+  };
+};
+export default connect(mapStateToProps, null)(SelectOptionList);

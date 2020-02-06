@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import BoxDesign from '../../components/BoxDesign';
-import GeneralInfo from './Sections/GeneralInfo';
-import OptionInfo from './Sections/OptionInfo';
 import Navigation from '../../components/Navigation/Navigation';
 import GeneralInfo from './Sections/GeneralInfo';
+import OptionInfo from './Sections/OptionInfo';
 import SaleInfo from './Sections/SaleInfo';
 
 const ProductRegistration = () => {

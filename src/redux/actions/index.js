@@ -123,3 +123,31 @@ export const setDiscountPeriod = period => {
     payload: period,
   };
 };
+
+export const selectBasicColor = color => {
+  return {
+    type: 'SELECT_BASIC_COLOR',
+    payload: color,
+  };
+};
+
+export const selectBasicSize = size => {
+  return {
+    type: 'SELECT_BASIC_SIZE',
+    payload: size,
+  };
+};
+
+export const selectedList = select => {
+  return {
+    type: 'SELECTED_LIST',
+    payload: select,
+  };
+};
+
+export const setStock = set => {
+  return {
+    type: 'SET_STOCK',
+    payload: set,
+  };
+};

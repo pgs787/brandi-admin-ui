@@ -12,6 +12,14 @@ import Paper from '@material-ui/core/Paper';
 import { data } from './Data';
 // component
 
+// redux
+import { connect } from 'react-redux';
+import {
+  selectBasicColor,
+  selectBasicSize,
+  setStock,
+} from '../../../../redux/actions';
+
 const StyledTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.white,
@@ -73,16 +81,25 @@ const customStyles = {
   }),
 };
 
-const BasicOption = () => {
+const BasicOption = ({ selectBasicColor, selectBasicSize, setStock }) => {
   const classes = useStyles();
   const [activeId, setActiveId] = useState(0);
 
   const onClick = id => {
     setActiveId(id);
+    setStock(activeId);
   };
-  const onChange = selectedOptions => {
-    let selectedOptionVals = [];
-    selectedOptions.map(option => selectedOptionVals.push(arr.value));
+  const selectedColor = color => {
+    let selectedColorVals = [];
+    color.map(option => selectedColorVals.push(option.value));
+    console.log(selectedColorVals);
+    selectBasicColor(selectedColorVals);
+  };
+  const selectedSize = size => {
+    let selectedSizeVals = [];
+    size.map(option => selectedSizeVals.push(option.value));
+    selectBasicSize(selectedSizeVals);
+    console.log(selectedSizeVals);
   };
 
   return (
@@ -112,7 +129,7 @@ const BasicOption = () => {
               <Select
                 styles={customStyles}
                 options={data.colorData}
-                onChange={onChange}
+                onChange={selectedColor}
                 placeholder="색상 옵션을 선택해 주세요."
                 isMulti
               />
@@ -130,7 +147,7 @@ const BasicOption = () => {
               <Select
                 styles={customStyles}
                 options={data.sizeData}
-                onChange={onChange}
+                onChange={selectedSize}
                 placeholder="사이즈 옵션을 선택해 주세요."
                 isMulti
               />
@@ -182,4 +199,6 @@ const OptionButton = styled.button`
     `}
 `;
 
-export default BasicOption;
+export default connect(null, { selectBasicColor, selectBasicSize, setStock })(
+  BasicOption,
+);
