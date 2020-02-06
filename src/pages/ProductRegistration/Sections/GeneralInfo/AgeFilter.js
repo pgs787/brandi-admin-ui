@@ -1,5 +1,5 @@
 import React from 'react';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 import { data } from '../../../../../config';
 import Select from 'react-select';
 import { connect } from 'react-redux';

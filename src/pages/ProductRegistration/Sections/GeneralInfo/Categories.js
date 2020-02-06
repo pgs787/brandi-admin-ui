@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 import { data } from '../../../../../config';
 import { connect } from 'react-redux';
 import { setFirstCategory, setSecondCategory } from '../../../../redux/actions';

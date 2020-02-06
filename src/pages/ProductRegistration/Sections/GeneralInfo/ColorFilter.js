@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 import { data } from '../../../../../config';
 import { connect } from 'react-redux';
 import { setColorFilter } from '../../../../redux/actions';

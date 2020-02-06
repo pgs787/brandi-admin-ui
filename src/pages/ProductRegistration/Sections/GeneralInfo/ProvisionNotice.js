@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 import TodayIcon from '@material-ui/icons/Today';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';

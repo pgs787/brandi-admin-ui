@@ -8,6 +8,12 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/',
   },
+  resolve: {
+    alias: {
+      components: path.resolve(__dirname, 'src/components/'),
+      pages: path.resolve(__dirname, 'src/pages/'),
+    },
+  },
   module: {
     rules: [
       {

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 import NoImage from '../../../../images/no_image.png';
 
 const ImageUpload = () => {

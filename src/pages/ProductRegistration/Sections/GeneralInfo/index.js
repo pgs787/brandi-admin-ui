@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import BoxDesign from '../../../../components/BoxDesign';
-import SectionTitle from '../../../../components/SectionTitle';
-import SectionBody from '../../../../components/SectionBody';
+import BoxDesign from 'components/BoxDesign';
+import SectionTitle from 'components/SectionTitle';
+import SectionBody from 'components/SectionBody';
 import SelectSeller from './SelectSeller';
 import IsSelling from './IsSelling';
 import IsDisplaying from './IsDisplaying';
