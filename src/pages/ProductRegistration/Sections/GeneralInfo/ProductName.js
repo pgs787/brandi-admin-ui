@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 import { connect } from 'react-redux';
 import { setProductName } from '../../../../redux/actions';
 

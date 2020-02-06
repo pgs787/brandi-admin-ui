@@ -7,4 +7,8 @@ export const checkId = id => {
   const idtest = /^[A-Za-z0-9]([-_]?[0-9a-zA-Z]){4,20}$/;
   return idtest.test(id);
 };
-/^http[s]?\:\/\//i;
+
+export const checkPhoneNumber = number => {
+  const numberTest = /^\d{11}$/;
+  return numberTest.test(number);
+};
