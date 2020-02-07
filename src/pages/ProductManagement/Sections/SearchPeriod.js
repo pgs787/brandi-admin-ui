@@ -2,17 +2,18 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 
-const SearchPeriod = () => {
-  const [startingDateTime, setStartingDateTime] = useState(new Date());
-  const [endingDateTime, setEndingDateTime] = useState(new Date());
-
-  const onChangeStartingDate = date => {
-    setStartingDateTime(date);
-  };
-
-  const onChangeEndingDate = date => {
-    setEndingDateTime(date);
-    console.log(date);
+const SearchPeriod = ({
+  startingDateTime,
+  endingDateTime,
+  onChangeStartingDate,
+  onChangeEndingDate
+}) => {
+  const checkCalendar = () => {
+    if (startingDateTime.getFullYear() > endingDateTime.getFullYear())
+      return false;
+    if (startingDateTime.getMonth() > endingDateTime.getMonth()) return false;
+    if (startingDateTime.getDate() > endingDateTime.getDate()) return false;
+    return true;
   };
 
   return (
@@ -34,6 +35,7 @@ const SearchPeriod = () => {
             dateFormat="yyyy-MM-dd"
           />
         </DatePickerWrapper>
+        {!checkCalendar() && <PErrMsg>올바른 날짜를 입력해주세요.</PErrMsg>}
       </DivListContent>
     </DivListWrapper>
   );
@@ -72,4 +74,11 @@ const DatePickerWrapper = styled.div``;
 const DivListContent = styled.div`
   margin-left: 40px;
   display: flex;
+  align-items: center;
+`;
+
+const PErrMsg = styled.p`
+  color: red;
+  font-size: 13px;
+  margin-left: 20px;
 `;

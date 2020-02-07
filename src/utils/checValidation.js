@@ -4,7 +4,7 @@ export const checkUrl = url => {
 };
 
 export const checkId = id => {
-  const idtest = /^[A-Za-z0-9]([-_]?[0-9a-zA-Z]){4,20}$/;
+  const idtest = /^[A-Za-z0-9]([-_]?[0-9a-zA-Z--_]){4,20}$/;
   return idtest.test(id);
 };
 
