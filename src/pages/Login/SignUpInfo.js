@@ -9,6 +9,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -65,7 +66,7 @@ const SignUpInfo = ({ handleClick }) => {
     rePassword: value =>
       !(value === inputState.password) && '비밀번호가 일치하지 않습니다',
     phoneNumber: value => {
-      if (value.length === 0) {
+      if (toString(value).length === 0) {
         return '필수 입력항목입니다.';
       }
       if (!checkPhoneNumber(value)) {
@@ -77,7 +78,9 @@ const SignUpInfo = ({ handleClick }) => {
     csNumber: value => !(value.length > 0) && '필수 입력항목입니다.',
     sellerSite: value =>
       !checkUrl(value) &&
-      '올바른 주소를 입력해주세요. (ex. http://www.brandi.co.kr)'
+      '올바른 주소를 입력해주세요. (ex. http://www.brandi.co.kr)',
+    kakaoId: () => {},
+    instaId: () => {}
   };
 
   const [errors, setErrors] = useState([]);
@@ -112,8 +115,19 @@ const SignUpInfo = ({ handleClick }) => {
 
     setErrors(submitErrors);
 
-    if (submitErrors.length) {
-      return;
+    if (!submitErrors.length) {
+      axios.post('http://10.58.7.69:5000/seller/sign-up', {
+        seller_types_id: '1',
+        account: inputState.id,
+        name_kr: inputState.sellerName,
+        name_en: inputState.sellerNameEng,
+        password: inputState.password,
+        mobile_number: inputState.phoneNumber,
+        cs_phone_number: inputState.csNumber,
+        site_url: inputState.sellerSite,
+        instagram_account: inputState.instaId,
+        cs_kakao_account: inputState.kakaoId
+      });
     }
 
     // ....다음 동작들

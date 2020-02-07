@@ -3,18 +3,18 @@ import CKEditor from 'ckeditor4-react';
 
 const ProductEditor = () => {
   const [editor, setEditor] = useState({
-    data: '',
+    data: ''
   });
 
   const onChange = e => {
     setEditor({
-      data: e.target.value,
+      data: e.target.value
     });
   };
 
   const onEditorChange = e => {
     setEditor({
-      data: e.editor.getData(),
+      data: e.editor.getData()
     });
     console.log(editor.data);
   };
@@ -35,15 +35,16 @@ const ProductEditor = () => {
             { name: 'styles' },
             { name: 'colors', groups: ['colors'] },
             { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
-            { name: 'links' },
             { name: 'insert' },
             // { name: 'forms' },
             // { name: 'tools' },
             { name: 'paragraph', groups: ['align'] },
-            { name: 'document', groups: ['mode', 'document', 'doctools'] },
+            { name: 'document', groups: ['mode', 'document', 'doctools'] }
           ],
           extraPlugins: 'justify,showblocks, colorbutton',
           colorButton: 'colors',
+          removeButtons:
+            'Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Superscript,Subscript,Underline,RemoveFormat'
         }}
         data={editor.data}
         onChange={onEditorChange}

@@ -13,6 +13,16 @@ const ProductSearchBox = () => {
   const [discountStatus, setDiscountStatus] = useState('전체');
   const [deliveryDiv, setDeliveryDiv] = useState('전체');
   const [wholesalerStatus, setWholesalerStatus] = useState('전체');
+  const [startingDateTime, setStartingDateTime] = useState(new Date());
+  const [endingDateTime, setEndingDateTime] = useState(new Date());
+
+  const onChangeStartingDate = date => {
+    setStartingDateTime(date);
+  };
+
+  const onChangeEndingDate = date => {
+    setEndingDateTime(date);
+  };
 
   const clickSellerProp = value => {
     setSellerProp(value);
@@ -53,11 +63,18 @@ const ProductSearchBox = () => {
     setDiscountStatus('전체');
     setDeliveryDiv('전체');
     setWholesalerStatus('전체');
+    onChangeEndingDate(new Date());
+    onChangeStartingDate(new Date());
   };
 
   return (
     <>
-      <SearchPeriod />
+      <SearchPeriod
+        startingDateTime={startingDateTime}
+        endingDateTime={endingDateTime}
+        onChangeStartingDate={onChangeStartingDate}
+        onChangeEndingDate={onChangeEndingDate}
+      />
       <SellerName />
       <DivItemWrapper>
         <SearchItem
@@ -136,6 +153,7 @@ export default ProductSearchBox;
 const DivItemWrapper = styled.div`
   display: flex;
   flex-flow: wrap;
+  justify-content: space-between;
 `;
 
 const DivBtnWrapper = styled.div`

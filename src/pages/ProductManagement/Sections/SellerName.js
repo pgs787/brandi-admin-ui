@@ -51,6 +51,7 @@ const DivListWrapper = styled.div`
   display: flex;
   padding: 15px 25px 5px;
   align-items: center;
+  min-width: 885px;
 `;
 
 const LabelListName = styled.label`
