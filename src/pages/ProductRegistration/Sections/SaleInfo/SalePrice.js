@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 import { connect } from 'react-redux';
-import { setSalePrice } from '../../../../redux/actions';
+import { setSalePrice } from 'store/actions';
 
 const SalePrice = ({ setSalePrice }) => {
   const [salePriceLocal, setSalePriceLocal] = useState('');
@@ -12,8 +12,10 @@ const SalePrice = ({ setSalePrice }) => {
     setSalePriceLocal(e.target.value);
 
     if (e.target.value % 10 !== 0) {
+      // 10원 단위가 아니므로 NOT VALID
       setIsValid(false);
     } else {
+      // 10원 단위이므로 스토어에 판매가 업데이트
       setIsValid(true);
       setSalePrice(e.target.value);
     }

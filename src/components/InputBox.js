@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const InputBox = ({ placeholder }) => {
-  return <InputTag placeholder={placeholder}></InputTag>;
+const InputBox = ({ placeholder, onChange }) => {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = e => {
+    setInputValue(e.target.value);
+    onChange(e.target.value);
+  };
+
+  return (
+    <InputTag
+      value={inputValue}
+      placeholder={placeholder}
+      onChange={handleChange}
+    ></InputTag>
+  );
 };
 
 export default InputBox;

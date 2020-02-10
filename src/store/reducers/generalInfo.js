@@ -1,29 +1,29 @@
 const initialState = {
-  sellingStatus: '판매',
-  displayStatus: '진열',
+  isSelling: true,
+  isDisplaying: true,
   categories: {
-    firstCategory: '',
-    secondCategory: '',
+    firstCategory: null,
+    secondCategory: null,
   },
   provisionNotice: {
-    manufacturer: '',
-    manufactureDate: '',
-    originCountry: '',
+    manufacturer: null,
+    manufactureDate: null,
+    originCountry: null,
   },
-  productName: '',
-  productDesc: '',
-  colorFilter: '',
-  styleFilter: '',
+  productName: null,
+  productDesc: null,
+  colorFilter: null,
+  styleFilter: null,
   ageFilter: [],
-  youtubeUrl: '',
+  youtubeUrl: null,
 };
 
 export default function generalInfo(state = initialState, action) {
   switch (action.type) {
     case 'SET_SELL_STATUS':
-      return { ...state, sellingStatus: action.payload };
+      return { ...state, isSelling: action.payload };
     case 'SET_DISPLAY_STATUS':
-      return { ...state, displayStatus: action.payload };
+      return { ...state, isDisplaying: action.payload };
     case 'SET_FIRST_CATEGORY':
       return {
         ...state,

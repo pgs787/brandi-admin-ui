@@ -180,3 +180,23 @@ export const addAutonomyOption = () => {
     type: 'ADD_AUTONOMY_OPTION',
   };
 };
+export const setMinVolume = number => {
+  return {
+    type: 'SET_MIN_VOLUME',
+    payload: number,
+  };
+};
+
+export const setMaxVolume = number => {
+  return {
+    type: 'SET_MAX_VOLUME',
+    payload: number,
+  };
+};
+
+export const setUseRelationProduct = value => {
+  return {
+    type: 'SET_USE_RELATION_PRODUCT',
+    payload: value,
+  };
+};

@@ -3,14 +3,9 @@ import styled from 'styled-components';
 import BoxDesign from 'components/BoxDesign';
 import SectionTitle from 'components/SectionTitle';
 import SectionBody from 'components/SectionBody';
-import WholesalePrice from './WholesalePrice';
-import SalePrice from './SalePrice';
-import Discount from './Discount';
-import MinimumVolume from './MinimumVolume';
-import MaximumVolume from './MaximumVolume';
-import ProductTags from './ProductTags';
+import UseRelationProduct from './UseRelationProduct';
 
-const SaleInfo = () => {
+const RelationProduct = () => {
   const [showContent, setShowContent] = useState(true);
 
   const onClick = () => {
@@ -19,23 +14,18 @@ const SaleInfo = () => {
   return (
     <BoxDesign>
       <ClickableHeader onClick={onClick}>
-        <SectionTitle title="판매 정보" />
+        <SectionTitle title="코디 상품" />
       </ClickableHeader>
       <BodyWrapper showContent={showContent}>
         <SectionBody>
-          <WholesalePrice />
-          <SalePrice />
-          <Discount />
-          <MinimumVolume />
-          <MaximumVolume />
-          <ProductTags />
+          <UseRelationProduct />
         </SectionBody>
       </BodyWrapper>
     </BoxDesign>
   );
 };
 
-export default SaleInfo;
+export default RelationProduct;
 
 // Styled Components
 const ClickableHeader = styled.div`

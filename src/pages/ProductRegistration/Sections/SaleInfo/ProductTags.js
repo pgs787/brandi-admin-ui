@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 import CreatableSelect from 'react-select/creatable';
 import { connect } from 'react-redux';
 

@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 
-const ToggleButtonGroup = ({ options }) => {
-  const [activeId, setActiveId] = useState(0);
+const ToggleButtonGroup = ({ options, onClick, defaultVal }) => {
+  const [currentValue, setCurrentValue] = useState(defaultVal);
 
-  const onClick = id => {
-    setActiveId(id);
+  const handleClick = ({ value }) => {
+    setCurrentValue(value);
+    onClick(value);
   };
 
   return (
     <ButtonGroupWrapper>
-      {options.map((option, idx) => (
+      {options.map(option => (
         <OptionButton
-          key={idx}
-          id={idx}
-          onClick={() => onClick(idx)}
-          activeId={activeId === idx}
-          value={option}
+          key={option.label}
+          onClick={() => handleClick(option)}
+          active={option.value === currentValue}
         >
-          {option}
+          {option.label}
         </OptionButton>
       ))}
     </ButtonGroupWrapper>
@@ -37,7 +36,7 @@ const OptionButton = styled.button`
   font-size: 13px;
   color: #767a83;
   ${props =>
-    props.activeId &&
+    props.active &&
     css`
       color: white;
       background-color: #36363a;

@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 import SectionField from 'components/SectionField';
+import InputBox from 'components/InputBox';
 import { connect } from 'react-redux';
-import { setProductName } from '../../../../redux/actions';
+import { setProductName } from 'store/actions';
 
 const ProductName = ({ setProductName }) => {
-  const [name, setName] = useState('');
-
-  const onChange = e => {
-    setName(e.target.value);
-    setProductName(e.target.value);
+  const onChange = value => {
+    setProductName(value);
   };
 
   return (
@@ -20,24 +17,9 @@ const ProductName = ({ setProductName }) => {
       }
       isRequired
     >
-      <InputTag
-        value={name}
-        onChange={onChange}
-        placeholder="상품명을 입력해주세요"
-      />
+      <InputBox onChange={onChange} placeholder="상품명을 입력해주세요" />
     </SectionField>
   );
 };
 
 export default connect(null, { setProductName })(ProductName);
-
-// Styled Components
-
-const InputTag = styled.input`
-  width: 100%;
-  background-color: #f8f9fd;
-  &:focus {
-    border-color: #999999;
-    background-color: white;
-  }
-`;

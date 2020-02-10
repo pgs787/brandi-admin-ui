@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 import { connect } from 'react-redux';
 
 const MaximumVolume = () => {
@@ -11,6 +11,7 @@ const MaximumVolume = () => {
     const val = e.target.value;
     setMaxVolumeLocal(val);
 
+    // 숫자 1~20 만 가능
     val < 1 || val > 20 ? setIsValid(false) : setIsValid(true);
   };
 

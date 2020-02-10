@@ -1,3 +1,5 @@
+import no_image from './src/images/no_image.png';
+
 export const data = {
   generalInfo: {
     categories: {
@@ -13,12 +15,12 @@ export const data = {
       ],
     },
     styleFilter: [
-      { value: '선택안함' },
-      { value: '심플베이직' },
-      { value: '러블리' },
-      { value: '페미닌' },
-      { value: '캐주얼' },
-      { value: '섹시글램' },
+      { value: false, label: '선택안함' },
+      { value: '심플베이직', label: '심플베이직' },
+      { value: '러블리', label: '러블리' },
+      { value: '페미닌', label: '페미닌' },
+      { value: '캐주얼', label: '캐주얼' },
+      { value: '섹시글램', label: '섹시글램' },
     ],
     ageFilter: [
       { value: '10대', label: '10대' },

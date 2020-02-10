@@ -3,7 +3,7 @@ import SectionField from 'components/SectionField';
 import { data } from '../../../../../config';
 import Select from 'react-select';
 import { connect } from 'react-redux';
-import { setAgeFilter } from '../../../../redux/actions';
+import { setAgeFilter } from 'store/actions';
 
 const options = data.generalInfo.ageFilter;
 
