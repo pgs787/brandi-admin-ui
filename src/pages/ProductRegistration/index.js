@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import BoxDesign from '../../components/BoxDesign';
 import Navigation from '../../components/Navigation/Navigation';
 import GeneralInfo from './Sections/GeneralInfo';
+import OptionInfo from './Sections/OptionInfo';
 import SaleInfo from './Sections/SaleInfo';
 
 const ProductRegistration = () => {
@@ -15,6 +16,7 @@ const ProductRegistration = () => {
           </PageTitle>
         </BoxDesign>
         <GeneralInfo />
+        <OptionInfo />
         <SaleInfo />
         <ButtonGroupWrapper>
           <SaveButton>임시저장</SaveButton>

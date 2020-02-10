@@ -123,3 +123,60 @@ export const setDiscountPeriod = period => {
     payload: period,
   };
 };
+
+export const selectBasicColor = color => {
+  return {
+    type: 'SELECT_BASIC_COLOR',
+    payload: color,
+  };
+};
+
+export const selectBasicSize = size => {
+  return {
+    type: 'SELECT_BASIC_SIZE',
+    payload: size,
+  };
+};
+
+export const selectedList = select => {
+  return {
+    type: 'SELECTED_LIST',
+    payload: select,
+  };
+};
+export const removeBasicList = id => {
+  return {
+    type: 'REMOVE_BASIC_LIST',
+    payload: id,
+  };
+};
+
+export const setStock = set => {
+  return {
+    type: 'SET_STOCK',
+    payload: set,
+  };
+};
+
+export const stockChange = (set, target) => {
+  return {
+    type: 'STOCK_CHANGE',
+    payload: {
+      set: set,
+      target: target,
+    },
+  };
+};
+
+export const setType = type => {
+  return {
+    type: 'SET_TYPE',
+    payload: type,
+  };
+};
+
+export const addAutonomyOption = () => {
+  return {
+    type: 'ADD_AUTONOMY_OPTION',
+  };
+};
