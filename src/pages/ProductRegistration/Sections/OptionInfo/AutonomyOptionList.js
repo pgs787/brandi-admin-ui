@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Select from 'react-select';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import styled, { css } from 'styled-components';
 import Table from '@material-ui/core/Table';
@@ -9,16 +8,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import RemoveIcon from '@material-ui/icons/Remove';
 import { data } from './Data';
-// component
-
 // redux
 import { connect } from 'react-redux';
-import {
-  selectBasicColor,
-  selectBasicSize,
-  setStock,
-} from '../../../../redux/actions';
+import { selectedList } from '../../../../redux/actions';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -48,57 +43,39 @@ const useStyles = makeStyles({
     height: '50px',
   },
   titleCell: {
-    padding: '7px',
+    padding: '5px',
     paddingLeft: '16px',
     color: '#767a83',
   },
   infoTitle: {
     color: '#767a83',
   },
+  stockCell: {
+    borderLeft: '1px solid',
+    borderLeftColor: '#dbdde2',
+    marginBottom: '-1.5px',
+    color: '#767a83',
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
   info: {
     borderLeft: '1px solid',
     borderLeftColor: '#dbdde2',
+    padding: '0px 0px 0px 16px',
     color: '#767a83',
+  },
+  removeBtn: {
+    minWidth: '38px',
+    padding: 0,
   },
 });
 
-const customStyles = {
-  menu: (provided, state) => ({
-    ...provided,
-  }),
-  control: () => ({
-    height: 40,
-    borderRadius: 0,
-    fontSize: 13,
-    border: '1px solid #dbdde2',
-    display: 'flex',
-    alignItems: 'center',
-  }),
-  container: base => ({
-    ...base,
-    width: '80%',
-  }),
-};
-
-const BasicOption = ({ selectBasicColor, selectBasicSize, setStock }) => {
-  const classes = useStyles();
+const AutonomyOptionList = ({ list, selectedList }) => {
   const [activeId, setActiveId] = useState(0);
+  const classes = useStyles();
 
-  const onClick = id => {
-    setActiveId(id);
-    setStock(id);
-  };
-  const selectedColor = color => {
-    let selectedColorVals = [];
-    color.map(option => selectedColorVals.push(option.value));
-    console.log(selectedColorVals);
-    selectBasicColor(selectedColorVals);
-  };
-  const selectedSize = size => {
-    let selectedSizeVals = [];
-    size.map(option => selectedSizeVals.push(option.value));
-    selectBasicSize(selectedSizeVals);
-    console.log(selectedSizeVals);
+  const onClick = (idx, index) => {
+    selectedList(changeList);
   };
 
   return (
@@ -106,61 +83,45 @@ const BasicOption = ({ selectBasicColor, selectBasicSize, setStock }) => {
       <Table className={classes.table} aria-label="customized table">
         <TableHead className={classes.title}>
           <TableRow>
-            <StyledTableCell className={classes.titleCell}>
-              기본옵션 항목 선택
+            <StyledTableCell className={classes.titleCell}></StyledTableCell>
+            <StyledTableCell className={classes.info} align="left">
+              옵션명
             </StyledTableCell>
-            <StyledTableCell
-              className={classes.titleCell}
-              align="right"
-            ></StyledTableCell>
+            <StyledTableCell className={classes.info} align="left">
+              필수여부
+            </StyledTableCell>
+            <StyledTableCell className={classes.info} align="left">
+              일반재고
+            </StyledTableCell>
+            <StyledTableCell className={classes.info} align="left">
+              추가금액
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           <StyledTableRow>
             <StyledTableCell
-              className={classes.infoTitle}
               component="th"
               scope="row"
+              className={classes.titleCell}
             >
-              색 상
+              <Button
+                variant="contained"
+                className={classes.removeBtn}
+                onClick={() => {
+                  removeList(index);
+                }}
+              >
+                <RemoveIcon />
+              </Button>
             </StyledTableCell>
             <StyledTableCell className={classes.info} align="left">
-              <Select
-                styles={customStyles}
-                options={data.colorData}
-                onChange={selectedColor}
-                placeholder="색상 옵션을 선택해 주세요."
-                isMulti
-              />
-            </StyledTableCell>
-          </StyledTableRow>
-          <StyledTableRow>
-            <StyledTableCell
-              className={classes.infoTitle}
-              component="th"
-              scope="row"
-            >
-              사이즈
+              레드 / S
             </StyledTableCell>
             <StyledTableCell className={classes.info} align="left">
-              <Select
-                styles={customStyles}
-                options={data.sizeData}
-                onChange={selectedSize}
-                placeholder="사이즈 옵션을 선택해 주세요."
-                isMulti
-              />
+              Y
             </StyledTableCell>
-          </StyledTableRow>
-          <StyledTableRow>
-            <StyledTableCell
-              className={classes.infoTitle}
-              component="th"
-              scope="row"
-            >
-              재고관리여부
-            </StyledTableCell>
-            <StyledTableCell className={classes.info} align="left">
+            <StyledTableCell className={classes.stockCell} align="left">
               <ButtonGroupWrapper>
                 {['수량 관리 안함', '재고 수량 관리'].map((option, idx) => (
                   <OptionButton
@@ -174,6 +135,10 @@ const BasicOption = ({ selectBasicColor, selectBasicSize, setStock }) => {
                   </OptionButton>
                 ))}
               </ButtonGroupWrapper>
+              <InputTag disabled={activeId === 0 ? true : false}></InputTag>
+            </StyledTableCell>
+            <StyledTableCell className={classes.info} align="left">
+              <InputTag type="number"></InputTag>원
             </StyledTableCell>
           </StyledTableRow>
         </TableBody>
@@ -181,7 +146,9 @@ const BasicOption = ({ selectBasicColor, selectBasicSize, setStock }) => {
     </TableContainer>
   );
 };
-const ButtonGroupWrapper = styled.div``;
+const ButtonGroupWrapper = styled.div`
+  display: inline;
+`;
 
 const OptionButton = styled.button`
   border: 1px solid #ddd;
@@ -198,6 +165,21 @@ const OptionButton = styled.button`
     `}
 `;
 
-export default connect(null, { selectBasicColor, selectBasicSize, setStock })(
-  BasicOption,
-);
+const InputTag = styled.input`
+  width: 130px;
+  height: 34px;
+
+  background-color: #f8f9fd;
+  &:focus {
+    border-color: #999999;
+    background-color: white;
+  }
+`;
+
+const mapStateToProps = state => {
+  return {
+    list: state.optionInfo.selectedList,
+  };
+};
+
+export default connect(mapStateToProps, { selectedList })(AutonomyOptionList);

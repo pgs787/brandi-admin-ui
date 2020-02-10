@@ -1,8 +1,10 @@
 const initialState = {
   basicColor: [],
   basicSize: [],
-  setStock: [],
+  setStock: 0,
   selectedList: [],
+  setType: 0,
+  autonomyList: [' ', ' '],
 };
 
 export default function optionInfo(state = initialState, action) {
@@ -26,6 +28,32 @@ export default function optionInfo(state = initialState, action) {
       return {
         ...state,
         selectedList: action.payload,
+      };
+    case 'REMOVE_BASIC_LIST':
+      return {
+        ...state,
+        selectedList: state.selectedList.filter((element, index) => {
+          return index !== action.payload;
+        }),
+      };
+    case 'STOCK_CHANGE':
+      return {
+        ...state,
+        selectedList: state.selectedList.map((element, index) =>
+          index === action.payload.target
+            ? { ...element, stock: action.payload.set }
+            : element,
+        ),
+      };
+    case 'SET_TYPE':
+      return {
+        ...state,
+        setType: action.payload,
+      };
+    case 'ADD_AUTONOMY_OPTION':
+      return {
+        ...state,
+        autonomyList: state.autonomyList.concat([' ']),
       };
     default:
       return state;

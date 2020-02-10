@@ -9,11 +9,18 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import RemoveIcon from '@material-ui/icons/Remove';
 import { data } from './Data';
 // component
 
 // redux
 import { connect } from 'react-redux';
+import {
+  stockChange,
+  selectedList,
+  removeBasicList,
+} from '../../../../redux/actions';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -54,45 +61,67 @@ const customStyles = {
 const useStyles = makeStyles({
   container: {
     overflow: 'visible',
+    width: '90%',
   },
-  table: {
-    minWidth: 700,
-  },
+  table: {},
   title: {
     height: '50px',
   },
   titleCell: {
-    padding: '7px',
+    padding: '5px',
     paddingLeft: '16px',
     color: '#767a83',
   },
   infoTitle: {
     color: '#767a83',
   },
+  stockCell: {
+    borderLeft: '1px solid',
+    borderLeftColor: '#dbdde2',
+    marginBottom: '-1px',
+    color: '#767a83',
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
   info: {
     borderLeft: '1px solid',
     borderLeftColor: '#dbdde2',
+    padding: '0px 0px 0px 16px',
     color: '#767a83',
+  },
+  removeBtn: {
+    minWidth: '38px',
+    padding: 0,
   },
 });
 
-const SelectOptionList = ({ basicColor, basicSize, selectedList }) => {
+const BasicOptionList = ({
+  list,
+  stockChange,
+  selectedList,
+  removeBasicList,
+}) => {
   const classes = useStyles();
-  const [activeId, setActiveId] = useState(0);
 
-  const selectedColor = color => {
-    console.log(color);
+  const selectedColor = (color, index) => {
+    console.log('select: ', color);
+    console.log(index);
+    let changeList = list;
+    changeList[index].color = color.value;
+    selectedList(changeList);
   };
-  const selectedSize = size => {
-    console.log(size);
+  const selectedSize = (size, index) => {
+    console.log('select: ', size);
+    let changeList = list;
+    changeList[index].size = size.value;
+    selectedList(changeList);
   };
-  const onClick = id => {
-    console.log(id);
-    setActiveId(id);
+  const stockHandler = (idx, index) => {
+    stockChange(idx, index);
   };
-  console.log(basicColor);
-  console.log(basicSize);
-  console.log(selectedList);
+  const removeList = id => {
+    removeBasicList(id);
+  };
   return (
     <TableContainer component={Paper} className={classes.container}>
       <Table className={classes.table} aria-label="customized table">
@@ -114,7 +143,7 @@ const SelectOptionList = ({ basicColor, basicSize, selectedList }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {selectedList.map((element, index) => (
+          {list.map((element, index) => (
             <StyledTableRow key={index}>
               <StyledTableCell
                 component="th"
@@ -124,7 +153,9 @@ const SelectOptionList = ({ basicColor, basicSize, selectedList }) => {
                 <Select
                   styles={customStyles}
                   options={data.colorData}
-                  onChange={selectedColor}
+                  onChange={value => {
+                    selectedColor(value, index);
+                  }}
                   defaultValue={{ value: element.color, label: element.color }}
                 />
               </StyledTableCell>
@@ -132,17 +163,21 @@ const SelectOptionList = ({ basicColor, basicSize, selectedList }) => {
                 <Select
                   styles={customStyles}
                   options={data.sizeData}
-                  onChange={selectedSize}
+                  onChange={value => {
+                    selectedSize(value, index);
+                  }}
                   defaultValue={{ value: element.size, label: element.size }}
                 />
               </StyledTableCell>
-              <StyledTableCell className={classes.info} align="left">
+              <StyledTableCell className={classes.stockCell} align="left">
                 <ButtonGroupWrapper>
                   {['수량 관리 안함', '재고 수량 관리'].map((option, idx) => (
                     <OptionButton
                       key={idx}
                       id={idx}
-                      onClick={() => onClick(idx)}
+                      onClick={() => {
+                        stockHandler(idx, index);
+                      }}
                       activeId={element.stock === idx}
                       value={option}
                     >
@@ -150,12 +185,25 @@ const SelectOptionList = ({ basicColor, basicSize, selectedList }) => {
                     </OptionButton>
                   ))}
                 </ButtonGroupWrapper>
-                <InputTag disabled={activeId === 0 ? true : false}></InputTag>
+                <InputTag
+                  disabled={element.stock === 0 ? true : false}
+                ></InputTag>
               </StyledTableCell>
               <StyledTableCell
+                style={{ width: '70px' }}
                 className={classes.info}
                 align="left"
-              ></StyledTableCell>
+              >
+                <Button
+                  variant="contained"
+                  className={classes.removeBtn}
+                  onClick={() => {
+                    removeList(index);
+                  }}
+                >
+                  <RemoveIcon />
+                </Button>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
@@ -184,9 +232,8 @@ const OptionButton = styled.button`
 `;
 
 const InputTag = styled.input`
-  width: 10%;
+  width: 130px;
   height: 34px;
-  position: absolute;
   background-color: #f8f9fd;
   &:focus {
     border-color: #999999;
@@ -197,9 +244,11 @@ const InputTag = styled.input`
 // store
 const mapStateToProps = state => {
   return {
-    basicColor: state.optionInfo.basicColor,
-    basicSize: state.optionInfo.basicSize,
-    selectedList: state.optionInfo.selectedList,
+    list: state.optionInfo.selectedList,
   };
 };
-export default connect(mapStateToProps, null)(SelectOptionList);
+export default connect(mapStateToProps, {
+  stockChange,
+  selectedList,
+  removeBasicList,
+})(BasicOptionList);

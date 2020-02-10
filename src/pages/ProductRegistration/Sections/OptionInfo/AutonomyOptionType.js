@@ -4,16 +4,29 @@ import styled, { css } from 'styled-components';
 import SectionField from '../../../../components/SectionField';
 // redux
 import { connect } from 'react-redux';
+import { setType } from '../../../../redux/actions';
 
-const OptionSetting = () => {
-  const options = ['기본옵션', '자율옵션', '옵션없음'];
+const AutonomyOptionType = ({ setType }) => {
+  const options = ['분리선택형', '독립선택형'];
   const [activeId, setActiveId] = useState(0);
 
   const onClick = id => {
-    setActiveId(id);
+    if (id !== activeId) {
+      let confirmFlag = confirm(
+        '기존에 등록된 옵션은 초기화됩니다. 계속 진행하시겠습니까?',
+      );
+      if (confirmFlag) {
+        console.log('true');
+        console.log(id);
+        setActiveId(id);
+        setType(id);
+      } else {
+        console.log('false');
+      }
+    }
   };
   return (
-    <SectionField label="옵션 설정" isRequired>
+    <SectionField label="자율 옵션 타입" isRequired>
       <ButtonGroupWrapper>
         {options.map((option, idx) => (
           <OptionButton
@@ -47,4 +60,4 @@ const OptionButton = styled.button`
     `}
 `;
 
-export default OptionSetting;
+export default connect(null, { setType })(AutonomyOptionType);

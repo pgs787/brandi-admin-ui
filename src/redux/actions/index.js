@@ -144,10 +144,39 @@ export const selectedList = select => {
     payload: select,
   };
 };
+export const removeBasicList = id => {
+  return {
+    type: 'REMOVE_BASIC_LIST',
+    payload: id,
+  };
+};
 
 export const setStock = set => {
   return {
     type: 'SET_STOCK',
     payload: set,
+  };
+};
+
+export const stockChange = (set, target) => {
+  return {
+    type: 'STOCK_CHANGE',
+    payload: {
+      set: set,
+      target: target,
+    },
+  };
+};
+
+export const setType = type => {
+  return {
+    type: 'SET_TYPE',
+    payload: type,
+  };
+};
+
+export const addAutonomyOption = () => {
+  return {
+    type: 'ADD_AUTONOMY_OPTION',
   };
 };
