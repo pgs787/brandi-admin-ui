@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import SectionField from 'components/SectionField';
+import { checkSalePrice } from 'utils/checkValidation';
 import { connect } from 'react-redux';
 import { setSalePrice } from 'store/actions';
 
@@ -11,7 +12,7 @@ const SalePrice = ({ setSalePrice }) => {
   const onChange = e => {
     setSalePriceLocal(e.target.value);
 
-    if (e.target.value % 10 !== 0) {
+    if (!checkSalePrice(e.target.value)) {
       // 10원 단위가 아니므로 NOT VALID
       setIsValid(false);
     } else {

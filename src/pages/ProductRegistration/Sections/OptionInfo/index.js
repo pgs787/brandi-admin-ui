@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import BoxDesign from '../../../../components/BoxDesign';
-import SectionBody from '../../../../components/SectionBody';
-import SectionTitle from '../../../../components/SectionTitle';
-import SectionField from '../../../../components/SectionField';
+import BoxDesign from 'components/BoxDesign';
+import SectionBody from 'components/SectionBody';
+import SectionTitle from 'components/SectionTitle';
+import SectionField from 'components/SectionField';
 import BasicOptionInfo from './BasicOptionInfo';
 import AutonomyOptionType from './AutonomyOptionType';
 import AutonomyOptionInfo from './AutonomyOptionInfo';
 import NonOption from './NonOption';
+
 const OptionInfo = () => {
   const [showContent, setShowContent] = useState(true);
   const [activeId, setActiveId] = useState(0);

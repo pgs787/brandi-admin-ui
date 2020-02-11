@@ -1,11 +1,7 @@
 import React, { useReducer, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import InfoInput from './InfoInput';
-import {
-  checkId,
-  checkUrl,
-  checkPhoneNumber
-} from '../../utils/checValidation';
+import { checkId, checkUrl, checkPhoneNumber } from 'utils/checkValidation';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
@@ -20,8 +16,8 @@ const useStyles = makeStyles(theme => ({
     fontSize: '14px',
     padding: '0',
     '&:hover': {
-      backgroundColor: '#31B0D5'
-    }
+      backgroundColor: '#31B0D5',
+    },
   },
   cancel: {
     backgroundColor: '#d9534f',
@@ -29,15 +25,15 @@ const useStyles = makeStyles(theme => ({
     height: '34px',
     color: 'white',
     '&:hover': {
-      backgroundColor: '#C9302C'
-    }
-  }
+      backgroundColor: '#C9302C',
+    },
+  },
 }));
 
 const reducer = (state, action) => {
   return {
     ...state,
-    [action.name]: action.value
+    [action.name]: action.value,
   };
 };
 
@@ -54,7 +50,7 @@ const SignUpInfo = ({ handleClick }) => {
     csNumber: '',
     sellerSite: '',
     kakaoId: '',
-    instaId: ''
+    instaId: '',
   });
 
   const validators = {
@@ -80,7 +76,7 @@ const SignUpInfo = ({ handleClick }) => {
       !checkUrl(value) &&
       '올바른 주소를 입력해주세요. (ex. http://www.brandi.co.kr)',
     kakaoId: () => {},
-    instaId: () => {}
+    instaId: () => {},
   };
 
   const [errors, setErrors] = useState([]);
@@ -91,7 +87,7 @@ const SignUpInfo = ({ handleClick }) => {
     if (data) {
       nextState = nextState.concat({
         key,
-        message: data
+        message: data,
       });
     }
     setErrors(nextState);
@@ -107,10 +103,10 @@ const SignUpInfo = ({ handleClick }) => {
 
         return prev.concat({
           key,
-          message: result
+          message: result,
         });
       },
-      []
+      [],
     );
 
     setErrors(submitErrors);
@@ -126,7 +122,7 @@ const SignUpInfo = ({ handleClick }) => {
         cs_phone_number: inputState.csNumber,
         site_url: inputState.sellerSite,
         instagram_account: inputState.instaId,
-        cs_kakao_account: inputState.kakaoId
+        cs_kakao_account: inputState.kakaoId,
       });
     }
 
@@ -149,7 +145,7 @@ const SignUpInfo = ({ handleClick }) => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   }, []);
 
@@ -209,7 +205,7 @@ const SignUpInfo = ({ handleClick }) => {
       </DivInputWrap>
       <SpanSubInfo
         style={{
-          fontSize: '12px'
+          fontSize: '12px',
         }}
       >
         <IDesc />

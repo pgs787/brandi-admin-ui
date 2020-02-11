@@ -14,11 +14,7 @@ import { data } from './Data';
 
 // redux
 import { connect } from 'react-redux';
-import {
-  selectBasicColor,
-  selectBasicSize,
-  setStock,
-} from '../../../../redux/actions';
+import { selectBasicColor, selectBasicSize, setStock } from 'store/actions';
 
 const StyledTableCell = withStyles(theme => ({
   head: {

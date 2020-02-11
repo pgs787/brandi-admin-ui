@@ -18,7 +18,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 // redux
 import { connect } from 'react-redux';
-import { addAutonomyOption } from '../../../../redux/actions';
+import { addAutonomyOption } from 'store/actions';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
