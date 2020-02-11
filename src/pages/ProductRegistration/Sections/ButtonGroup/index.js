@@ -18,6 +18,7 @@ const ButtonGroup = props => {
     productDesc,
     productRepImage,
     productDetails,
+    optionInfo,
     youtubeUrl,
     salePrice,
     discountRate,
@@ -36,6 +37,7 @@ const ButtonGroup = props => {
       productName === null ||
       productRepImage === null ||
       productDetails === null ||
+      optionInfo.selectedList === null ||
       salePrice === null ||
       productTags === []
     ) {
@@ -70,10 +72,14 @@ const ButtonGroup = props => {
       discount_end_period: discountEndDate,
       product_tags: productTags,
     };
+    const optionData =
+      optionInfo.optionSet === 0
+        ? { option_types_id: 1, option_info: optionInfo.selectedList }
+        : { option_type_id: 3, option_info: optionInfo.nonOptionStock };
 
     const data = {
       ...generalInfoData,
-      option_types_id: 3,
+      ...optionData,
       ...saleInfoData,
     };
 
@@ -113,6 +119,11 @@ const mapStateToProps = state => {
     productRepImage: state.generalInfo.productRepImage,
     productDetails: state.generalInfo.productDetails,
     youtubeUrl: state.generalInfo.youtubeUrl,
+    optionInfo: {
+      optionSet: state.optionInfo.optionSet,
+      selectedList: state.optionInfo.selectedList,
+      nonOptionStock: state.optionInfo.nonOptionStock,
+    },
     salePrice: state.saleInfo.salePrice,
     discountRate: state.saleInfo.discountInfo.discountRate,
     discountedPrice: state.saleInfo.discountInfo.discountedPrice,

@@ -3,18 +3,22 @@ import styled, { css } from 'styled-components';
 import SectionField from 'components/SectionField';
 // redux
 import { connect } from 'react-redux';
-import { nonOptionStock  } from 'store/actions';
+import { nonOptionStock } from 'store/actions';
 
-const NonOption = ({nonOptionStock}) => {
+const NonOption = ({ stockCount, nonOptionStock }) => {
   const [activeId, setActiveId] = useState(0);
 
   const onClick = idx => {
+    // 수량관리 안하면 value 초기화.
+    if (idx === 0) {
+      nonOptionStock('');
+    }
     setActiveId(idx);
   };
+
   const stockSet = e => {
-    console.log(e.target.value)
-    nonOptionStock(e.target.value)
-  }
+    nonOptionStock(e.target.value);
+  };
   return (
     <SectionField label="옵션 정보">
       <ButtonGroupWrapper>
@@ -30,7 +34,12 @@ const NonOption = ({nonOptionStock}) => {
           </OptionButton>
         ))}
       </ButtonGroupWrapper>
-      <InputTag disabled={activeId === 0 ? true : false} type='number' onChange={stockSet}></InputTag>
+      <InputTag
+        disabled={activeId === 0 ? true : false}
+        type="number"
+        onChange={e => stockSet(e)}
+        value={stockCount}
+      ></InputTag>
     </SectionField>
   );
 };
@@ -63,5 +72,10 @@ const InputTag = styled.input`
     background-color: white;
   }
 `;
+const mapStateToProps = state => {
+  return {
+    stockCount: state.optionInfo.nonOptionStock,
+  };
+};
 
-export default connect(null, {nonOptionStock})(NonOption);
+export default connect(mapStateToProps, { nonOptionStock })(NonOption);

@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { data } from './Data';
+import axios from 'axios';
 // component
 
 // redux
@@ -79,22 +80,27 @@ const customStyles = {
 const BasicOption = ({ selectBasicColor, selectBasicSize, setStock }) => {
   const classes = useStyles();
   const [activeId, setActiveId] = useState(0);
-
+  const [optionData, setOptionData] = useState([]);
+  // All stock set
   const onClick = id => {
+    if (id === 0) {
+      setStock(false, id);
+    } else {
+      setStock(true, id);
+    }
     setActiveId(id);
-    setStock(id);
   };
+  // color option set
   const selectedColor = color => {
     let selectedColorVals = [];
     color.map(option => selectedColorVals.push(option.value));
-    console.log(selectedColorVals);
     selectBasicColor(selectedColorVals);
   };
+  // size option set
   const selectedSize = size => {
     let selectedSizeVals = [];
     size.map(option => selectedSizeVals.push(option.value));
     selectBasicSize(selectedSizeVals);
-    console.log(selectedSizeVals);
   };
 
   return (
@@ -194,6 +200,8 @@ const OptionButton = styled.button`
     `}
 `;
 
-export default connect(null, { selectBasicColor, selectBasicSize, setStock })(
-  BasicOption,
-);
+export default connect(null, {
+  selectBasicColor,
+  selectBasicSize,
+  setStock,
+})(BasicOption);
