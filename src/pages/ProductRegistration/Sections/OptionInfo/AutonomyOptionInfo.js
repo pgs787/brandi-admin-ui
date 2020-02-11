@@ -5,7 +5,7 @@ import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import Button from '@material-ui/core/Button';
 
 // component
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 import AutonomyOption from './AutonomyOption';
 import AutonomyOptionList from './AutonomyOptionList';
 

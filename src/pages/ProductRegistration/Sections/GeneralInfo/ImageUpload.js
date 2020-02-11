@@ -1,9 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import SectionField from 'components/SectionField';
 import NoImage from '../../../../images/no_image.png';
 
 const ImageUpload = () => {
+  const [repImage, setRepImage] = useState(NoImage);
+  const [secondImage, setSecondImage] = useState(NoImage);
+
+  const onChangeRepImage = e => {
+    if (!e.target.files.length) {
+      return;
+    }
+
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image_file', file);
+    formData.append('image_size', 'medium');
+
+    console.log(e.target.files);
+    fetch('http://192.168.1.196:5000/product/image', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(res => res.json())
+      .then(res => setRepImage(res.image_url))
+      .catch(err => console.log(err));
+  };
+
   return (
     <SectionField
       label="이미지 등록"
@@ -13,10 +36,15 @@ const ImageUpload = () => {
       <ImagesWrapper>
         <ImageBoxWrapper>
           <ImageBox>
-            <ActualImage src={NoImage} alt="no-image" />
+            <ActualImage src={repImage} alt="no-image" />
           </ImageBox>
           <UploadButtonWrapper>
-            <ChooseImageButton id="file" type="file" accept=".jpg" />
+            <ChooseImageButton
+              id="file"
+              type="file"
+              accept=".jpg"
+              onChange={onChangeRepImage}
+            />
             <ChooseImageButtonLabel htmlFor="file">
               대표 이미지 선택
             </ChooseImageButtonLabel>

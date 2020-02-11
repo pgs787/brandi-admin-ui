@@ -13,7 +13,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import { data } from './Data';
 // redux
 import { connect } from 'react-redux';
-import { selectedList } from '../../../../redux/actions';
+import { selectedList } from 'store/actions';
 
 const StyledTableCell = withStyles(theme => ({
   head: {

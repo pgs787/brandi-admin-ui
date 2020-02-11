@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 // component
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 // redux
 import { connect } from 'react-redux';
-import { setType } from '../../../../redux/actions';
+import { setType } from 'store/actions';
 
 const AutonomyOptionType = ({ setType }) => {
   const options = ['분리선택형', '독립선택형'];

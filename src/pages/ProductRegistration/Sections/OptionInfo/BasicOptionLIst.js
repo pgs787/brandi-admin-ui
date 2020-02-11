@@ -16,11 +16,7 @@ import { data } from './Data';
 
 // redux
 import { connect } from 'react-redux';
-import {
-  stockChange,
-  selectedList,
-  removeBasicList,
-} from '../../../../redux/actions';
+import { stockChange, selectedList, removeBasicList } from 'store/actions';
 
 const StyledTableCell = withStyles(theme => ({
   head: {

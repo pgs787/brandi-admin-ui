@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 // redux
 import { connect } from 'react-redux';
-import { stockChange, selectedList } from '../../../../redux/actions';
+import { stockChange, selectedList } from 'store/actions';
 
 const NonOption = () => {
   const [activeId, setActiveId] = useState(0);

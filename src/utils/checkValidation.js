@@ -12,3 +12,13 @@ export const checkPhoneNumber = number => {
   const numberTest = /^\d{11}$/;
   return numberTest.test(number);
 };
+
+export const checkSalePrice = number => {
+  const salePriceTest = /^$|^\d+0$/;
+  return salePriceTest.test(number);
+};
+
+export const checkPercentage = number => {
+  const percentageTest = /^$|^[0-9]$|^[1-9][0-9]$|^(100)$/;
+  return percentageTest.test(number);
+};

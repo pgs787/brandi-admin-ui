@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SectionField from '../../../../components/SectionField';
+import SectionField from 'components/SectionField';
 import { makeStyles } from '@material-ui/core/styles';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import Button from '@material-ui/core/Button';
@@ -9,7 +9,7 @@ import BasicOption from './BasicOption';
 import BasicOptionList from './BasicOptionLIst';
 // redux
 import { connect } from 'react-redux';
-import { selectedList } from '../../../../redux/actions';
+import { selectedList } from 'store/actions';
 
 const useStyles = makeStyles({
   check: {

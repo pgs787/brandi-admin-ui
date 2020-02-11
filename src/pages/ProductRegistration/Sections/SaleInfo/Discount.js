@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import SectionField from 'components/SectionField';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { checkPercentage } from 'utils/checkValidation';
 import { connect } from 'react-redux';
 import {
   setDiscountRate,
@@ -65,7 +66,7 @@ const Discount = ({
     const discountPercentage = e.target.value;
 
     // 퍼센트값 validation
-    if (discountPercentage > 100) {
+    if (!checkPercentage(discountPercentage)) {
       setIsValid(false);
     } else {
       setIsValid(true);
@@ -73,7 +74,7 @@ const Discount = ({
       setDiscountedPriceLocal(
         round(((100 - discountPercentage) / 100) * salePrice),
       );
-      setDiscountAmountLocal(round(salePrice * (discountPercentage / 100)));
+      setDiscountAmountLocal(salePrice * (discountPercentage / 100));
     }
 
     // 스토어 업데이트
@@ -93,12 +94,14 @@ const Discount = ({
 
   // 컴마를 포함한 금액 표시를 위한 함수 정리
   const calcDiscountedPrice = discountedPrice => {
+    // 빈칸일 시 에러방지를 위해 0원으로 치환
     return isNaN(parseInt(discountedPrice))
       ? (0).toLocaleString('ko-KR')
       : parseInt(discountedPrice).toLocaleString('ko-KR');
   };
 
   const calcDiscountAmount = discountAmount => {
+    // 빈칸일 시 에러방지를 위해 0원으로 치환
     return isNaN(parseInt(discountAmount))
       ? (0).toLocaleString('ko-KR')
       : parseInt(discountAmount).toLocaleString('ko-KR');

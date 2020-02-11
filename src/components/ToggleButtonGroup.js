@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 
 const ToggleButtonGroup = ({ options, onClick, defaultVal }) => {
+  // 넘겨받은 디폴트값 현재값으로 저장
   const [currentValue, setCurrentValue] = useState(defaultVal);
 
+  // 선택한 버튼 상태 변경과 상위 컴포넌트에 선택 값 전달
   const handleClick = ({ value }) => {
     setCurrentValue(value);
     onClick(value);
