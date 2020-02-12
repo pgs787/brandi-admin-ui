@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import Select from 'react-select';
 import { connect } from 'react-redux';
 import {
+  setUseProvisionNotice,
   setManufacturer,
   setManufactureDate,
   setOriginCountry,
@@ -45,6 +46,7 @@ const customStyles = {
 };
 
 const ProvisionNotice = ({
+  setUseProvisionNotice,
   setManufacturer,
   setManufactureDate,
   setOriginCountry,
@@ -59,28 +61,52 @@ const ProvisionNotice = ({
   const [selectedOption, setSelectedOption] = useState('');
 
   // 상품상세 참조 버튼 누를 시 모든 상태 초기화
-  useEffect(() => {
-    if (active === '상품상세 참조') {
-      setManufacturerText('');
-      setDate('');
-      setSelectedOption('');
-      // 액션 함수 (store)
-      setManufacturer('');
-      setManufactureDate('');
-      setOriginCountry('');
-    }
-  }, [active]);
+  // useEffect(() => {
+  //   if (active === '상품상세 참조') {
+  //     setManufacturerText('');
+  //     setDate('');
+  //     setSelectedOption('');
+  //     // 액션 함수 (store)
+  //     setUseProvisionNotice(false);
+  //     setManufacturer(null);
+  //     setManufactureDate(null);
+  //     setOriginCountry(null);
+  //   }
+  // }, [active]);
 
   // 버튼 선택
   const onClick = value => {
     setActive(value);
+
+    if (value === '직접입력') {
+      setUseProvisionNotice(true);
+      return;
+    }
+
+    // 상품상세 참조 버튼 누를 시 모든 상태 초기화
+    setManufacturerText('');
+    setDate('');
+    setSelectedOption('');
+    // 액션 함수 (store)
+    setUseProvisionNotice(false);
+    setManufacturer(null);
+    setManufactureDate(null);
+    setOriginCountry(null);
   };
 
   // 제조사(수입사) 값 핸들링
   const onChangeManufacturer = e => {
-    setManufacturerText(e.target.value);
+    const userInput = e.target.value;
+    console.log(userInput.length);
+
+    if (userInput.length >= 50) {
+      alert('50자 이내로 입력해주세요.');
+      return;
+    }
+
+    setManufacturerText(userInput);
     // 액션 함수 (store)
-    setManufacturer(e.target.value);
+    setManufacturer(userInput);
   };
 
   // 제조일자 값 핸들링
@@ -103,7 +129,7 @@ const ProvisionNotice = ({
         options={availableStatus}
         onClick={onClick}
         defaultVal="상품상세 참조"
-      ></ToggleButtonGroup>
+      />
       {active === '직접입력' && (
         <ProvisionNoticeDetailsWrapper>
           <FormWrapper>
@@ -142,6 +168,7 @@ const ProvisionNotice = ({
 
 // 스토어 연결
 export default connect(null, {
+  setUseProvisionNotice,
   setManufacturer,
   setManufactureDate,
   setOriginCountry,

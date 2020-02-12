@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import SectionField from 'components/SectionField';
 import NoImage from '../../../../images/no_image.png';
+import { server_url } from '../../../../../config';
 
 const ImageUpload = () => {
   const [repImage, setRepImage] = useState(NoImage);
@@ -18,7 +19,7 @@ const ImageUpload = () => {
     formData.append('image_size', 'medium');
 
     console.log(e.target.files);
-    fetch('http://192.168.1.196:5000/product/image', {
+    fetch(`${server_url}/product/image`, {
       method: 'POST',
       body: formData,
     })

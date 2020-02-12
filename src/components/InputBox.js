@@ -14,7 +14,7 @@ const InputBox = ({ placeholder, onChange }) => {
       value={inputValue}
       placeholder={placeholder}
       onChange={handleChange}
-    ></InputTag>
+    />
   );
 };
 

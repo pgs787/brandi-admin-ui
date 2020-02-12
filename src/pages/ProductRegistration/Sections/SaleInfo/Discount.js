@@ -1,33 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import SectionField from 'components/SectionField';
-import DatePicker from 'react-datepicker';
+import ToggleButtonGroup from 'components/ToggleButtonGroup';
+import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { checkPercentage } from 'utils/checkValidation';
+import ko from 'date-fns/locale/ko';
+import { checkPercentage, validateDateRange } from 'utils/checkValidation';
 import { connect } from 'react-redux';
 import {
   setDiscountRate,
   setDiscountedPrice,
-  setDiscountPeriod,
+  setDiscountStartDate,
+  setDiscountEndDate,
 } from 'store/actions';
 
-const availableStatus = [{ value: '사용' }, { value: '사용 안함' }];
-const discountDateStatus = [{ value: '무기한' }, { value: '기간 설정' }];
+registerLocale('ko', ko);
+
+const availableStatus = [
+  { value: false, label: '무기한' },
+  { value: true, label: '기간 설정' },
+];
 
 const Discount = ({
   salePrice,
   setDiscountRate,
   setDiscountedPrice,
-  setDiscountPeriod,
+  setDiscountStartDate,
+  setDiscountEndDate,
 }) => {
-  const [activeUseId, setActiveUseId] = useState(0);
-  const [activeUseDateId, setActiveUseDateId] = useState(0);
   const [discountRateLocal, setDiscountRateLocal] = useState('');
   const [discountedPriceLocal, setDiscountedPriceLocal] = useState(salePrice);
   const [discountAmountLocal, setDiscountAmountLocal] = useState('');
-  const [isValid, setIsValid] = useState(true);
-  const [startingDateTime, setStartingDateTime] = useState(new Date());
-  const [endingDateTime, setEndingDateTime] = useState(new Date());
+  const [isDiscountRateValid, setIsDiscountRateValid] = useState(true);
+  const [useDiscountPeriod, setUseDiscountPeriod] = useState(false);
+  const [startingDateTime, setStartingDateTime] = useState(null);
+  const [endingDateTime, setEndingDateTime] = useState(null);
 
   // 판매가 변경시 할인정보 초기화
   useEffect(() => {
@@ -38,28 +45,9 @@ const Discount = ({
     setDiscountedPrice(salePrice);
   }, [salePrice]);
 
-  // '사용 안함' 선택 시 할인정보 초기화
-  useEffect(() => {
-    if (activeUseId === 1) {
-      setDiscountRateLocal('');
-      setDiscountedPriceLocal(salePrice);
-      setDiscountAmountLocal('');
-      setDiscountRate(0);
-      setDiscountedPrice(salePrice);
-    }
-  }, [activeUseId]);
-
   const round = num => {
     num = parseFloat(num);
     return Math.round(num / 10) * 10;
-  };
-
-  const onClickUse = id => {
-    setActiveUseId(id);
-  };
-
-  const onClickUseDate = id => {
-    setActiveUseDateId(id);
   };
 
   const onChangeDiscountRate = e => {
@@ -67,9 +55,9 @@ const Discount = ({
 
     // 퍼센트값 validation
     if (!checkPercentage(discountPercentage)) {
-      setIsValid(false);
+      setIsDiscountRateValid(false);
     } else {
-      setIsValid(true);
+      setIsDiscountRateValid(true);
       setDiscountRateLocal(discountPercentage);
       setDiscountedPriceLocal(
         round(((100 - discountPercentage) / 100) * salePrice),
@@ -82,14 +70,48 @@ const Discount = ({
     setDiscountedPrice(round(((100 - discountPercentage) / 100) * salePrice));
   };
 
+  const onClick = value => {
+    setUseDiscountPeriod(value);
+
+    if (!value) {
+      setStartingDateTime(null);
+      setEndingDateTime(null);
+      // store
+      setDiscountStartDate(null);
+      setDiscountEndDate(null);
+    }
+  };
+
   // 할인 시작 날짜 선택
-  const onChangeStartingDate = date => {
-    setStartingDateTime(date);
+  const onChangeStartingDate = startDate => {
+    if (startingDateTime === null || endingDateTime === null) {
+      setStartingDateTime(startDate);
+      setDiscountStartDate(startDate);
+    } else {
+      const isValid = validateDateRange(startDate, endingDateTime);
+
+      if (!isValid) alert('올바른 날짜/시간을 선택해주세요.');
+      else {
+        setStartingDateTime(startDate);
+        setDiscountStartDate(startDate);
+      }
+    }
   };
 
   // 할인 종료 날짜 선택
-  const onChangeEndingDate = date => {
-    setEndingDateTime(date);
+  const onChangeEndingDate = endDate => {
+    if (startingDateTime === null) {
+      setEndingDateTime(endDate);
+      setDiscountEndDate(endDate);
+    } else {
+      const isValid = validateDateRange(startingDateTime, endDate);
+
+      if (!isValid) alert('올바른 날짜/시간을 선택해주세요.');
+      else {
+        setEndingDateTime(endDate);
+        setDiscountEndDate(endDate);
+      }
+    }
   };
 
   // 컴마를 포함한 금액 표시를 위한 함수 정리
@@ -115,77 +137,60 @@ const Discount = ({
         '할인 판매가를 입력하시면 판매가 정보가 자동 계산되어집니다.',
       ]}
     >
-      <ButtonGroupWrapper>
-        {availableStatus.map((status, idx) => (
-          <OptionButton
-            key={idx}
-            id={idx}
-            onClick={() => onClickUse(idx)}
-            isActive={activeUseId === idx}
-          >
-            {status.value}
-          </OptionButton>
-        ))}
-      </ButtonGroupWrapper>
-      {activeUseId === 0 && (
-        <DiscountDetailsWrapper>
-          <FormWrapper>
-            <FormLabel>할인율</FormLabel>
-            <DiscountInputBoxWrapper>
-              <InputTag
-                value={discountRateLocal}
-                type="number"
-                min="0"
-                max="100"
-                onChange={onChangeDiscountRate}
-                placeholder="0"
-                onKeyDown={e =>
-                  (e.keyCode === 69 ||
-                    e.keyCode === 190 ||
-                    e.keyCode === 187 ||
-                    e.keyCode === 189) &&
-                  e.preventDefault()
-                }
-                isValid={isValid}
-              />
-              <TagSpan>%</TagSpan>
-            </DiscountInputBoxWrapper>
-          </FormWrapper>
-          <FormWrapper>
-            <FormLabel>할인가</FormLabel>
-            <DiscountWrapper>
-              <DiscountedPriceWrapper>
-                <DiscountedPrice>
-                  {calcDiscountedPrice(discountedPriceLocal)}
-                </DiscountedPrice>
-                <WonSpan>원</WonSpan>
-                <DiscountAmount>
-                  {`(${calcDiscountAmount(discountAmountLocal)}원 할인)`}
-                </DiscountAmount>
-              </DiscountedPriceWrapper>
-            </DiscountWrapper>
-          </FormWrapper>
+      <DiscountDetailsWrapper>
+        <FormWrapper>
+          <FormLabel>할인율</FormLabel>
+          <DiscountInputBoxWrapper>
+            <InputTag
+              value={discountRateLocal}
+              type="number"
+              min="0"
+              max="100"
+              onChange={onChangeDiscountRate}
+              placeholder="0"
+              onKeyDown={e =>
+                (e.keyCode === 69 ||
+                  e.keyCode === 190 ||
+                  e.keyCode === 187 ||
+                  e.keyCode === 189) &&
+                e.preventDefault()
+              }
+              isValid={isDiscountRateValid}
+            />
+            <TagSpan>%</TagSpan>
+          </DiscountInputBoxWrapper>
+        </FormWrapper>
+        <FormWrapper>
+          <FormLabel>할인가</FormLabel>
+          <DiscountWrapper>
+            <DiscountedPriceWrapper>
+              <DiscountedPrice>
+                {calcDiscountedPrice(discountedPriceLocal)}
+              </DiscountedPrice>
+              <WonSpan>원</WonSpan>
+              <DiscountAmount>
+                {`(${calcDiscountAmount(discountAmountLocal)}원 할인)`}
+              </DiscountAmount>
+            </DiscountedPriceWrapper>
+          </DiscountWrapper>
+        </FormWrapper>
+        <TempField>
+          <FormLabel>할인기간</FormLabel>
+          <ToggleButtonGroup
+            options={availableStatus}
+            onClick={onClick}
+            defaultVal={false}
+          />
+        </TempField>
+        {useDiscountPeriod && (
           <TempField>
-            <FormLabel>할인기간</FormLabel>
-            {/* <RadioGroupWrapper>
-              {discountDateStatus.map((status, idx) => (
-                <>
-                  <RadioButton
-                    type="radio"
-                    key={idx}
-                    id={idx}
-                    onClick={() => onClickUseDate(idx)}
-                    checked={activeUseDateId === idx}
-                  />
-                  <RadioOptionLabel>{status.value}</RadioOptionLabel>
-                </>
-              ))}
-            </RadioGroupWrapper> */}
-            {/* {activeUseDateId === 1 && ( */}
-            {/* <DateRangeWrapper> */}
+            <FormLabel />
             <DatePickerWrapper>
               <DatePicker
+                locale="ko"
                 selected={startingDateTime}
+                minDate={new Date()}
+                placeholderText="클릭해주세요"
                 onChange={onChangeStartingDate}
                 showTimeSelect
                 timeFormat="HH:mm"
@@ -197,7 +202,10 @@ const Discount = ({
             <CalendarButton>~</CalendarButton>
             <DatePickerWrapper>
               <DatePicker
+                locale="ko"
                 selected={endingDateTime}
+                minDate={new Date()}
+                placeholderText="클릭해주세요"
                 onChange={onChangeEndingDate}
                 showTimeSelect
                 timeFormat="HH:mm"
@@ -206,11 +214,9 @@ const Discount = ({
                 dateFormat="yyyy-MM-dd h:mm aa"
               />
             </DatePickerWrapper>
-            {/* </DateRangeWrapper> */}
-            {/* )} */}
           </TempField>
-        </DiscountDetailsWrapper>
-      )}
+        )}
+      </DiscountDetailsWrapper>
     </SectionField>
   );
 };
@@ -224,13 +230,13 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   setDiscountRate,
   setDiscountedPrice,
-  setDiscountPeriod,
+  setDiscountStartDate,
+  setDiscountEndDate,
 })(Discount);
 
 // Styled Components
 
 const DiscountDetailsWrapper = styled.div`
-  margin-top: 20px;
   width: 350px;
 `;
 
@@ -298,49 +304,12 @@ const DiscountAmount = styled.span`
   margin-left: 3px;
 `;
 
-const ButtonGroupWrapper = styled.div`
-  display: flex;
-`;
-
-const RadioGroupWrapper = styled.div`
-  display: flex;
-  width: 300px;
-`;
-
-const RadioButton = styled.input`
-  width: 20px;
-`;
-
-const RadioOptionLabel = styled.label`
-  width: 80px;
-  padding-left: 5px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
-const DateRangeWrapper = styled.div``;
-
-const OptionButton = styled.button`
-  border: 1px solid #ddd;
-  width: 140px;
-  padding: 8px 20px;
-  font-size: 13px;
-  color: #767a83;
-  ${props =>
-    props.isActive &&
-    css`
-      color: white;
-      background-color: #36363a;
-      border: 1px solid #36363a;
-    `}
-`;
-
 const TempField = styled.div`
   position: relative;
   display: flex;
+  align-items: center;
   margin-bottom: 20px;
-  width: 500px;
+  width: 700px;
 `;
 
 const DatePickerWrapper = styled.div``;

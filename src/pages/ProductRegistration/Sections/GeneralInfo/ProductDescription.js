@@ -6,6 +6,10 @@ import { setProductDesc } from 'store/actions';
 
 const ProductDescription = ({ setProductDesc }) => {
   const onChange = value => {
+    if (value.length >= 500) {
+      alert('한줄 상품 설명은 500자 이내로 작성해주세요.');
+      return;
+    }
     setProductDesc(value);
   };
 

@@ -1,3 +1,10 @@
+export const setSeller = seller => {
+  return {
+    type: 'SET_SELLER',
+    payload: seller,
+  };
+};
+
 export const setSellStatus = status => {
   return {
     type: 'SET_SELL_STATUS',
@@ -23,6 +30,13 @@ export const setSecondCategory = category => {
   return {
     type: 'SET_SECOND_CATEGORY',
     payload: category,
+  };
+};
+
+export const setUseProvisionNotice = status => {
+  return {
+    type: 'SET_USE_PROVISION_NOTICE',
+    payload: status,
   };
 };
 
@@ -117,10 +131,17 @@ export const setDiscountedPrice = price => {
   };
 };
 
-export const setDiscountPeriod = period => {
+export const setDiscountStartDate = datetime => {
   return {
-    type: 'SET_DISCOUNT_PERIOD',
-    payload: period,
+    type: 'SET_DISCOUNT_START_DATE',
+    payload: datetime,
+  };
+};
+
+export const setDiscountEndDate = datetime => {
+  return {
+    type: 'SET_DISCOUNT_END_DATE',
+    payload: datetime,
   };
 };
 
