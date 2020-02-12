@@ -1,11 +1,18 @@
 import React, { useReducer, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import InfoInput from './InfoInput';
-import { checkId, checkUrl, checkPhoneNumber } from 'utils/checkValidation';
+import {
+  checkId,
+  checkUrl,
+  checkPhoneNumber,
+  checkSellerName,
+  checkSellerNameEng,
+} from 'utils/checkValidation';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import axios from 'axios';
+import { API_URL } from 'utils/callUrl';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,7 +46,7 @@ const reducer = (state, action) => {
 
 const SignUpInfo = ({ handleClick }) => {
   const classes = useStyles();
-  const [radioState, setRadioState] = useState('shoppingMall');
+  const [radioState, setRadioState] = useState(1);
   const [inputState, dispatch] = useReducer(reducer, {
     id: '',
     password: '',
@@ -69,9 +76,19 @@ const SignUpInfo = ({ handleClick }) => {
         return '올바른 정보를 입력해주세요. (ex. 01012345678)';
       }
     },
-    sellerName: value => !(value.length > 0) && '필수 입력항목입니다.',
-    sellerNameEng: value => !(value.length > 0) && '필수 입력항목입니다.',
-    csNumber: value => !(value.length > 0) && '필수 입력항목입니다.',
+    sellerName: value => {
+      if (!value.length > 0) return '필수 입력항목입니다.';
+      if (!checkSellerName(value)) return '올바른 정보를 입력해주세요.';
+    },
+    sellerNameEng: value => {
+      if (!value.length > 0) return '필수 입력항목입니다.';
+      if (!checkSellerNameEng(value)) return '올바른 정보를 입력해주세요.';
+    },
+    csNumber: value => {
+      if (!value.length > 0) return '필수 입력항목입니다.';
+      if (!(value.length === 10 || value.length === 11))
+        return '10자리 또는 11자리 번호를 입력해주세요';
+    },
     sellerSite: value =>
       !checkUrl(value) &&
       '올바른 주소를 입력해주세요. (ex. http://www.brandi.co.kr)',
@@ -112,24 +129,32 @@ const SignUpInfo = ({ handleClick }) => {
     setErrors(submitErrors);
 
     if (!submitErrors.length) {
-      axios.post('http://10.58.7.69:5000/seller/sign-up', {
-        seller_types_id: '1',
-        account: inputState.id,
-        name_kr: inputState.sellerName,
-        name_en: inputState.sellerNameEng,
-        password: inputState.password,
-        mobile_number: inputState.phoneNumber,
-        cs_phone_number: inputState.csNumber,
-        site_url: inputState.sellerSite,
-        instagram_account: inputState.instaId,
-        cs_kakao_account: inputState.kakaoId,
-      });
+      axios
+        .post(`${API_URL}/seller/sign-up`, {
+          seller_types_id: radioState,
+          account: inputState.id,
+          name_kr: inputState.sellerName,
+          name_en: inputState.sellerNameEng,
+          password: inputState.password,
+          mobile_number: inputState.phoneNumber,
+          cs_phone_number: inputState.csNumber,
+          site_url: inputState.sellerSite,
+          instagram_account: inputState.instaId,
+          cs_kakao_account: inputState.kakaoId,
+        })
+        .then(res => {
+          location.reload();
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
     }
 
     // ....다음 동작들
   };
 
   const handleChange = e => {
+    console.log(radioState);
     setRadioState(e.target.value);
   };
 
@@ -215,9 +240,9 @@ const SignUpInfo = ({ handleClick }) => {
       <H4InfoTitle>셀러 정보</H4InfoTitle>
       <LabelRaido>
         <Radio
-          checked={radioState === 'shoppingMall'}
+          checked={radioState == 1}
           onChange={handleChange}
-          value="shoppingMall"
+          value={1}
           color="default"
           size="small"
         />
@@ -225,9 +250,9 @@ const SignUpInfo = ({ handleClick }) => {
       </LabelRaido>
       <LabelRaido>
         <Radio
-          checked={radioState === 'market'}
+          checked={radioState == 2}
           onChange={handleChange}
-          value="market"
+          value={2}
           color="default"
           size="small"
         />
@@ -235,9 +260,9 @@ const SignUpInfo = ({ handleClick }) => {
       </LabelRaido>
       <LabelRaido>
         <Radio
-          checked={radioState === 'roadShop'}
+          checked={radioState == 3}
           onChange={handleChange}
-          value="roadShop"
+          value={3}
           color="default"
           size="small"
         />
@@ -245,9 +270,9 @@ const SignUpInfo = ({ handleClick }) => {
       </LabelRaido>
       <LabelRaido>
         <Radio
-          checked={radioState === 'designer'}
+          checked={radioState == 4}
           onChange={handleChange}
-          value="designer"
+          value={4}
           color="default"
           size="small"
         />
@@ -256,9 +281,9 @@ const SignUpInfo = ({ handleClick }) => {
       <br />
       <LabelRaido>
         <Radio
-          checked={radioState === 'general'}
+          checked={radioState == 5}
           onChange={handleChange}
-          value="general"
+          value={5}
           color="default"
           size="small"
         />
@@ -266,9 +291,9 @@ const SignUpInfo = ({ handleClick }) => {
       </LabelRaido>
       <LabelRaido>
         <Radio
-          checked={radioState === 'national'}
+          checked={radioState == 6}
           onChange={handleChange}
-          value="national"
+          value={6}
           color="default"
           size="small"
         />
@@ -276,9 +301,9 @@ const SignUpInfo = ({ handleClick }) => {
       </LabelRaido>
       <LabelRaido>
         <Radio
-          checked={radioState === 'beauty'}
+          checked={radioState == 7}
           onChange={handleChange}
-          value="beauty"
+          value={7}
           color="default"
           size="small"
         />
