@@ -6,15 +6,14 @@ import SearchItem from './SearchItem';
 
 const ProductSearchBox = () => {
   const [sellerProp, setSellerProp] = useState('전체');
-  const [sellerDiv, setSellerDiv] = useState('전체');
-  const [registStatus, setRegistStatus] = useState('전체');
   const [sellingStatus, setSellingStatus] = useState('전체');
   const [displayStatus, setDisplayStatus] = useState('전체');
   const [discountStatus, setDiscountStatus] = useState('전체');
-  const [deliveryDiv, setDeliveryDiv] = useState('전체');
-  const [wholesalerStatus, setWholesalerStatus] = useState('전체');
   const [startingDateTime, setStartingDateTime] = useState(new Date());
   const [endingDateTime, setEndingDateTime] = useState(new Date());
+  const [sellerNameInput, setSellerNameInput] = useState('');
+  const [selectOptionInput, setSelectOptionInput] = useState('');
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const onChangeStartingDate = date => {
     setStartingDateTime(date);
@@ -28,12 +27,6 @@ const ProductSearchBox = () => {
     setSellerProp(value);
   };
 
-  const clickSellerDiv = value => {
-    setSellerDiv(value);
-  };
-  const clickRegistStatus = value => {
-    setRegistStatus(value);
-  };
   const clickSellingStatus = value => {
     setSellingStatus(value);
   };
@@ -43,11 +36,17 @@ const ProductSearchBox = () => {
   const clickDiscountStatus = value => {
     setDiscountStatus(value);
   };
-  const clickDeliveryDiv = value => {
-    setDeliveryDiv(value);
+
+  const onChangeNameInput = value => {
+    setSellerNameInput(value);
   };
-  const clickWholesalerStatus = value => {
-    setWholesalerStatus(value);
+
+  const onChangeOptionInput = value => {
+    setSelectOptionInput(value);
+  };
+
+  const onChangeSelect = value => {
+    setSelectedOption(value);
   };
 
   const clickSearch = () => {
@@ -56,15 +55,14 @@ const ProductSearchBox = () => {
 
   const clickReset = () => {
     setSellerProp('전체');
-    setSellerDiv('전체');
-    setRegistStatus('전체');
     setSellingStatus('전체');
     setDisplayStatus('전체');
     setDiscountStatus('전체');
-    setDeliveryDiv('전체');
-    setWholesalerStatus('전체');
     onChangeEndingDate(new Date());
     onChangeStartingDate(new Date());
+    setSellerNameInput('');
+    setSelectOptionInput('');
+    setSelectedOption(null);
   };
 
   return (
@@ -75,7 +73,14 @@ const ProductSearchBox = () => {
         onChangeStartingDate={onChangeStartingDate}
         onChangeEndingDate={onChangeEndingDate}
       />
-      <SellerName />
+      <SellerName
+        sellerNameInput={sellerNameInput}
+        selectOptionInput={selectOptionInput}
+        selectedOption={selectedOption}
+        onChangeNameInput={onChangeNameInput}
+        onChangeOptionInput={onChangeOptionInput}
+        onChangeSelect={onChangeSelect}
+      />
       <DivItemWrapper>
         <SearchItem
           label="셀러속성"
@@ -87,22 +92,10 @@ const ProductSearchBox = () => {
             '디자이너브랜드',
             '제너럴브랜드',
             '내셔널브랜드',
-            '뷰티'
+            '뷰티',
           ]}
           currentState={sellerProp}
           onClick={clickSellerProp}
-        />
-        <SearchItem
-          label="셀러구분"
-          options={['전체', '일반', '헬피']}
-          currentState={sellerDiv}
-          onClick={clickSellerDiv}
-        />
-        <SearchItem
-          label="등록상태"
-          options={['전체', '등록', '임시저장']}
-          currentState={registStatus}
-          onClick={clickRegistStatus}
         />
         <SearchItem
           label="판매여부"
@@ -121,18 +114,6 @@ const ProductSearchBox = () => {
           options={['전체', '할인', '미할인']}
           currentState={discountStatus}
           onClick={clickDiscountStatus}
-        />
-        <SearchItem
-          label="배송구분"
-          options={['전체', '배송', '미배송']}
-          currentState={deliveryDiv}
-          onClick={clickDeliveryDiv}
-        />
-        <SearchItem
-          label="도매처상태"
-          options={['전체', '승인', '폐업']}
-          currentState={wholesalerStatus}
-          onClick={clickWholesalerStatus}
         />
       </DivItemWrapper>
       <DivBtnWrapper>

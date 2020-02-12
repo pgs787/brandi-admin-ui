@@ -10,35 +10,47 @@ const customStyles = {
     fontSize: 12,
     border: '1px solid #dbdde2',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   }),
-  indicatorsContainer: () => null
+  indicatorsContainer: () => null,
 };
 
-const SellerName = () => {
-  const [selectedOptionFirst, setSelectedOptionFirst] = useState(null);
-
-  const onChangeFirst = ({ value }) => {
-    setSelectedOptionFirst(value);
-  };
-
+const SellerName = ({
+  sellerNameInput,
+  selectOptionInput,
+  selectedOption,
+  onChangeNameInput,
+  onChangeOptionInput,
+  onChangeSelect,
+}) => {
   return (
     <DivListWrapper>
       <LabelListName>셀러명</LabelListName>
       <DivListContent>
-        <InputName placeholder="검색어를 입력하세요." />
+        <InputName
+          placeholder="검색어를 입력하세요."
+          value={sellerNameInput}
+          onChange={e => onChangeNameInput(e.target.value)}
+        />
         <DivSelectorWrap>
           <Select
-            onChange={onChangeFirst}
+            value={selectedOption}
+            onChange={e => {
+              onChangeSelect(e);
+            }}
             options={[
               { value: 'option1', label: 'Option 1' },
               { value: 'option2', label: 'Option 2' },
-              { value: 'option3', label: 'Option 3' }
+              { value: 'option3', label: 'Option 3' },
             ]}
             styles={customStyles}
             placeholder="Select"
           />
-          <InputName placeholder="검색어를 입력하세요." />
+          <InputName
+            value={selectOptionInput}
+            onChange={e => onChangeOptionInput(e.target.value)}
+            placeholder="검색어를 입력하세요."
+          />
         </DivSelectorWrap>
       </DivListContent>
     </DivListWrapper>

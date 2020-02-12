@@ -6,14 +6,26 @@ const SearchPeriod = ({
   startingDateTime,
   endingDateTime,
   onChangeStartingDate,
-  onChangeEndingDate
+  onChangeEndingDate,
 }) => {
-  const checkCalendar = () => {
-    if (startingDateTime.getFullYear() > endingDateTime.getFullYear())
-      return false;
-    if (startingDateTime.getMonth() > endingDateTime.getMonth()) return false;
-    if (startingDateTime.getDate() > endingDateTime.getDate()) return false;
-    return true;
+  const validateDateRange = () => {
+    // 시작 연도가 작으면 true
+    if (startingDateTime.getFullYear() < endingDateTime.getFullYear())
+      return true;
+    // 시작 연도와 끝 연도가 같을 때 조건 처리
+    else if (startingDateTime.getFullYear() === endingDateTime.getFullYear()) {
+      // 시작 월이 끝 월보다 작으면 true
+      if (startingDateTime.getMonth() < endingDateTime.getMonth()) return true;
+      // 시작 월과 끝 월이 같을 때 조건 처리
+      else if (startingDateTime.getMonth() === endingDateTime.getMonth()) {
+        // 시작 날짜가 끝 날짜보다 작거나 같으면 true
+        if (startingDateTime.getDate() <= endingDateTime.getDate()) return true;
+        // 시작 날짜가 끝 날짜보다 크면 false
+        else return false;
+        // 시작 월이 끝 월보다 크면 false
+      } else return false;
+      // 시작 연도가 끝 연도보다 크면 false
+    } else return false;
   };
 
   return (
@@ -35,7 +47,7 @@ const SearchPeriod = ({
             dateFormat="yyyy-MM-dd"
           />
         </DatePickerWrapper>
-        {!checkCalendar() && <PErrMsg>올바른 날짜를 입력해주세요.</PErrMsg>}
+        {!validateDateRange() && <PErrMsg>올바른 날짜를 입력해주세요.</PErrMsg>}
       </DivListContent>
     </DivListWrapper>
   );
