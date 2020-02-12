@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 import SectionField from 'components/SectionField';
+import InputBox from 'components/InputBox';
 import { connect } from 'react-redux';
 import { setYoutubeUrl } from 'store/actions';
 
 const YoutubeLink = ({ setYoutubeUrl }) => {
-  const [youtubeUrlLocal, setYoutubeUrlLocal] = useState('');
-
-  const onChange = e => {
-    setYoutubeUrlLocal(e.target.value);
-    setYoutubeUrl(e.target.value);
+  const onChange = value => {
+    if (value.length >= 400) {
+      alert('Youtube 영상 URL은 400자 이내로 작성해주세요.');
+      return;
+    }
+    setYoutubeUrl(value);
   };
 
   return (
@@ -17,27 +18,12 @@ const YoutubeLink = ({ setYoutubeUrl }) => {
       style={{ borderBottom: 'none' }}
       label="유튜브 영상 URL"
       moreInfoText={
-        'https://www.YoutubeLink.com 또는 https://youtu.be로 시작하는 URL만 등록 가능합니다.'
+        'https://www.youtube.com 또는 https://youtu.be로 시작하는 URL만 등록 가능합니다.'
       }
     >
-      <InputTag
-        value={youtubeUrlLocal}
-        onChange={onChange}
-        placeholder="https://youtu.be/"
-      />
+      <InputBox onChange={onChange} placeholder="https://youtu.be/" />
     </SectionField>
   );
 };
 
 export default connect(null, { setYoutubeUrl })(YoutubeLink);
-
-// Styled Components
-
-const InputTag = styled.input`
-  width: 100%;
-  background-color: #f8f9fd;
-  &:focus {
-    border-color: #999999;
-    background-color: white;
-  }
-`;

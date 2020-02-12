@@ -6,6 +6,10 @@ import { setProductName } from 'store/actions';
 
 const ProductName = ({ setProductName }) => {
   const onChange = value => {
+    if (value.length >= 200) {
+      alert('상품명은 200자 이내로 작성해주세요.');
+      return;
+    }
     setProductName(value);
   };
 

@@ -4,7 +4,8 @@ const initialState = {
   discountInfo: {
     discountRate: null,
     discountedPrice: null,
-    discountPeriod: null,
+    discountStartDate: null,
+    discountEndDate: null,
   },
   minVolume: null,
   maxVolume: null,
@@ -31,12 +32,20 @@ export default function saleInfo(state = initialState, action) {
           discountedPrice: action.payload,
         },
       };
-    case 'SET_DISCOUNT_PERIOD':
+    case 'SET_DISCOUNT_START_DATE':
       return {
         ...state,
         discountInfo: {
           ...state.discountInfo,
-          discountPeriod: action.payload,
+          discountStartDate: action.payload,
+        },
+      };
+    case 'SET_DISCOUNT_END_DATE':
+      return {
+        ...state,
+        discountInfo: {
+          ...state.discountInfo,
+          discountEndDate: action.payload,
         },
       };
     case 'SET_MIN_VOLUME':
