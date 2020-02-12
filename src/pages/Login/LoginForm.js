@@ -2,21 +2,24 @@ import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
+import { withRouter } from 'react-router-dom';
+import { API_URL } from 'utils/callUrl';
 
 const useStyles = makeStyles(theme => ({
   signup: {
     backgroundColor: 'white',
-    marginRight: '10px'
+    marginRight: '10px',
   },
   signin: {
     backgroundColor: '#5bc0de',
     '&:hover': {
-      backgroundColor: '#31B0D5'
-    }
-  }
+      backgroundColor: '#31B0D5',
+    },
+  },
 }));
 
-const LoginForm = ({ handleClick, toSignUp }) => {
+const LoginForm = ({ history, handleClick, toSignUp }) => {
   const [checkbox, setCheckbox] = useState(false);
   const [idState, setId] = useState('');
   const [pwState, setPw] = useState('');
@@ -37,6 +40,10 @@ const LoginForm = ({ handleClick, toSignUp }) => {
     }
   }, []);
 
+  const goToSellerInfo = () => {
+    history.push('/seller/information');
+  };
+
   const handleId = e => {
     setId(e.target.value);
   };
@@ -55,12 +62,23 @@ const LoginForm = ({ handleClick, toSignUp }) => {
     } else {
       localStorage.clear();
     }
-    // api 포스트 보내고 틀리면 에러메시지 맞으면 라우팅
+    axios
+      .post(`${API_URL}/login`, {
+        account: idState,
+        password: pwState,
+      })
+      .then(res => {
+        localStorage.setItem('Login_token', res.data.access_token);
+        goToSellerInfo();
+      })
+      .catch(error => {
+        setFailMsg(true);
+        console.log(error.response);
+      });
   };
 
   const handleKeyPress = e => {
     if (e.keyCode === 13) {
-      console.log('hi');
       handleSubmit();
     }
   };
@@ -171,7 +189,7 @@ const LoginForm = ({ handleClick, toSignUp }) => {
   );
 };
 
-export default LoginForm;
+export default withRouter(LoginForm);
 
 const DivMargin = styled.div`
   width: 100%;
@@ -336,9 +354,11 @@ const DivLoginFail = styled.div`
 `;
 
 const ButtonClose = styled.button`
+  display: inline-block;
   width: 9px;
   height: 9px;
-  text-indent: -10000px;
+  padding: 0;
+  margin: 3px 5px 0 0;
   opacity: 0.2;
   border: 0;
   cursor: pointer;
