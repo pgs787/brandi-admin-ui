@@ -2,29 +2,29 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import SectionField from 'components/SectionField';
 import NoImage from '../../../../images/no_image.png';
+import { connect } from 'react-redux';
+import { setProductRepImage } from 'store/actions';
 import { server_url } from '../../../../../config';
 
-const ImageUpload = () => {
+const ImageUpload = ({ setProductRepImage }) => {
   const [repImage, setRepImage] = useState(NoImage);
-  const [secondImage, setSecondImage] = useState(NoImage);
 
   const onChangeRepImage = e => {
-    if (!e.target.files.length) {
-      return;
-    }
+    if (!e.target.files.length) return;
 
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append('image_file', file);
-    formData.append('image_size', 'medium');
 
-    console.log(e.target.files);
     fetch(`${server_url}/product/image`, {
       method: 'POST',
       body: formData,
     })
       .then(res => res.json())
-      .then(res => setRepImage(res.image_url))
+      .then(res => {
+        setRepImage(res.small);
+        setProductRepImage(res.small);
+      })
       .catch(err => console.log(err));
   };
 
@@ -41,12 +41,12 @@ const ImageUpload = () => {
           </ImageBox>
           <UploadButtonWrapper>
             <ChooseImageButton
-              id="file"
+              id="rep_image"
               type="file"
               accept=".jpg"
               onChange={onChangeRepImage}
             />
-            <ChooseImageButtonLabel htmlFor="file">
+            <ChooseImageButtonLabel htmlFor="rep_image">
               대표 이미지 선택
             </ChooseImageButtonLabel>
           </UploadButtonWrapper>
@@ -56,8 +56,8 @@ const ImageUpload = () => {
             <ActualImage src={NoImage} alt="no-image" />
           </ImageBox>
           <UploadButtonWrapper>
-            <ChooseImageButton id="file" type="file" accept=".jpg" />
-            <ChooseImageButtonLabel htmlFor="file">
+            <ChooseImageButton id="sub_image_1" type="file" accept=".jpg" />
+            <ChooseImageButtonLabel htmlFor="sub_image_1">
               이미지 선택
             </ChooseImageButtonLabel>
           </UploadButtonWrapper>
@@ -67,8 +67,8 @@ const ImageUpload = () => {
             <ActualImage src={NoImage} alt="no-image" />
           </ImageBox>
           <UploadButtonWrapper>
-            <ChooseImageButton id="file" type="file" accept=".jpg" />
-            <ChooseImageButtonLabel htmlFor="file">
+            <ChooseImageButton id="sub_image_2" type="file" accept=".jpg" />
+            <ChooseImageButtonLabel htmlFor="sub_image_2">
               이미지 선택
             </ChooseImageButtonLabel>
           </UploadButtonWrapper>
@@ -78,8 +78,8 @@ const ImageUpload = () => {
             <ActualImage src={NoImage} alt="no-image" />
           </ImageBox>
           <UploadButtonWrapper>
-            <ChooseImageButton id="file" type="file" accept=".jpg" />
-            <ChooseImageButtonLabel htmlFor="file">
+            <ChooseImageButton id="sub_image_3" type="file" accept=".jpg" />
+            <ChooseImageButtonLabel htmlFor="sub_image_3">
               이미지 선택
             </ChooseImageButtonLabel>
           </UploadButtonWrapper>
@@ -89,8 +89,8 @@ const ImageUpload = () => {
             <ActualImage src={NoImage} alt="no-image" />
           </ImageBox>
           <UploadButtonWrapper>
-            <ChooseImageButton id="file" type="file" accept=".jpg" />
-            <ChooseImageButtonLabel htmlFor="file">
+            <ChooseImageButton id="sub_image_4" type="file" accept=".jpg" />
+            <ChooseImageButtonLabel htmlFor="sub_image_4">
               이미지 선택
             </ChooseImageButtonLabel>
           </UploadButtonWrapper>
@@ -100,7 +100,7 @@ const ImageUpload = () => {
   );
 };
 
-export default ImageUpload;
+export default connect(null, { setProductRepImage })(ImageUpload);
 
 // Styled Components
 
@@ -131,11 +131,7 @@ const UploadButtonWrapper = styled.div`
   height: 34px;
 `;
 
-const ChooseImageButton = styled.input.attrs({
-  type: 'file',
-  id: 'file',
-  accept: '.jpg',
-})`
+const ChooseImageButton = styled.input`
   border: 0;
   clip: rect(0, 0, 0, 0);
   height: 1px;

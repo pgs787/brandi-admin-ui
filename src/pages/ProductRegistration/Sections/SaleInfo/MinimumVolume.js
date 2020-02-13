@@ -10,16 +10,16 @@ const MinimumVolume = ({ setMinVolume }) => {
   const [isValid, setIsValid] = useState(true);
 
   const onChange = e => {
-    // 유저 입력값
     const val = e.target.value;
 
     if (checkCount(val)) {
       setIsValid(true);
-      setMinVolumeLocal(val);
-      setMinVolume(val);
+      setMinVolumeLocal(parseInt(val));
+      setMinVolume(parseInt(val));
     } else {
       setIsValid(false);
       setMinVolumeLocal(val);
+      setMinVolume(null);
     }
   };
 

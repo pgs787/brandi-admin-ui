@@ -16,27 +16,39 @@ const ButtonGroup = props => {
     originCountry,
     productName,
     productDesc,
+    productRepImage,
+    productDetails,
     youtubeUrl,
+    salePrice,
+    discountRate,
+    discountedPrice,
+    discountStartDate,
+    discountEndDate,
+    productTags,
   } = props;
 
   const onRegister = () => {
     if (
       selectedSeller === null ||
       firstCategory === null ||
-      secondCategory === null ||
+      // secondCategory === null ||
       useProvisionNotice === null ||
-      productName === null
+      productName === null ||
+      productRepImage === null ||
+      productDetails === null ||
+      salePrice === null ||
+      productTags === []
     ) {
       alert('필수항목을 전부 입력하셨는지 확인해주세요.');
       return;
     }
 
-    const data = {
+    const generalInfoData = {
       creator_id: selectedSeller,
       is_sold: isSelling,
       is_displayed: isDisplaying,
       first_category: firstCategory,
-      second_category: secondCategory,
+      second_category: '코트',
       information_notice_use: useProvisionNotice,
       information_notice: {
         manufacturer: manufacturer,
@@ -45,10 +57,27 @@ const ButtonGroup = props => {
       },
       name: productName,
       one_line_description: productDesc,
+      main_image: productRepImage,
+      detailed_info: productDetails,
       youtube_url: youtubeUrl,
     };
 
-    fetch(`${server_url}/product3`, {
+    const saleInfoData = {
+      price: salePrice,
+      discount_rate: discountRate,
+      discounted_price: discountedPrice,
+      discount_start_period: discountStartDate,
+      discount_end_period: discountEndDate,
+      product_tags: productTags,
+    };
+
+    const data = {
+      ...generalInfoData,
+      option_types_id: 3,
+      ...saleInfoData,
+    };
+
+    fetch(`${server_url}/product`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -62,7 +91,6 @@ const ButtonGroup = props => {
 
   return (
     <ButtonGroupWrapper>
-      <SaveButton onClick={onRegister}>임시저장</SaveButton>
       <SaveButton onClick={onRegister}>등록하기</SaveButton>
       <CancelButton>취소</CancelButton>
     </ButtonGroupWrapper>
@@ -82,7 +110,15 @@ const mapStateToProps = state => {
     originCountry: state.generalInfo.provisionNotice.originCountry,
     productName: state.generalInfo.productName,
     productDesc: state.generalInfo.productDesc,
+    productRepImage: state.generalInfo.productRepImage,
+    productDetails: state.generalInfo.productDetails,
     youtubeUrl: state.generalInfo.youtubeUrl,
+    salePrice: state.saleInfo.salePrice,
+    discountRate: state.saleInfo.discountInfo.discountRate,
+    discountedPrice: state.saleInfo.discountInfo.discountedPrice,
+    discountStartDate: state.saleInfo.discountInfo.discountStartDate,
+    discountEndDate: state.saleInfo.discountInfo.discountEndDate,
+    productTags: state.saleInfo.productTags,
   };
 };
 

@@ -14,9 +14,8 @@ const initialState = {
   },
   productName: null,
   productDesc: null,
-  colorFilter: null,
-  styleFilter: null,
-  ageFilter: [],
+  productRepImage: null,
+  productDetails: null,
   youtubeUrl: null,
 };
 
@@ -74,20 +73,15 @@ export default function generalInfo(state = initialState, action) {
         ...state,
         productDesc: action.payload,
       };
-    case 'SET_COLOR_FILTER':
+    case 'SET_PRODUCT_REP_IMAGE':
       return {
         ...state,
-        colorFilter: action.payload,
+        productRepImage: action.payload,
       };
-    case 'SET_STYLE_FILTER':
+    case 'SET_PRODUCT_DETAILS':
       return {
         ...state,
-        styleFilter: action.payload,
-      };
-    case 'SET_AGE_FILTER':
-      return {
-        ...state,
-        ageFilter: action.payload,
+        productDetails: action.payload,
       };
     case 'SET_YOUTUBE_URL':
       return {

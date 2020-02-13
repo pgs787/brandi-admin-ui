@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { setProductDetails } from 'store/actions';
 import CKEditor from 'ckeditor4-react';
+import { server_url } from '../../../../../config';
 
-const ProductEditor = () => {
+const ProductEditor = ({ setProductDetails }) => {
   const [editor, setEditor] = useState({
     data: '',
   });
@@ -16,6 +19,8 @@ const ProductEditor = () => {
     setEditor({
       data: e.editor.getData(),
     });
+
+    setProductDetails(e.editor.getData());
     console.log(editor.data);
   };
 
@@ -29,8 +34,7 @@ const ProductEditor = () => {
           //   '/apps/ckfinder/3.4.5/ckfinder.html?type=Images',
           // filebrowserUploadUrl:
           //   '/apps/ckfinder/3.4.5/core/connector/php/connector.php?command=QuickUpload&type=Files',
-          filebrowserImageUploadUrl:
-            '/apps/ckfinder/3.4.5/core/connector/php/connector.php?command=QuickUpload&type=Images',
+          filebrowserImageUploadUrl: `${server_url}/product/original_image`,
           toolbarGroups: [
             { name: 'styles' },
             { name: 'colors', groups: ['colors'] },
@@ -65,4 +69,4 @@ const ProductEditor = () => {
   );
 };
 
-export default ProductEditor;
+export default connect(null, { setProductDetails })(ProductEditor);

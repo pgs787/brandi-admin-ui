@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import BoxDesign from 'components/BoxDesign';
 import SectionTitle from 'components/SectionTitle';
 import SectionBody from 'components/SectionBody';
-import WholesalePrice from './WholesalePrice';
 import SalePrice from './SalePrice';
 import Discount from './Discount';
 import MinimumVolume from './MinimumVolume';
@@ -23,7 +22,6 @@ const SaleInfo = () => {
       </ClickableHeader>
       <BodyWrapper showContent={showContent}>
         <SectionBody>
-          <WholesalePrice />
           <SalePrice />
           <Discount />
           <MinimumVolume />

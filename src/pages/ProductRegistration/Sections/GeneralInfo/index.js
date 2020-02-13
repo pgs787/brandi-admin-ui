@@ -11,9 +11,6 @@ import ProvisionNotice from './ProvisionNotice';
 import ProductName from './ProductName';
 import ProductDescription from './ProductDescription';
 import ImageUpload from './ImageUpload';
-import ColorFilter from './ColorFilter';
-import StyleFilter from './StyleFilter';
-import AgeFilter from './AgeFilter';
 import ProductDetails from './ProductDetails';
 import YoutubeLink from './YoutubeLink';
 
@@ -39,9 +36,6 @@ const GeneralInfo = () => {
           <ProductName />
           <ProductDescription />
           <ImageUpload />
-          <ColorFilter />
-          <StyleFilter />
-          <AgeFilter />
           <ProductDetails />
           <YoutubeLink />
         </SectionBody>

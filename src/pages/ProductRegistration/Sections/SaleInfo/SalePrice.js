@@ -18,7 +18,7 @@ const SalePrice = ({ setSalePrice }) => {
     } else {
       // 10원 단위이므로 스토어에 판매가 업데이트
       setIsValid(true);
-      setSalePrice(e.target.value);
+      setSalePrice(parseInt(e.target.value));
     }
   };
 
