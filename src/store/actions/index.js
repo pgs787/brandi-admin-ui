@@ -1,3 +1,10 @@
+export const setSeller = seller => {
+  return {
+    type: 'SET_SELLER',
+    payload: seller,
+  };
+};
+
 export const setSellStatus = status => {
   return {
     type: 'SET_SELL_STATUS',
@@ -23,6 +30,13 @@ export const setSecondCategory = category => {
   return {
     type: 'SET_SECOND_CATEGORY',
     payload: category,
+  };
+};
+
+export const setUseProvisionNotice = status => {
+  return {
+    type: 'SET_USE_PROVISION_NOTICE',
+    payload: status,
   };
 };
 
@@ -117,10 +131,17 @@ export const setDiscountedPrice = price => {
   };
 };
 
-export const setDiscountPeriod = period => {
+export const setDiscountStartDate = datetime => {
   return {
-    type: 'SET_DISCOUNT_PERIOD',
-    payload: period,
+    type: 'SET_DISCOUNT_START_DATE',
+    payload: datetime,
+  };
+};
+
+export const setDiscountEndDate = datetime => {
+  return {
+    type: 'SET_DISCOUNT_END_DATE',
+    payload: datetime,
   };
 };
 
@@ -158,6 +179,25 @@ export const setStock = set => {
   };
 };
 
+export const colorChange = (color, target) => {
+  return {
+    type: 'COLOR_CHANGE',
+    payload: {
+      color: color,
+      target: target,
+    }
+  }
+}
+export const sizeChange = (size, target) => {
+  return {
+    type: 'SIZE_CHANGE',
+    payload: {
+      size: size,
+      target: target,
+    }
+  }
+}
+
 export const stockChange = (set, target) => {
   return {
     type: 'STOCK_CHANGE',
@@ -168,6 +208,15 @@ export const stockChange = (set, target) => {
   };
 };
 
+export const setStockCount = (count, target) => {
+  return {
+    type: 'SET_STOCK_COUNT',
+    payload: {
+      count: count,
+      target: target,
+    }
+  }
+}
 export const setType = type => {
   return {
     type: 'SET_TYPE',
@@ -200,3 +249,10 @@ export const setUseRelationProduct = value => {
     payload: value,
   };
 };
+
+export const nonOptionStock = stock => {
+  return {
+    type: 'NON_OPTION_STOCK',
+    payload: stock
+  }
+}

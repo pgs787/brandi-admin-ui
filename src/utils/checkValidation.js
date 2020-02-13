@@ -32,3 +32,15 @@ export const checkSellerNameEng = name => {
   const nametest = /^[A-Za-z0-9]([0-9a-zA-Z--_]){1,20}$/;
   return nametest.test(name);
 };
+
+export const checkCount = number => {
+  const countTest = /^$|^[1-9]$|^(1)[0-9]$|^(20)$/;
+  return countTest.test(number);
+};
+
+// 할인 시작/종료 range validation
+export const validateDateRange = (startDateTime, endDateTime) => {
+  // 할인 시작 날짜/시간이 종료 날짜/시간보다 크거나 같으면 false
+  if (startDateTime >= endDateTime) return false;
+  else return true;
+};

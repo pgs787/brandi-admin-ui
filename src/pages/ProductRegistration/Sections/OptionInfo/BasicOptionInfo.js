@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     fontSize: '15px',
   },
 });
-const BasicOptionInfo = ({ basicColor, basicSize, stock, selectedList }) => {
+const BasicOptionInfo = ({ basicColor, basicSize, stock, list, selectedList }) => {
   // 선택된 기본옵션 테이블 생성 함수.
   const onClick = () => {
     console.log('click : ', basicColor);
@@ -30,6 +30,7 @@ const BasicOptionInfo = ({ basicColor, basicSize, stock, selectedList }) => {
           color: color,
           size: size,
           stock: stock,
+          count: 0
         });
       });
     });
@@ -45,7 +46,7 @@ const BasicOptionInfo = ({ basicColor, basicSize, stock, selectedList }) => {
           적용
         </Button>
       </ButtonBox>
-      <BasicOptionList></BasicOptionList>
+      {list.length > 0 && <BasicOptionList></BasicOptionList>}
     </SectionField>
   );
 };
@@ -57,6 +58,7 @@ const mapStateToProps = state => {
     basicColor: state.optionInfo.basicColor,
     basicSize: state.optionInfo.basicSize,
     stock: state.optionInfo.setStock,
+    list: state.optionInfo.selectedList
   };
 };
 export default connect(mapStateToProps, { selectedList })(BasicOptionInfo);

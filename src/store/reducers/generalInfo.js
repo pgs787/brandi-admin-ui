@@ -1,10 +1,12 @@
 const initialState = {
+  selectedSeller: null,
   isSelling: true,
   isDisplaying: true,
   categories: {
     firstCategory: null,
     secondCategory: null,
   },
+  useProvisionNotice: false,
   provisionNotice: {
     manufacturer: null,
     manufactureDate: null,
@@ -20,6 +22,8 @@ const initialState = {
 
 export default function generalInfo(state = initialState, action) {
   switch (action.type) {
+    case 'SET_SELLER':
+      return { ...state, selectedSeller: action.payload };
     case 'SET_SELL_STATUS':
       return { ...state, isSelling: action.payload };
     case 'SET_DISPLAY_STATUS':
@@ -34,6 +38,8 @@ export default function generalInfo(state = initialState, action) {
         ...state,
         categories: { ...state.categories, secondCategory: action.payload },
       };
+    case 'SET_USE_PROVISION_NOTICE':
+      return { ...state, useProvisionNotice: action.payload };
     case 'SET_MANUFACTURER':
       return {
         ...state,

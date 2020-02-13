@@ -31,8 +31,12 @@ const Categories = ({ setFirstCategory, setSecondCategory }) => {
   };
 
   const onChangeSecond = ({ value }) => {
-    setSelectedOptionSecond(value);
-    setSecondCategory(value);
+    if (selectedOptionFirst === null) {
+      alert('1차 카테고리를 먼저 선택해주세요.');
+    } else {
+      setSelectedOptionSecond(value);
+      setSecondCategory(value);
+    }
   };
 
   return (

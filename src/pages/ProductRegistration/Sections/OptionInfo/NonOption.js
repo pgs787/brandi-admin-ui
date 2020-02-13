@@ -3,14 +3,18 @@ import styled, { css } from 'styled-components';
 import SectionField from 'components/SectionField';
 // redux
 import { connect } from 'react-redux';
-import { stockChange, selectedList } from 'store/actions';
+import { nonOptionStock  } from 'store/actions';
 
-const NonOption = () => {
+const NonOption = ({nonOptionStock}) => {
   const [activeId, setActiveId] = useState(0);
 
   const onClick = idx => {
     setActiveId(idx);
   };
+  const stockSet = e => {
+    console.log(e.target.value)
+    nonOptionStock(e.target.value)
+  }
   return (
     <SectionField label="옵션 정보">
       <ButtonGroupWrapper>
@@ -26,7 +30,7 @@ const NonOption = () => {
           </OptionButton>
         ))}
       </ButtonGroupWrapper>
-      <InputTag disabled={activeId === 0 ? true : false}></InputTag>
+      <InputTag disabled={activeId === 0 ? true : false} type='number' onChange={stockSet}></InputTag>
     </SectionField>
   );
 };
@@ -60,4 +64,4 @@ const InputTag = styled.input`
   }
 `;
 
-export default NonOption;
+export default connect(null, {nonOptionStock})(NonOption);

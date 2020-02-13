@@ -16,7 +16,7 @@ import { data } from './Data';
 
 // redux
 import { connect } from 'react-redux';
-import { stockChange, selectedList, removeBasicList } from 'store/actions';
+import { colorChange, sizeChange, stockChange, setStockCount, removeBasicList } from 'store/actions';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -93,28 +93,29 @@ const useStyles = makeStyles({
 
 const BasicOptionList = ({
   list,
+  colorChange,
+  sizeChange,
   stockChange,
-  selectedList,
+  setStockCount,
   removeBasicList,
 }) => {
   const classes = useStyles();
 
   const selectedColor = (color, index) => {
-    console.log('select: ', color);
-    console.log(index);
-    let changeList = list;
-    changeList[index].color = color.value;
-    selectedList(changeList);
+    colorChange(color, index)
   };
   const selectedSize = (size, index) => {
-    console.log('select: ', size);
-    let changeList = list;
-    changeList[index].size = size.value;
-    selectedList(changeList);
+    sizeChange(size, index);
   };
   const stockHandler = (idx, index) => {
     stockChange(idx, index);
   };
+  const setCount = (e, index) => {
+    console.log(e.target.value)
+    console.log(index)
+
+    setStockCount(e.target.value, index);
+  }
   const removeList = id => {
     removeBasicList(id);
   };
@@ -152,7 +153,7 @@ const BasicOptionList = ({
                   onChange={value => {
                     selectedColor(value, index);
                   }}
-                  defaultValue={{ value: element.color, label: element.color }}
+                  value={{ value: element.color, label: element.color }}
                 />
               </StyledTableCell>
               <StyledTableCell className={classes.info} align="left">
@@ -162,7 +163,7 @@ const BasicOptionList = ({
                   onChange={value => {
                     selectedSize(value, index);
                   }}
-                  defaultValue={{ value: element.size, label: element.size }}
+                  value={{ value: element.size, label: element.size }}
                 />
               </StyledTableCell>
               <StyledTableCell className={classes.stockCell} align="left">
@@ -181,8 +182,10 @@ const BasicOptionList = ({
                     </OptionButton>
                   ))}
                 </ButtonGroupWrapper>
-                <InputTag
-                  disabled={element.stock === 0 ? true : false}
+                <InputTag type='number'
+                  disabled={element.stock === 0 ? true : false} 
+                  onChange={(e) => setCount(e, index)}
+                  value={element.count}
                 ></InputTag>
               </StyledTableCell>
               <StyledTableCell
@@ -244,7 +247,9 @@ const mapStateToProps = state => {
   };
 };
 export default connect(mapStateToProps, {
+  colorChange,
+  sizeChange,
   stockChange,
-  selectedList,
+  setStockCount,
   removeBasicList,
 })(BasicOptionList);
