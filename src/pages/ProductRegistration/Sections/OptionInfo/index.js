@@ -5,14 +5,12 @@ import SectionBody from 'components/SectionBody';
 import SectionTitle from 'components/SectionTitle';
 import SectionField from 'components/SectionField';
 import BasicOptionInfo from './BasicOptionInfo';
-import AutonomyOptionType from './AutonomyOptionType';
-import AutonomyOptionInfo from './AutonomyOptionInfo';
 import NonOption from './NonOption';
 
 const OptionInfo = () => {
   const [showContent, setShowContent] = useState(true);
   const [activeId, setActiveId] = useState(0);
-  const options = ['기본옵션', '자율옵션', '옵션없음'];
+  const options = ['기본옵션', '옵션없음'];
 
   const settingChange = id => {
     setActiveId(id);
@@ -43,12 +41,9 @@ const OptionInfo = () => {
               ))}
             </ButtonGroupWrapper>
           </SectionField>
-          {/* 자율 옵션 타입 */}
-          {activeId === 1 && <AutonomyOptionType></AutonomyOptionType>}
           {/* 옵션 정보 */}
           {activeId === 0 && <BasicOptionInfo></BasicOptionInfo>}
-          {activeId === 1 && <AutonomyOptionInfo></AutonomyOptionInfo>}
-          {activeId === 2 && <NonOption></NonOption>}
+          {activeId === 1 && <NonOption></NonOption>}
         </SectionBody>
       </BodyWrapper>
     </BoxDesign>

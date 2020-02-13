@@ -222,31 +222,6 @@ export const setUseRelationProduct = value => {
   };
 };
 
-export const autonomyRemove = id => {
-  return {
-    type: 'AUTONOMY_REMOVE',
-    payload: id,
-  }
-}
-
-export const autonomyOptionList = (name, list, id) => {
-  return {
-    type: 'AUTONOMY_OPTION_LIST',
-    payload: {
-      name: name,
-      list: list,
-      id: id,
-    }
-  }
-} 
-
-export const sequenceSetup = list => {
-  return {
-    type: 'SEQUENCE_SET_UP',
-    payload: list,
-  }
-}
-
 export const nonOptionStock = stock => {
   return {
     type: 'NON_OPTION_STOCK',
