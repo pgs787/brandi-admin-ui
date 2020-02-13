@@ -221,3 +221,10 @@ export const setUseRelationProduct = value => {
     payload: value,
   };
 };
+
+export const nonOptionStock = stock => {
+  return {
+    type: 'NON_OPTION_STOCK',
+    payload: stock
+  }
+}

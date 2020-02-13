@@ -3,8 +3,7 @@ const initialState = {
   basicSize: [],
   setStock: 0,
   selectedList: [],
-  setType: 0,
-  autonomyList: [' ', ' '],
+  nonOptionStock: ''
 };
 
 export default function optionInfo(state = initialState, action) {
@@ -45,16 +44,11 @@ export default function optionInfo(state = initialState, action) {
             : element,
         ),
       };
-    case 'SET_TYPE':
+    case 'NON_OPTION_STOCK':
       return {
         ...state,
-        setType: action.payload,
-      };
-    case 'ADD_AUTONOMY_OPTION':
-      return {
-        ...state,
-        autonomyList: state.autonomyList.concat([' ']),
-      };
+        nonOptionStock: action.payload
+      }
     default:
       return state;
   }

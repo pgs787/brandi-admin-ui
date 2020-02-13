@@ -152,7 +152,7 @@ const BasicOptionList = ({
                   onChange={value => {
                     selectedColor(value, index);
                   }}
-                  defaultValue={{ value: element.color, label: element.color }}
+                  value={{ value: element.color, label: element.color }}
                 />
               </StyledTableCell>
               <StyledTableCell className={classes.info} align="left">
@@ -162,7 +162,7 @@ const BasicOptionList = ({
                   onChange={value => {
                     selectedSize(value, index);
                   }}
-                  defaultValue={{ value: element.size, label: element.size }}
+                  value={{ value: element.size, label: element.size }}
                 />
               </StyledTableCell>
               <StyledTableCell className={classes.stockCell} align="left">
@@ -181,7 +181,7 @@ const BasicOptionList = ({
                     </OptionButton>
                   ))}
                 </ButtonGroupWrapper>
-                <InputTag
+                <InputTag type='number'
                   disabled={element.stock === 0 ? true : false}
                 ></InputTag>
               </StyledTableCell>
