@@ -35,6 +35,24 @@ export default function optionInfo(state = initialState, action) {
           return index !== action.payload;
         }),
       };
+    case 'COLOR_CHANGE':
+      return {
+        ...state,
+        selectedList: state.selectedList.map((element, index) => 
+          index === action.payload.target
+            ? {...element, color: action.payload.color.value}
+            : element,
+        ),
+      };
+    case 'SIZE_CHANGE':
+      return {
+        ...state,
+        selectedList: state.selectedList.map((element, index) => 
+          index === action.payload.target
+            ? {...element, size: action.payload.size.value} 
+            : element,
+        )
+      }
     case 'STOCK_CHANGE':
       return {
         ...state,
@@ -44,6 +62,15 @@ export default function optionInfo(state = initialState, action) {
             : element,
         ),
       };
+    case 'SET_STOCK_COUNT':
+      return {
+        ...state,
+        selectedList: state.selectedList.map((element, index) => 
+          index === action.payload.target
+          ? {...element, count: action.payload.count} 
+          : element,
+        )
+      }
     case 'NON_OPTION_STOCK':
       return {
         ...state,
