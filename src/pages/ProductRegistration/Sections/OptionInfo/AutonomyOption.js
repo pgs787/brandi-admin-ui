@@ -91,26 +91,54 @@ const customStyles = {
   }),
 };
 
-const AutonomyOption = ({ type, list, addAutonomyOption }) => {
+const AutonomyOption = ({ type, list, addAutonomyOption, autonomyRemove, autonomyOptionList, sequenceSetup }) => {
   const classes = useStyles();
-  const [option, setOption] = useState([]);
+  const [option, setOption] = useState('');
+  const [optionList, setOptionList] = useState([]);
   const [checked, setChecked] = useState(true);
-  /*  const [optionType, setOptionType] = useState(0);
-   */
-  /* useEffect(() => {
-    setOptionType(type);
-  }, [type]); */
-  console.log('list : ', list);
-  const setUp = id => {
-    console.log(id);
-  };
 
+  const optionNameSet = e => {
+    console.log(e.target.value)
+    setOption(e.target.value)
+  }
+
+  const listSet = (select, id) => {
+    console.log(select);
+    console.log(id);
+    let selectedOptionVals = [];
+    select.map(item => selectedOptionVals.push(item.value));
+    console.log(selectedOptionVals)
+    autonomyOptionList(option, selectedOptionVals, id);
+    console.log('state list : ', optionList)
+  };
+  
   const setDown = id => {
     console.log(id);
+    console.log(list[id]);
+    if(id !== list.length - 1) {
+      let target = list[id + 1];
+      list[id + 1] = list[id];
+      list[id] = target
+      sequenceSetup(list)
+    }
+  };
+
+  const setUp = id => {
+    console.log(id);
+    console.log(list[id]);
+    if(id !== 0) {
+      let target = list[id - 1];
+      list[id - 1] = list[id];
+      list[id] = target
+      console.log(list)
+      sequenceSetup(list)
+    }
   };
 
   const removeOption = id => {
-    console.log(id);
+    if(list.length > 2){
+      autonomyRemove(id)
+    }
   };
 
   const addOption = () => {
@@ -121,13 +149,7 @@ const AutonomyOption = ({ type, list, addAutonomyOption }) => {
     setChecked(!checked);
   };
 
-  const onChange = (selected, id) => {
-    console.log(selected);
-    console.log(id);
-    let selectedOptionVals = [];
-    selected.map(item => selectedOptionVals.push(item.value));
-    setOption(selectedOptionVals);
-  };
+  
 
   return (
     <TableContainer component={Paper} className={classes.container}>
@@ -173,24 +195,24 @@ const AutonomyOption = ({ type, list, addAutonomyOption }) => {
                 <Button
                   variant="contained"
                   className={classes.btn}
-                  onClick={() => {
-                    setUp(index);
-                  }}
+                  onClick={() => 
+                    setDown(index)
+                  }
                 >
                   <ExpandMoreIcon />
                 </Button>
                 <Button
                   variant="contained"
                   className={classes.btn}
-                  onClick={() => {
-                    setDown(index);
-                  }}
+                  onClick={() => 
+                    setUp(index)
+                  }
                 >
                   <ExpandLessIcon />
                 </Button>
               </StyledTableCell>
               <StyledTableCell className={classes.info} align="left">
-                <InputTag placeholder="예시) 색상"></InputTag>
+                <InputTag placeholder="예시) 색상" onChange={optionNameSet} value={element.name}></InputTag>
                 {type === 1 && (
                   <Checkbox
                     checked={checked}
@@ -204,7 +226,7 @@ const AutonomyOption = ({ type, list, addAutonomyOption }) => {
                 <CreatableSelect
                   styles={customStyles}
                   onChange={value => {
-                    onChange(value, index);
+                    listSet(value, index);
                   }}
                   placeholder="옵션을 선택해 주세요."
                   isMulti
@@ -256,4 +278,4 @@ const mapStateToProps = state => {
     list: state.optionInfo.autonomyList,
   };
 };
-export default connect(mapStateToProps, { addAutonomyOption })(AutonomyOption);
+export default connect(mapStateToProps, { addAutonomyOption, autonomyRemove, autonomyOptionList, sequenceSetup })(AutonomyOption);

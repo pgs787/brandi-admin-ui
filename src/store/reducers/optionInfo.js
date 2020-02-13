@@ -4,7 +4,8 @@ const initialState = {
   setStock: 0,
   selectedList: [],
   setType: 0,
-  autonomyList: [' ', ' '],
+  autonomyList: ['', ''],
+  nonOptionStock: ''
 };
 
 export default function optionInfo(state = initialState, action) {
@@ -53,8 +54,34 @@ export default function optionInfo(state = initialState, action) {
     case 'ADD_AUTONOMY_OPTION':
       return {
         ...state,
-        autonomyList: state.autonomyList.concat([' ']),
+        autonomyList: state.autonomyList.concat(''),
       };
+    case 'AUTONOMY_REMOVE':
+      return {
+        ...state,
+        autonomyList: state.autonomyList.filter((element, index) => {
+          return index !== action.payload;
+        })
+      }
+    case 'AUTONOMY_OPTION_LIST':
+      return {
+        ...state,
+        autonomyList: state.autonomyList.map((element, index) => {
+          return index === action.payload.id ? 
+            {name: action.payload.name, 
+            list: action.payload.list} : element
+        })
+      }
+    case 'SEQUENCE_SET_UP':
+      return {
+        ...state,
+        autonomyList: action.payload
+      }
+    case 'NON_OPTION_STOCK':
+      return {
+        ...state,
+        nonOptionStock: action.payload
+      }
     default:
       return state;
   }
