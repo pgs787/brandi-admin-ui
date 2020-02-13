@@ -179,6 +179,25 @@ export const setStock = set => {
   };
 };
 
+export const colorChange = (color, target) => {
+  return {
+    type: 'COLOR_CHANGE',
+    payload: {
+      color: color,
+      target: target,
+    }
+  }
+}
+export const sizeChange = (size, target) => {
+  return {
+    type: 'SIZE_CHANGE',
+    payload: {
+      size: size,
+      target: target,
+    }
+  }
+}
+
 export const stockChange = (set, target) => {
   return {
     type: 'STOCK_CHANGE',
@@ -189,6 +208,15 @@ export const stockChange = (set, target) => {
   };
 };
 
+export const setStockCount = (count, target) => {
+  return {
+    type: 'SET_STOCK_COUNT',
+    payload: {
+      count: count,
+      target: target,
+    }
+  }
+}
 export const setType = type => {
   return {
     type: 'SET_TYPE',
