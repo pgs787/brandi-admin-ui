@@ -1,10 +1,12 @@
 const initialState = {
+  selectedSeller: null,
   isSelling: true,
   isDisplaying: true,
   categories: {
     firstCategory: null,
     secondCategory: null,
   },
+  useProvisionNotice: false,
   provisionNotice: {
     manufacturer: null,
     manufactureDate: null,
@@ -12,14 +14,15 @@ const initialState = {
   },
   productName: null,
   productDesc: null,
-  colorFilter: null,
-  styleFilter: null,
-  ageFilter: [],
+  productRepImage: null,
+  productDetails: null,
   youtubeUrl: null,
 };
 
 export default function generalInfo(state = initialState, action) {
   switch (action.type) {
+    case 'SET_SELLER':
+      return { ...state, selectedSeller: action.payload };
     case 'SET_SELL_STATUS':
       return { ...state, isSelling: action.payload };
     case 'SET_DISPLAY_STATUS':
@@ -34,6 +37,8 @@ export default function generalInfo(state = initialState, action) {
         ...state,
         categories: { ...state.categories, secondCategory: action.payload },
       };
+    case 'SET_USE_PROVISION_NOTICE':
+      return { ...state, useProvisionNotice: action.payload };
     case 'SET_MANUFACTURER':
       return {
         ...state,
@@ -68,20 +73,15 @@ export default function generalInfo(state = initialState, action) {
         ...state,
         productDesc: action.payload,
       };
-    case 'SET_COLOR_FILTER':
+    case 'SET_PRODUCT_REP_IMAGE':
       return {
         ...state,
-        colorFilter: action.payload,
+        productRepImage: action.payload,
       };
-    case 'SET_STYLE_FILTER':
+    case 'SET_PRODUCT_DETAILS':
       return {
         ...state,
-        styleFilter: action.payload,
-      };
-    case 'SET_AGE_FILTER':
-      return {
-        ...state,
-        ageFilter: action.payload,
+        productDetails: action.payload,
       };
     case 'SET_YOUTUBE_URL':
       return {

@@ -5,21 +5,10 @@ import SectionField from 'components/SectionField';
 import { data } from '../../../../../config';
 import { connect } from 'react-redux';
 import { setFirstCategory, setSecondCategory } from 'store/actions';
+import { customStylesCategories } from 'styles/customStyles';
 
 const firstCategory = data.generalInfo.categories.firstCategory;
 const secondCategory = data.generalInfo.categories.secondCategory;
-
-const customStyles = {
-  control: () => ({
-    height: 40,
-    borderRadius: 0,
-    fontSize: 12,
-    border: '1px solid #dbdde2',
-    display: 'flex',
-    alignItems: 'center',
-  }),
-  indicatorsContainer: () => null,
-};
 
 const Categories = ({ setFirstCategory, setSecondCategory }) => {
   const [selectedOptionFirst, setSelectedOptionFirst] = useState(null);
@@ -28,6 +17,8 @@ const Categories = ({ setFirstCategory, setSecondCategory }) => {
   const onChangeFirst = ({ value }) => {
     setSelectedOptionFirst(value);
     setFirstCategory(value);
+
+    // API 호출: 2차 카테고리
   };
 
   const onChangeSecond = ({ value }) => {
@@ -47,7 +38,7 @@ const Categories = ({ setFirstCategory, setSecondCategory }) => {
           <Select
             onChange={onChangeFirst}
             options={firstCategory}
-            styles={customStyles}
+            styles={customStylesCategories}
             placeholder="1차 카테고리를 선택해주세요"
           />
         </CategoryBox>
@@ -56,7 +47,7 @@ const Categories = ({ setFirstCategory, setSecondCategory }) => {
           <Select
             onChange={onChangeSecond}
             options={secondCategory}
-            styles={customStyles}
+            styles={customStylesCategories}
             placeholder="1차 카테고리부터 선택해주세요"
           />
         </CategoryBox>

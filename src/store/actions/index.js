@@ -1,3 +1,10 @@
+export const setSeller = seller => {
+  return {
+    type: 'SET_SELLER',
+    payload: seller,
+  };
+};
+
 export const setSellStatus = status => {
   return {
     type: 'SET_SELL_STATUS',
@@ -23,6 +30,13 @@ export const setSecondCategory = category => {
   return {
     type: 'SET_SECOND_CATEGORY',
     payload: category,
+  };
+};
+
+export const setUseProvisionNotice = status => {
+  return {
+    type: 'SET_USE_PROVISION_NOTICE',
+    payload: status,
   };
 };
 
@@ -61,24 +75,17 @@ export const setProductDesc = desc => {
   };
 };
 
-export const setColorFilter = color => {
+export const setProductRepImage = imageUrl => {
   return {
-    type: 'SET_COLOR_FILTER',
-    payload: color,
+    type: 'SET_PRODUCT_REP_IMAGE',
+    payload: imageUrl,
   };
 };
 
-export const setStyleFilter = style => {
+export const setProductDetails = source => {
   return {
-    type: 'SET_STYLE_FILTER',
-    payload: style,
-  };
-};
-
-export const setAgeFilter = age => {
-  return {
-    type: 'SET_AGE_FILTER',
-    payload: age,
+    type: 'SET_PRODUCT_DETAILS',
+    payload: source,
   };
 };
 
@@ -117,10 +124,17 @@ export const setDiscountedPrice = price => {
   };
 };
 
-export const setDiscountPeriod = period => {
+export const setDiscountStartDate = datetime => {
   return {
-    type: 'SET_DISCOUNT_PERIOD',
-    payload: period,
+    type: 'SET_DISCOUNT_START_DATE',
+    payload: datetime,
+  };
+};
+
+export const setDiscountEndDate = datetime => {
+  return {
+    type: 'SET_DISCOUNT_END_DATE',
+    payload: datetime,
   };
 };
 
@@ -158,6 +172,25 @@ export const setStock = set => {
   };
 };
 
+export const colorChange = (color, target) => {
+  return {
+    type: 'COLOR_CHANGE',
+    payload: {
+      color: color,
+      target: target,
+    },
+  };
+};
+export const sizeChange = (size, target) => {
+  return {
+    type: 'SIZE_CHANGE',
+    payload: {
+      size: size,
+      target: target,
+    },
+  };
+};
+
 export const stockChange = (set, target) => {
   return {
     type: 'STOCK_CHANGE',
@@ -168,6 +201,15 @@ export const stockChange = (set, target) => {
   };
 };
 
+export const setStockCount = (count, target) => {
+  return {
+    type: 'SET_STOCK_COUNT',
+    payload: {
+      count: count,
+      target: target,
+    },
+  };
+};
 export const setType = type => {
   return {
     type: 'SET_TYPE',
@@ -194,9 +236,71 @@ export const setMaxVolume = number => {
   };
 };
 
-export const setUseRelationProduct = value => {
+export const setProductTags = arr => {
   return {
-    type: 'SET_USE_RELATION_PRODUCT',
+    type: 'SET_PRODUCT_TAGS',
+    payload: arr,
+  };
+};
+
+export const nonOptionStock = stock => {
+  return {
+    type: 'NON_OPTION_STOCK',
+    payload: stock,
+  };
+};
+
+export const setSellerImg = value => {
+  return {
+    type: 'SET_SELLER_IMG',
     payload: value,
+  };
+};
+
+export const setSellerName = (value, status) => {
+  return {
+    type: 'SET_SELLER_NAME',
+    payload: value,
+    status: status,
+  };
+};
+
+export const setBusinessInfo = (value, status) => {
+  return {
+    type: 'SET_BUSINESS_INFO',
+    payload: value,
+    status: status,
+  };
+};
+
+export const setBusinessImg = (value, status) => {
+  return {
+    type: 'SET_BUSINESS_IMG',
+    payload: value,
+    status: status,
+  };
+};
+
+export const setDetailInfo = (value, status) => {
+  return {
+    type: 'SET_DETAIL_INFO',
+    payload: value,
+    status: status,
+  };
+};
+
+export const setDetailImg = (value, status) => {
+  return {
+    type: 'SET_DETAIL_IMG',
+    payload: value,
+    status: status,
+  };
+};
+
+export const setOtherInfo = (value, status) => {
+  return {
+    type: 'SET_OTHER_INFO',
+    payload: value,
+    status: status,
   };
 };

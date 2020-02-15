@@ -2,17 +2,25 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import SectionField from 'components/SectionField';
 import { connect } from 'react-redux';
+import { setMaxVolume } from 'store/actions';
+import { checkCount } from 'utils/checkValidation';
 
-const MaximumVolume = () => {
-  const [maxVolumeLocal, setMaxVolumeLocal] = useState(1);
+const MaximumVolume = ({ setMaxVolume }) => {
+  const [maxVolumeLocal, setMaxVolumeLocal] = useState(20);
   const [isValid, setIsValid] = useState(true);
 
   const onChange = e => {
     const val = e.target.value;
-    setMaxVolumeLocal(val);
 
-    // 숫자 1~20 만 가능
-    val < 1 || val > 20 ? setIsValid(false) : setIsValid(true);
+    if (checkCount(val)) {
+      setIsValid(true);
+      setMaxVolumeLocal(parseInt(val));
+      setMaxVolume(parseInt(val));
+    } else {
+      setIsValid(false);
+      setMaxVolumeLocal(val);
+      setMaxVolume(null);
+    }
   };
 
   return (
@@ -34,11 +42,14 @@ const MaximumVolume = () => {
         isValid={isValid}
       />
       개 이하
+      {!isValid && (
+        <ErrorMessage>* 올바른 판매수량을 입력해주세요.</ErrorMessage>
+      )}
     </SectionField>
   );
 };
 
-export default MaximumVolume;
+export default connect(null, { setMaxVolume })(MaximumVolume);
 
 // Styled Components
 
@@ -51,4 +62,10 @@ const InputTag = styled.input`
     ${props => !props.isValid && 'border: 1px solid red'}
   }
   margin-right: 5px;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 13px;
+  margin-top: 5px;
 `;

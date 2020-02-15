@@ -1,18 +1,29 @@
 import no_image from './src/images/no_image.png';
 
+export const server_url = 'http://192.168.1.196:5000';
+
 export const data = {
   generalInfo: {
+    sellers: [
+      { value: 'bress', label: 'bress' },
+      { value: 'wecode', label: 'wecode' },
+      { value: 'brandi', label: 'brandi' },
+    ],
     categories: {
       firstCategory: [
-        { value: 'option1', label: 'Option 1' },
-        { value: 'option2', label: 'Option 2' },
-        { value: 'option3', label: 'Option 3' },
+        { value: '아우터', label: '아우터' },
+        { value: '상의', label: '상의' },
+        { value: '스커트', label: '스커트' },
+        { value: '바지', label: '바지' },
+        { value: '원피스', label: '원피스' },
+        { value: '신발', label: '신발' },
+        { value: '가방', label: '가방' },
+        { value: '잡화', label: '잡화' },
+        { value: '주얼리', label: '주얼리' },
+        { value: '라이프웨어', label: '라이프웨어' },
+        { value: '빅사이즈', label: '빅사이즈' },
       ],
-      secondCategory: [
-        { value: 'option4', label: 'Option 4' },
-        { value: 'option5', label: 'Option 5' },
-        { value: 'option6', label: 'Option 6' },
-      ],
+      secondCategory: [],
     },
     styleFilter: [
       { value: false, label: '선택안함' },

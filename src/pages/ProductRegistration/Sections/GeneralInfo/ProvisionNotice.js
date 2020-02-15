@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import SectionField from 'components/SectionField';
+import ToggleButtonGroup from 'components/ToggleButtonGroup';
 import TodayIcon from '@material-ui/icons/Today';
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
 import Select from 'react-select';
+import { formatDate } from 'utils/formatDate';
 import { connect } from 'react-redux';
 import {
+  setUseProvisionNotice,
   setManufacturer,
   setManufactureDate,
   setOriginCountry,
 } from 'store/actions';
-import ToggleButtonGroup from 'components/ToggleButtonGroup';
+import { customStylesProvisionNotice } from 'styles/customStyles';
 import 'react-datepicker/dist/react-datepicker.css';
+import ko from 'date-fns/locale/ko';
+
+registerLocale('ko', ko);
 
 // 버튼 옵션
 const availableStatus = [
@@ -27,28 +33,14 @@ const availableOptions = [
   { value: '베트남', label: '베트남' },
 ];
 
-// 원산지 select tag 커스텀 스타일링
-const customStyles = {
-  control: () => ({
-    height: 40,
-    borderRadius: 0,
-    fontSize: 12,
-    border: '1px solid #dbdde2',
-    display: 'flex',
-    alignItems: 'center',
-  }),
-  container: base => ({
-    ...base,
-    width: '100%',
-  }),
-  indicatorsContainer: () => null,
-};
+const ProvisionNotice = props => {
+  const {
+    setUseProvisionNotice,
+    setManufacturer,
+    setManufactureDate,
+    setOriginCountry,
+  } = props;
 
-const ProvisionNotice = ({
-  setManufacturer,
-  setManufactureDate,
-  setOriginCountry,
-}) => {
   // 버튼 상태값 (디폴트: '상품상세 참조')
   const [active, setActive] = useState('상품상세 참조');
   // 제조사(수입사) 상태값
@@ -58,36 +50,46 @@ const ProvisionNotice = ({
   // 원산지 상태값
   const [selectedOption, setSelectedOption] = useState('');
 
-  // 상품상세 참조 버튼 누를 시 모든 상태 초기화
-  useEffect(() => {
-    if (active === '상품상세 참조') {
-      setManufacturerText('');
-      setDate('');
-      setSelectedOption('');
-      // 액션 함수 (store)
-      setManufacturer('');
-      setManufactureDate('');
-      setOriginCountry('');
-    }
-  }, [active]);
-
   // 버튼 선택
   const onClick = value => {
     setActive(value);
+
+    if (value === '직접입력') {
+      setUseProvisionNotice(true);
+      return;
+    }
+
+    // 상품상세 참조 버튼 누를 시 모든 상태 초기화
+    setManufacturerText('');
+    setDate('');
+    setSelectedOption('');
+
+    // 액션 함수 (store)
+    setUseProvisionNotice(false);
+    setManufacturer(null);
+    setManufactureDate(null);
+    setOriginCountry(null);
   };
 
   // 제조사(수입사) 값 핸들링
   const onChangeManufacturer = e => {
-    setManufacturerText(e.target.value);
+    const userInput = e.target.value;
+
+    if (userInput.length >= 50) {
+      alert('50자 이내로 입력해주세요.');
+      return;
+    }
+    setManufacturerText(userInput);
     // 액션 함수 (store)
-    setManufacturer(e.target.value);
+    setManufacturer(userInput);
   };
 
   // 제조일자 값 핸들링
   const onChangeDate = date => {
     setDate(date);
-    // 액션 함수 (store)
-    setManufactureDate(date);
+    setManufactureDate(formatDate(date));
+
+    console.log(formatDate(date));
   };
 
   // 원산지 값 핸들링
@@ -103,7 +105,7 @@ const ProvisionNotice = ({
         options={availableStatus}
         onClick={onClick}
         defaultVal="상품상세 참조"
-      ></ToggleButtonGroup>
+      />
       {active === '직접입력' && (
         <ProvisionNoticeDetailsWrapper>
           <FormWrapper>
@@ -117,6 +119,7 @@ const ProvisionNotice = ({
           <TempField>
             <FormLabel>제조일자:</FormLabel>
             <DatePicker
+              locale="ko"
               selected={date}
               onChange={onChangeDate}
               dateFormat="yyyy-MM-dd"
@@ -130,7 +133,7 @@ const ProvisionNotice = ({
             <Select
               onChange={onChangeOption}
               options={availableOptions}
-              styles={customStyles}
+              styles={customStylesProvisionNotice}
               placeholder="원산지"
             />
           </FormWrapper>
@@ -142,6 +145,7 @@ const ProvisionNotice = ({
 
 // 스토어 연결
 export default connect(null, {
+  setUseProvisionNotice,
   setManufacturer,
   setManufactureDate,
   setOriginCountry,

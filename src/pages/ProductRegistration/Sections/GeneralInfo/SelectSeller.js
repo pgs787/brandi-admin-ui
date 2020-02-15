@@ -2,27 +2,29 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 import SectionField from 'components/SectionField';
+import { connect } from 'react-redux';
+import { setSeller } from 'store/actions';
+import { data } from '../../../../../config';
+import { customStylesSelectSeller } from 'styles/customStyles';
 
-const customStyles = {
-  control: () => ({
-    height: 40,
-    borderRadius: 0,
-    fontSize: 12,
-    border: '1px solid #dbdde2',
-    display: 'flex',
-    alignItems: 'center',
-  }),
-  container: base => ({
-    ...base,
-    width: '100%',
-  }),
-  indicatorsContainer: () => null,
-};
+const options = data.generalInfo.sellers;
 
-const SelectSeller = () => {
+const SelectSeller = ({ setSeller }) => {
   const [showModal, setShowModal] = useState(false);
+  const [tempSelectedValue, setTempSelectedValue] = useState('');
+  const [selectedSeller, setSelectedSeller] = useState('');
+
+  const onChange = ({ value }) => {
+    setTempSelectedValue(value);
+  };
 
   const onToggleModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const onApply = () => {
+    setSelectedSeller(tempSelectedValue);
+    setSeller(tempSelectedValue);
     setShowModal(!showModal);
   };
 
@@ -32,7 +34,11 @@ const SelectSeller = () => {
 
   return (
     <SectionField label="셀러선택" isRequired>
-      <InputBox placeholder="셀러검색을 해주세요" readOnly />
+      <InputBox
+        placeholder="셀러검색을 해주세요"
+        value={selectedSeller}
+        readOnly
+      />
       <SearchButton onClick={onToggleModal}>셀러 검색</SearchButton>
       {showModal && <Backdrop onClick={onCancel} />}
       {showModal && (
@@ -45,10 +51,15 @@ const SelectSeller = () => {
           </SelectHeader>
           <ModalBody>
             <FormLabel>셀러 검색</FormLabel>
-            <Select styles={customStyles} placeholder="셀러 검색" />
+            <Select
+              styles={customStylesSelectSeller}
+              placeholder="셀러 검색"
+              options={options}
+              onChange={onChange}
+            />
           </ModalBody>
           <SetButtonWrapper>
-            <ApplyButton>적용</ApplyButton>
+            <ApplyButton onClick={onApply}>적용</ApplyButton>
             <CancelButton onClick={onCancel}>취소</CancelButton>
           </SetButtonWrapper>
         </SellerSelectModal>
@@ -57,7 +68,7 @@ const SelectSeller = () => {
   );
 };
 
-export default SelectSeller;
+export default connect(null, { setSeller })(SelectSeller);
 
 // Styled Components
 

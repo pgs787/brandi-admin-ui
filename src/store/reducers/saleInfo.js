@@ -4,12 +4,12 @@ const initialState = {
   discountInfo: {
     discountRate: null,
     discountedPrice: null,
-    discountPeriod: null,
+    discountStartDate: null,
+    discountEndDate: null,
   },
-  minVolume: null,
-  maxVolume: null,
+  minVolume: 1,
+  maxVolume: 20,
   productTags: [],
-  useRelationProduct: null,
 };
 
 export default function saleInfo(state = initialState, action) {
@@ -31,12 +31,20 @@ export default function saleInfo(state = initialState, action) {
           discountedPrice: action.payload,
         },
       };
-    case 'SET_DISCOUNT_PERIOD':
+    case 'SET_DISCOUNT_START_DATE':
       return {
         ...state,
         discountInfo: {
           ...state.discountInfo,
-          discountPeriod: action.payload,
+          discountStartDate: action.payload,
+        },
+      };
+    case 'SET_DISCOUNT_END_DATE':
+      return {
+        ...state,
+        discountInfo: {
+          ...state.discountInfo,
+          discountEndDate: action.payload,
         },
       };
     case 'SET_MIN_VOLUME':
@@ -49,10 +57,10 @@ export default function saleInfo(state = initialState, action) {
         ...state,
         maxVolume: action.payload,
       };
-    case 'SET_USE_RELATION_PRODUCT':
+    case 'SET_PRODUCT_TAGS':
       return {
         ...state,
-        useRelationProduct: action.payload,
+        productTags: action.payload,
       };
     default:
       return state;

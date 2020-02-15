@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import SectionField from 'components/SectionField';
 import { connect } from 'react-redux';
 import { setMinVolume } from 'store/actions';
+import { checkCount } from 'utils/checkValidation';
 
 const MinimumVolume = ({ setMinVolume }) => {
   const [minVolumeLocal, setMinVolumeLocal] = useState(1);
@@ -10,10 +11,16 @@ const MinimumVolume = ({ setMinVolume }) => {
 
   const onChange = e => {
     const val = e.target.value;
-    setMinVolumeLocal(val);
-    setMinVolume(val);
 
-    val < 1 || val > 20 ? setIsValid(false) : setIsValid(true);
+    if (checkCount(val)) {
+      setIsValid(true);
+      setMinVolumeLocal(parseInt(val));
+      setMinVolume(parseInt(val));
+    } else {
+      setIsValid(false);
+      setMinVolumeLocal(val);
+      setMinVolume(null);
+    }
   };
 
   return (
@@ -35,6 +42,9 @@ const MinimumVolume = ({ setMinVolume }) => {
         isValid={isValid}
       />
       개 이상
+      {!isValid && (
+        <ErrorMessage>* 올바른 판매수량을 입력해주세요.</ErrorMessage>
+      )}
     </SectionField>
   );
 };
@@ -52,4 +62,10 @@ const InputTag = styled.input`
     ${props => !props.isValid && 'border: 1px solid red'}
   }
   margin-right: 5px;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 13px;
+  margin-top: 5px;
 `;

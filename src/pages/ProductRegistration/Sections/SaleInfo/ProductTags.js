@@ -2,36 +2,29 @@ import React, { useState } from 'react';
 import SectionField from 'components/SectionField';
 import CreatableSelect from 'react-select/creatable';
 import { connect } from 'react-redux';
+import { setProductTags } from 'store/actions';
+import { customStylesProductTags } from 'styles/customStyles';
 
-const customStyles = {
-  control: () => ({
-    height: 40,
-    borderRadius: 0,
-    fontSize: 13,
-    border: '1px solid #dbdde2',
-    display: 'flex',
-    alignItems: 'center',
-  }),
-  container: base => ({
-    ...base,
-    width: '600px',
-  }),
-};
-
-const ProductTags = () => {
+const ProductTags = ({ setProductTags }) => {
   const [tags, setTags] = useState([]);
 
   const onChange = selectedOptions => {
+    if (!selectedOptions) {
+      setProductTags([]);
+      return;
+    }
+
     let selectedOptionVals = [];
     selectedOptions.map(option => selectedOptionVals.push(option.value));
     setTags(selectedOptionVals);
+    setProductTags(selectedOptionVals);
   };
 
   return (
     <SectionField label="상품 태그 관리" isRequired>
       <CreatableSelect
         onChange={onChange}
-        styles={customStyles}
+        styles={customStylesProductTags}
         placeholder="해시태그(#)를 제외한 상품 태그를 입력해주세요"
         isMulti
       />
@@ -39,4 +32,4 @@ const ProductTags = () => {
   );
 };
 
-export default ProductTags;
+export default connect(null, { setProductTags })(ProductTags);
