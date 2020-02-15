@@ -3,11 +3,17 @@ import styled from 'styled-components';
 import SectionField from 'components/SectionField';
 import InfoInput from 'pages/Login/InfoInput';
 
-const InfomationInput = ({ name, isRequired }) => {
+const InfomationInput = ({ name, isRequired, onChange, value }) => {
   return (
     <SectionField label={name} isRequired={isRequired}>
       <InputWrap>
-        <InfoInput img="\f007" placeholder={name} type="text" />
+        <InfoInput
+          value={value}
+          img="\f007"
+          placeholder={name}
+          type="text"
+          onChange={onChange}
+        />
       </InputWrap>
     </SectionField>
   );

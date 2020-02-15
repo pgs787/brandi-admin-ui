@@ -4,9 +4,13 @@ import BoxDesign from 'components/BoxDesign';
 import SectionTitle from 'components/SectionTitle';
 import SectionBody from 'components/SectionBody';
 import InformationTextarea from 'components/InformationTextarea';
+import { connect } from 'react-redux';
+import { setOtherInfo } from 'store/actions';
 
-const DeliveryInfo = () => {
+const DeliveryInfo = ({ setOtherInfo }) => {
   const [showContent, setShowContent] = useState(true);
+  const [deliveryInfo, setDeliveryInfo] = useState('');
+  const [refundInfo, setRefundInfo] = useState('');
 
   const onClick = () => {
     setShowContent(!showContent);
@@ -20,6 +24,11 @@ const DeliveryInfo = () => {
       <BodyWrapper showContent={showContent}>
         <SectionBody>
           <InformationTextarea
+            value={deliveryInfo}
+            onChange={e => {
+              setDeliveryInfo(e.target.value);
+              setOtherInfo(e.target.value, 'deliveryInfo');
+            }}
             isRequired
             name="배송 정보"
             text="문장이 끝나면 엔터로 줄바꿈을 해주세요."
@@ -29,6 +38,11 @@ const DeliveryInfo = () => {
             "
           />
           <InformationTextarea
+            value={refundInfo}
+            onChange={e => {
+              setRefundInfo(e.target.value);
+              setOtherInfo(e.target.value, 'refundInfo');
+            }}
             isRequired
             name="교환/환불 정보"
             text="문장이 끝나면 엔터로 줄바꿈을 해주세요."
@@ -43,7 +57,7 @@ const DeliveryInfo = () => {
   );
 };
 
-export default DeliveryInfo;
+export default connect(null, { setOtherInfo })(DeliveryInfo);
 
 const ClickableHeader = styled.div`
   cursor: pointer;

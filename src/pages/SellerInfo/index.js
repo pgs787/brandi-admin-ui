@@ -6,6 +6,7 @@ import GeneralInfo from './GeneralInfo';
 import BusinessInfo from './BusinessInfo';
 import DetailInfo from './DetailInfo';
 import DeliveryInfo from './DeliveryInfo';
+import ButtonGroup from './GeneralInfo/ButtonGroup';
 
 const SellerInfo = () => {
   return (
@@ -20,6 +21,7 @@ const SellerInfo = () => {
         <BusinessInfo />
         <DetailInfo />
         <DeliveryInfo />
+        <ButtonGroup />
       </PageWrapper>
     </Navigation>
   );

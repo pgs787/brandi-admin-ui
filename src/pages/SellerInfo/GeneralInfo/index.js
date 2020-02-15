@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import styled from 'styled-components';
 import BoxDesign from 'components/BoxDesign';
 import SectionTitle from 'components/SectionTitle';
@@ -8,12 +8,28 @@ import SellerStatus from './SellerStatus';
 import SellerProperty from './SellerProperty';
 import InfomationInput from './InfomationInput';
 import SellerAccount from './SellerAccount';
+import { connect } from 'react-redux';
+import { setSellerName, setSellerImg } from 'store/actions';
 
-const GeneralInfo = () => {
+const reducer = (state, action, status) => {
+  console.log(action);
+  console.log(status);
+  return {
+    ...state,
+  };
+};
+
+const GeneralInfo = ({ setSellerName, setSellerImg }) => {
   const [showContent, setShowContent] = useState(true);
+  const [sellerNameKr, setSellerNameKr] = useState('');
+  const [sellerNameEn, setSellerNameEn] = useState('');
 
   const onClick = () => {
     setShowContent(!showContent);
+  };
+
+  const onChange = (e, status) => {
+    setSellerName(e.target.value, status);
   };
 
   return (
@@ -24,14 +40,29 @@ const GeneralInfo = () => {
       <BodyWrapper showContent={showContent}>
         <SectionBody>
           <ImgUpload
+            id="profile"
             isRequired
             label="셀러 프로필"
             text="셀러 프로필 확장자는 jpg, jpeg만 가능합니다."
           />
           <SellerStatus />
           <SellerProperty />
-          <InfomationInput name="셀러 한글명" />
-          <InfomationInput name="셀러 영문명" />
+          <InfomationInput
+            value={sellerNameKr}
+            onChange={e => {
+              setSellerNameKr(e.target.value);
+              onChange(e, 'kr');
+            }}
+            name="셀러 한글명"
+          />
+          <InfomationInput
+            value={sellerNameEn}
+            onChange={e => {
+              setSellerNameEn(e.target.value);
+              onChange(e, 'en');
+            }}
+            name="셀러 영문명"
+          />
           <SellerAccount />
         </SectionBody>
       </BodyWrapper>
@@ -39,7 +70,7 @@ const GeneralInfo = () => {
   );
 };
 
-export default GeneralInfo;
+export default connect(null, { setSellerName, setSellerImg })(GeneralInfo);
 
 const ClickableHeader = styled.div`
   cursor: pointer;

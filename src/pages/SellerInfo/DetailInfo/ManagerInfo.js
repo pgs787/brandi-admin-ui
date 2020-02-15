@@ -8,21 +8,42 @@ const ManagerInfo = ({
   firstPlaceholder,
   secondPlaceholder,
   thirdPlaceholder,
+  firstChange,
+  secondChange,
+  thirdChange,
+  firstValue,
+  secondValue,
+  thirdValue,
 }) => {
   return (
     <Border>
       <Wrapper>
         <DivInputIcon>
           <Icon img={firstImg} />
-          <Input placeholder={firstPlaceholder} autoComplete="off" />
+          <Input
+            value={firstValue}
+            onChange={firstChange}
+            placeholder={firstPlaceholder}
+            autoComplete="off"
+          />
         </DivInputIcon>
         <DivInputIcon>
           <Icon img={secondImg} />
-          <Input placeholder={secondPlaceholder} autoComplete="off" />
+          <Input
+            value={secondValue}
+            onChange={secondChange}
+            placeholder={secondPlaceholder}
+            autoComplete="off"
+          />
         </DivInputIcon>
         <DivInputIcon>
           <Icon img={thirdImg} />
-          <Input placeholder={thirdPlaceholder} autoComplete="off" />
+          <Input
+            value={thirdValue}
+            onChange={thirdChange}
+            placeholder={thirdPlaceholder}
+            autoComplete="off"
+          />
         </DivInputIcon>
       </Wrapper>
     </Border>

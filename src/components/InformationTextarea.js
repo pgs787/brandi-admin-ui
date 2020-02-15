@@ -8,10 +8,17 @@ const InformationTextarea = ({
   text,
   width,
   placeholder,
+  onChange,
+  value,
 }) => {
   return (
     <SectionField label={name} isRequired={isRequired} moreInfoText={text}>
-      <Textarea width={width} placeholder={placeholder} />
+      <Textarea
+        value={value}
+        onChange={onChange}
+        width={width}
+        placeholder={placeholder}
+      />
     </SectionField>
   );
 };

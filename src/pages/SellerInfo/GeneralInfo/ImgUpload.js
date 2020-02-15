@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SectionField from 'components/SectionField';
 import NoImage from '../../../images/no_image.png';
 
-const ImgUpload = ({ label, text, isRequired }) => {
+const ImgUpload = ({ label, text, isRequired, id }) => {
   const [repImage, setRepImage] = useState(NoImage);
 
   const onChangeRepImage = e => {
@@ -31,13 +31,8 @@ const ImgUpload = ({ label, text, isRequired }) => {
         <ActualImage src={repImage} alt="no-image" />
       </ImageBox>
       <UploadButtonWrapper>
-        <ChooseImageButton
-          id="file"
-          type="file"
-          accept=".jpg"
-          onChange={onChangeRepImage}
-        />
-        <ChooseImageButtonLabel htmlFor="file">
+        <ChooseImageButton id={id} onChange={onChangeRepImage} />
+        <ChooseImageButtonLabel htmlFor={id}>
           이미지 선택
         </ChooseImageButtonLabel>
       </UploadButtonWrapper>
@@ -68,7 +63,6 @@ const UploadButtonWrapper = styled.div`
 
 const ChooseImageButton = styled.input.attrs({
   type: 'file',
-  id: 'file',
   accept: '.jpg',
 })`
   border: 0;
@@ -76,7 +70,7 @@ const ChooseImageButton = styled.input.attrs({
   height: 1px;
   overflow: hidden;
   padding: 0;
-  position: absolute !important;
+  position: absolute;
   white-space: nowrap;
   width: 1px;
 `;
