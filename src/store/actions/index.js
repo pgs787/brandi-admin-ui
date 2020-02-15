@@ -75,24 +75,17 @@ export const setProductDesc = desc => {
   };
 };
 
-export const setColorFilter = color => {
+export const setProductRepImage = imageUrl => {
   return {
-    type: 'SET_COLOR_FILTER',
-    payload: color,
+    type: 'SET_PRODUCT_REP_IMAGE',
+    payload: imageUrl,
   };
 };
 
-export const setStyleFilter = style => {
+export const setProductDetails = source => {
   return {
-    type: 'SET_STYLE_FILTER',
-    payload: style,
-  };
-};
-
-export const setAgeFilter = age => {
-  return {
-    type: 'SET_AGE_FILTER',
-    payload: age,
+    type: 'SET_PRODUCT_DETAILS',
+    payload: source,
   };
 };
 
@@ -243,10 +236,10 @@ export const setMaxVolume = number => {
   };
 };
 
-export const setUseRelationProduct = value => {
+export const setProductTags = arr => {
   return {
-    type: 'SET_USE_RELATION_PRODUCT',
-    payload: value,
+    type: 'SET_PRODUCT_TAGS',
+    payload: arr,
   };
 };
 

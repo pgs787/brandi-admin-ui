@@ -3,9 +3,13 @@ import styled, { css } from 'styled-components';
 import SectionField from 'components/SectionField';
 import ToggleButtonGroup from 'components/ToggleButtonGroup';
 import DatePicker, { registerLocale } from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import ko from 'date-fns/locale/ko';
 import { checkPercentage, validateDateRange } from 'utils/checkValidation';
+import { formatDate } from 'utils/formatDate';
+import {
+  round,
+  calcDiscountedPrice,
+  calcDiscountAmount,
+} from 'utils/priceRelated';
 import { connect } from 'react-redux';
 import {
   setDiscountRate,
@@ -13,6 +17,8 @@ import {
   setDiscountStartDate,
   setDiscountEndDate,
 } from 'store/actions';
+import 'react-datepicker/dist/react-datepicker.css';
+import ko from 'date-fns/locale/ko';
 
 registerLocale('ko', ko);
 
@@ -41,14 +47,9 @@ const Discount = ({
     setDiscountedPriceLocal(salePrice);
     setDiscountRateLocal('');
     setDiscountAmountLocal('');
-    setDiscountRate(0);
+    setDiscountRate(parseInt(0));
     setDiscountedPrice(salePrice);
   }, [salePrice]);
-
-  const round = num => {
-    num = parseFloat(num);
-    return Math.round(num / 10) * 10;
-  };
 
   const onChangeDiscountRate = e => {
     const discountPercentage = e.target.value;
@@ -66,7 +67,7 @@ const Discount = ({
     }
 
     // 스토어 업데이트
-    setDiscountRate(discountPercentage);
+    setDiscountRate(parseInt(discountPercentage));
     setDiscountedPrice(round(((100 - discountPercentage) / 100) * salePrice));
   };
 
@@ -84,16 +85,19 @@ const Discount = ({
 
   // 할인 시작 날짜 선택
   const onChangeStartingDate = startDate => {
+    console.log(startDate);
+    console.log(formatDate(startDate));
+
     if (startingDateTime === null || endingDateTime === null) {
       setStartingDateTime(startDate);
-      setDiscountStartDate(startDate);
+      setDiscountStartDate(formatDate(startDate));
     } else {
       const isValid = validateDateRange(startDate, endingDateTime);
 
       if (!isValid) alert('올바른 날짜/시간을 선택해주세요.');
       else {
         setStartingDateTime(startDate);
-        setDiscountStartDate(startDate);
+        setDiscountStartDate(formatDate(startDate));
       }
     }
   };
@@ -102,31 +106,16 @@ const Discount = ({
   const onChangeEndingDate = endDate => {
     if (startingDateTime === null) {
       setEndingDateTime(endDate);
-      setDiscountEndDate(endDate);
+      setDiscountEndDate(formatDate(endDate));
     } else {
       const isValid = validateDateRange(startingDateTime, endDate);
 
       if (!isValid) alert('올바른 날짜/시간을 선택해주세요.');
       else {
         setEndingDateTime(endDate);
-        setDiscountEndDate(endDate);
+        setDiscountEndDate(formatDate(endDate));
       }
     }
-  };
-
-  // 컴마를 포함한 금액 표시를 위한 함수 정리
-  const calcDiscountedPrice = discountedPrice => {
-    // 빈칸일 시 에러방지를 위해 0원으로 치환
-    return isNaN(parseInt(discountedPrice))
-      ? (0).toLocaleString('ko-KR')
-      : parseInt(discountedPrice).toLocaleString('ko-KR');
-  };
-
-  const calcDiscountAmount = discountAmount => {
-    // 빈칸일 시 에러방지를 위해 0원으로 치환
-    return isNaN(parseInt(discountAmount))
-      ? (0).toLocaleString('ko-KR')
-      : parseInt(discountAmount).toLocaleString('ko-KR');
   };
 
   return (
@@ -195,7 +184,7 @@ const Discount = ({
                 showTimeSelect
                 timeFormat="HH:mm"
                 timeIntervals={30}
-                timeCaption="time"
+                timeCaption="시간"
                 dateFormat="yyyy-MM-dd h:mm aa"
               />
             </DatePickerWrapper>
@@ -210,7 +199,7 @@ const Discount = ({
                 showTimeSelect
                 timeFormat="HH:mm"
                 timeIntervals={30}
-                timeCaption="time"
+                timeCaption="시간"
                 dateFormat="yyyy-MM-dd h:mm aa"
               />
             </DatePickerWrapper>

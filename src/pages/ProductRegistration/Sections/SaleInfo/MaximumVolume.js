@@ -6,20 +6,20 @@ import { setMaxVolume } from 'store/actions';
 import { checkCount } from 'utils/checkValidation';
 
 const MaximumVolume = ({ setMaxVolume }) => {
-  const [maxVolumeLocal, setMaxVolumeLocal] = useState(1);
+  const [maxVolumeLocal, setMaxVolumeLocal] = useState(20);
   const [isValid, setIsValid] = useState(true);
 
   const onChange = e => {
-    // 유저 입력값
     const val = e.target.value;
 
     if (checkCount(val)) {
       setIsValid(true);
-      setMaxVolumeLocal(val);
-      setMaxVolume(val);
+      setMaxVolumeLocal(parseInt(val));
+      setMaxVolume(parseInt(val));
     } else {
       setIsValid(false);
       setMaxVolumeLocal(val);
+      setMaxVolume(null);
     }
   };
 

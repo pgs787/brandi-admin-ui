@@ -5,24 +5,9 @@ import SectionField from 'components/SectionField';
 import { connect } from 'react-redux';
 import { setSeller } from 'store/actions';
 import { data } from '../../../../../config';
+import { customStylesSelectSeller } from 'styles/customStyles';
 
 const options = data.generalInfo.sellers;
-
-const customStyles = {
-  control: () => ({
-    height: 40,
-    borderRadius: 0,
-    fontSize: 12,
-    border: '1px solid #dbdde2',
-    display: 'flex',
-    alignItems: 'center',
-  }),
-  container: base => ({
-    ...base,
-    width: '100%',
-  }),
-  indicatorsContainer: () => null,
-};
 
 const SelectSeller = ({ setSeller }) => {
   const [showModal, setShowModal] = useState(false);
@@ -67,7 +52,7 @@ const SelectSeller = ({ setSeller }) => {
           <ModalBody>
             <FormLabel>셀러 검색</FormLabel>
             <Select
-              styles={customStyles}
+              styles={customStylesSelectSeller}
               placeholder="셀러 검색"
               options={options}
               onChange={onChange}
