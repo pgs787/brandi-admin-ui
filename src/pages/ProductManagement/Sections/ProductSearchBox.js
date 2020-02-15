@@ -3,9 +3,19 @@ import styled from 'styled-components';
 import SearchPeriod from './SearchPeriod';
 import SellerName from './SellerName';
 import SearchItem from './SearchItem';
+import SearchMultiItem from './SearchMultiItem';
 
 const ProductSearchBox = () => {
-  const [sellerProp, setSellerProp] = useState('전체');
+  const [sellerProp, setSellerProp] = useState({
+    전체: true,
+    쇼핑몰: false,
+    마켓: false,
+    로드샵: false,
+    디자이너브랜드: false,
+    제너럴브랜드: false,
+    내셔널브랜드: false,
+    뷰티: false,
+  });
   const [sellingStatus, setSellingStatus] = useState('전체');
   const [displayStatus, setDisplayStatus] = useState('전체');
   const [discountStatus, setDiscountStatus] = useState('전체');
@@ -24,7 +34,46 @@ const ProductSearchBox = () => {
   };
 
   const clickSellerProp = value => {
-    setSellerProp(value);
+    console.log(value);
+    if (value === '전체') {
+      setSellerProp({
+        전체: true,
+        쇼핑몰: false,
+        마켓: false,
+        로드샵: false,
+        디자이너브랜드: false,
+        제너럴브랜드: false,
+        내셔널브랜드: false,
+        뷰티: false,
+      });
+    }
+    if (value !== '전체') {
+      let obj = {
+        ...sellerProp,
+        전체: false,
+        [value]: !sellerProp[value],
+      };
+      if (
+        obj['쇼핑몰'] === true &&
+        obj['마켓'] === true &&
+        obj['로드샵'] === true &&
+        obj['디자이너브랜드'] === true &&
+        obj['제너럴브랜드'] === true &&
+        obj['내셔널브랜드'] === true &&
+        obj['뷰티'] === true
+      )
+        obj = {
+          전체: true,
+          쇼핑몰: false,
+          마켓: false,
+          로드샵: false,
+          디자이너브랜드: false,
+          제너럴브랜드: false,
+          내셔널브랜드: false,
+          뷰티: false,
+        };
+      setSellerProp(obj);
+    }
   };
 
   const clickSellingStatus = value => {
@@ -54,7 +103,16 @@ const ProductSearchBox = () => {
   };
 
   const clickReset = () => {
-    setSellerProp('전체');
+    setSellerProp({
+      전체: true,
+      쇼핑몰: false,
+      마켓: false,
+      로드샵: false,
+      디자이너브랜드: false,
+      제너럴브랜드: false,
+      내셔널브랜드: false,
+      뷰티: false,
+    });
     setSellingStatus('전체');
     setDisplayStatus('전체');
     setDiscountStatus('전체');
@@ -82,7 +140,7 @@ const ProductSearchBox = () => {
         onChangeSelect={onChangeSelect}
       />
       <DivItemWrapper>
-        <SearchItem
+        <SearchMultiItem
           label="셀러속성"
           options={[
             '전체',
