@@ -185,18 +185,18 @@ export const colorChange = (color, target) => {
     payload: {
       color: color,
       target: target,
-    }
-  }
-}
+    },
+  };
+};
 export const sizeChange = (size, target) => {
   return {
     type: 'SIZE_CHANGE',
     payload: {
       size: size,
       target: target,
-    }
-  }
-}
+    },
+  };
+};
 
 export const stockChange = (set, target) => {
   return {
@@ -214,9 +214,9 @@ export const setStockCount = (count, target) => {
     payload: {
       count: count,
       target: target,
-    }
-  }
-}
+    },
+  };
+};
 export const setType = type => {
   return {
     type: 'SET_TYPE',
@@ -253,6 +253,61 @@ export const setUseRelationProduct = value => {
 export const nonOptionStock = stock => {
   return {
     type: 'NON_OPTION_STOCK',
-    payload: stock
-  }
-}
+    payload: stock,
+  };
+};
+
+export const setSellerImg = value => {
+  return {
+    type: 'SET_SELLER_IMG',
+    payload: value,
+  };
+};
+
+export const setSellerName = (value, status) => {
+  return {
+    type: 'SET_SELLER_NAME',
+    payload: value,
+    status: status,
+  };
+};
+
+export const setBusinessInfo = (value, status) => {
+  return {
+    type: 'SET_BUSINESS_INFO',
+    payload: value,
+    status: status,
+  };
+};
+
+export const setBusinessImg = (value, status) => {
+  return {
+    type: 'SET_BUSINESS_IMG',
+    payload: value,
+    status: status,
+  };
+};
+
+export const setDetailInfo = (value, status) => {
+  return {
+    type: 'SET_DETAIL_INFO',
+    payload: value,
+    status: status,
+  };
+};
+
+export const setDetailImg = (value, status) => {
+  return {
+    type: 'SET_DETAIL_IMG',
+    payload: value,
+    status: status,
+  };
+};
+
+export const setOtherInfo = (value, status) => {
+  return {
+    type: 'SET_OTHER_INFO',
+    payload: value,
+    status: status,
+  };
+};

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 
 const InfoInput = props => {
-  const { img, placeholder, name, type, onChange, errors = [] } = props;
+  const { img, placeholder, name, type, onChange, value, errors = [] } = props;
 
   const [error, setError] = useState('');
 
@@ -20,6 +20,7 @@ const InfoInput = props => {
     <DivInputIcon>
       <IInputIcon img={img} check={!!error} />
       <InputAccount
+        value={value}
         placeholder={placeholder}
         name={name}
         type={type}

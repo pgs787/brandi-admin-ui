@@ -24,7 +24,7 @@ export const checkPercentage = number => {
 };
 
 export const checkSellerName = name => {
-  const nametest = /^[ㄱ-ㅣ가-힣-0-9]([0-9ㄱ-ㅣ가-힣]){1,20}$/;
+  const nametest = /^[ㄱ-ㅣ가-힣-0-9A-Za-z]([0-9ㄱ-ㅣ가-힣A-Za-z]){1,20}$/;
   return nametest.test(name);
 };
 
