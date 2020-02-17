@@ -148,6 +148,8 @@ const SignUpInfo = ({ handleClick }) => {
         .catch(error => {
           console.log(error.response);
         });
+    } else {
+      alert('올바른 형식으로 다시 입력해주세요');
     }
 
     // ....다음 동작들

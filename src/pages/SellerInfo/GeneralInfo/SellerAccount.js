@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SectionField from 'components/SectionField';
 import InfoInput from 'pages/Login/InfoInput';
 
-const SellerAccount = () => {
+const SellerAccount = ({ account }) => {
   const [showModal, setShowModal] = useState(false);
 
   const onToggleModal = () => {
@@ -20,7 +20,7 @@ const SellerAccount = () => {
       moreInfoText="셀러명(한글, 영문) 변경시 셀러명과 동일하게 등록된 브랜드 정보는 자동으로 변경되지 않습니다. 관리자께서는 이점 유의해주시기 바라며, 브랜드 정보 수정은 [이전 버전 관리 > 브랜드관리] 에서 가능합니다."
     >
       <Wrapper>
-        <p>bress12</p>
+        <p>{account}</p>
         <Button onClick={onToggleModal}>비밀번호 변경하기</Button>
       </Wrapper>
       {showModal && <Backdrop onClick={onCancel} />}
