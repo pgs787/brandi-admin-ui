@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { API_URL } from '../../../utils/callUrl';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 const ButtonGroup = props => {
   const {
@@ -21,12 +22,15 @@ const ButtonGroup = props => {
     managerName,
     managerNumber,
     managerMail,
+    managerId,
     managerNameSecond,
     managerNumberSecond,
     managerMailSecond,
+    managerIdSecond,
     managerNameThird,
     managerNumberThird,
     managerMailThird,
+    managerIdThird,
     instaId,
     csNumber,
     kakaoId,
@@ -35,9 +39,26 @@ const ButtonGroup = props => {
     refundInfo,
   } = props;
 
-  const check = null || '';
-
   const onRegister = () => {
+    console.log(
+      !sellerImg,
+      !ceoName,
+      !sellerName,
+      !businessNumber,
+      !correspondNumber,
+      !registImg,
+      !sellingImg,
+      !introduce,
+      !site,
+      !managerName,
+      !managerNumber,
+      !managerMail,
+      !csNumber,
+      !kakaoId,
+      !yellowId,
+      !deliveryInfo,
+      !refundInfo,
+    );
     if (
       !sellerImg ||
       !ceoName ||
@@ -60,34 +81,113 @@ const ButtonGroup = props => {
       alert('필수항목을 전부 입력하셨는지 확인해주세요.');
       return;
     }
+    const checkId = () => {
+      if (managerIdThird)
+        return [
+          {
+            id: managerId,
+            email: managerMail,
+            mobile_number: managerNumber,
+            name: managerName,
+          },
+          {
+            id: managerIdSecond,
+            email: managerMailSecond,
+            mobile_number: managerNumberSecond,
+            name: managerNameSecond,
+          },
+          {
+            id: managerIdThird,
+            email: managerMailThird,
+            mobile_number: managerNumberThird,
+            name: managerNameThird,
+          },
+        ];
+      else if (managerIdSecond)
+        return [
+          {
+            id: managerId,
+            email: managerMail,
+            mobile_number: managerNumber,
+            name: managerName,
+          },
+          {
+            id: managerIdSecond,
+            email: managerMailSecond,
+            mobile_number: managerNumberSecond,
+            name: managerNameSecond,
+          },
+          {
+            email: managerMailThird,
+            mobile_number: managerNumberThird,
+            name: managerNameThird,
+          },
+        ];
+      else
+        return [
+          {
+            id: managerId,
+            email: managerMail,
+            mobile_number: managerNumber,
+            name: managerName,
+          },
+          {
+            email: managerMailSecond,
+            mobile_number: managerNumberSecond,
+            name: managerNameSecond,
+          },
+          {
+            email: managerMailThird,
+            mobile_number: managerNumberThird,
+            name: managerNameThird,
+          },
+        ];
+    };
 
-    //   const data = {
-    //     // creator_id: selectedSeller,
-    //     // is_sold: isSelling,
-    //     // is_displayed: isDisplaying,
-    //     // first_category: firstCategory,
-    //     // second_category: secondCategory,
-    //     // information_notice_use: useProvisionNotice,
-    //     // information_notice: {
-    //     //   manufacturer: manufacturer,
-    //     //   manufacturing_date: manufactureDate,
-    //     //   origin: originCountry,
-    //     // },
-    //     // name: productName,
-    //     // one_line_description: productDesc,
-    //     // youtube_url: youtubeUrl,
-    //   };
-
-    //   fetch(`${API_URL}/product3`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(data),
-    //   })
-    //     .then(res => res.json())
-    //     .then(res => console.log(res))
-    //     .catch(err => console.log(err));
+    const data = {
+      seller_info: {
+        bg_image: backgroundImg,
+        ceo_name: ceoName,
+        company_certi_image: registImg,
+        company_code: businessNumber,
+        company_name: sellerName,
+        cs_kakao_account: kakaoId,
+        cs_phone_number: csNumber,
+        cs_yellow_account: yellowId,
+        detailed_intro: detailIntro,
+        instagram_account: instaId,
+        mail_order_code: correspondNumber,
+        mail_order_image: sellingImg,
+        name_en: sellerNameEn,
+        name_kr: sellerNameKr,
+        profile_image: sellerImg,
+        refund_info: refundInfo,
+        seller_representative: checkId(),
+        shopping_info: deliveryInfo,
+        single_line_intro: introduce,
+        site_url: site,
+      },
+    };
+    const token = localStorage.getItem('Login_token');
+    fetch(`${API_URL}/seller/info-update`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      body: JSON.stringify(data),
+    })
+      .then(res => res.json())
+      .then(res => {
+        alert('정상적으로 수정 되었습니다.');
+        console.log(res);
+        location.reload();
+      })
+      .catch(err => {
+        console.log(data);
+        console.log(token);
+        console.log(err);
+      });
   };
 
   return (
@@ -102,7 +202,7 @@ const mapStateToProps = state => {
   return {
     sellerImg: state.userGeneralInfo.sellerImg,
     sellerNameKr: state.userGeneralInfo.sellerName.kr,
-    sellerNameEn: state.userGeneralInfo.sellerName.En,
+    sellerNameEn: state.userGeneralInfo.sellerName.en,
     ceoName: state.userBusinessInfo.businessInfo.ceoName,
     sellerName: state.userBusinessInfo.businessInfo.sellerName,
     businessNumber: state.userBusinessInfo.businessInfo.businessNumber,
@@ -128,6 +228,9 @@ const mapStateToProps = state => {
     yellowId: state.userDetailInfo.detailInfo.yellowId,
     deliveryInfo: state.otherInfo.deliveryInfo,
     refundInfo: state.otherInfo.refundInfo,
+    managerId: state.userDetailInfo.detailInfo.managerId,
+    managerIdSecond: state.userDetailInfo.detailInfo.managerIdSecond,
+    managerIdThird: state.userDetailInfo.detailInfo.managerIdThird,
   };
 };
 

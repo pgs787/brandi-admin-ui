@@ -25,7 +25,7 @@ export default function userBusinessInfo(state = initialState, action) {
       return {
         ...state,
         businessImg: {
-          ...state.businessInfo,
+          ...state.businessImg,
           [action.status]: action.payload,
         },
       };

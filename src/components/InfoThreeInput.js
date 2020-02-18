@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import SectionField from 'components/SectionField';
 import styled from 'styled-components';
 import ManagerInfo from '../pages/SellerInfo/DetailInfo/ManagerInfo';
@@ -49,6 +49,18 @@ const InfoThreeInput = ({
   deleteThrMail,
 }) => {
   const [countInput, setCountInput] = useState(1);
+
+  useEffect(() => {
+    console.log('세크벨류', nameSecondValue);
+    if (!!nameSecondValue) {
+      console.log(2);
+      setCountInput(2);
+    }
+    if (!!nameThirdValue) {
+      console.log(3);
+      setCountInput(3);
+    }
+  }, [nameSecondValue, nameThirdValue]);
 
   const handleClick = value => {
     setCountInput(value);

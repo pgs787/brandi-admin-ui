@@ -1,37 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SectionField from 'components/SectionField';
-import NoImage from '../../../images/no_image.png';
 
-const ImgUpload = ({ label, text, isRequired, id }) => {
-  const [repImage, setRepImage] = useState(NoImage);
-
-  const onChangeRepImage = e => {
-    if (!e.target.files.length) {
-      return;
-    }
-
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append('image_file', file);
-
-    console.log(e.target.files);
-    fetch('http://192.168.1.196:5000/product/image', {
-      method: 'POST',
-      body: formData,
-    })
-      .then(res => res.json())
-      .then(res => setRepImage(res.image_url))
-      .catch(err => console.log(err));
-  };
-
+const ImgUpload = ({ label, text, isRequired, id, repImage, onChange }) => {
   return (
     <SectionField label={label} moreInfoText={text} isRequired={isRequired}>
       <ImageBox>
         <ActualImage src={repImage} alt="no-image" />
       </ImageBox>
       <UploadButtonWrapper>
-        <ChooseImageButton id={id} onChange={onChangeRepImage} />
+        <ChooseImageButton id={id} onChange={onChange} />
         <ChooseImageButtonLabel htmlFor={id}>
           이미지 선택
         </ChooseImageButtonLabel>
@@ -51,6 +29,8 @@ const ImageBox = styled.div`
 `;
 
 const ActualImage = styled.img`
+  width: 120px;
+  height: 90px;
   display: block;
   margin: 0 auto;
   max-height: 100%;

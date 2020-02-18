@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BoxDesign from 'components/BoxDesign';
 import SectionTitle from 'components/SectionTitle';
@@ -9,6 +9,9 @@ import InformationTextarea from 'components/InformationTextarea';
 import InfoThreeInput from 'components/InfoThreeInput';
 import { connect } from 'react-redux';
 import { setDetailInfo, setDetailImg } from 'store/actions';
+import { API_URL } from '../../../utils/callUrl';
+import NoImage from '../../../images/no_image.png';
+import axios from 'axios';
 
 const DetailInfo = ({ setDetailImg, setDetailInfo }) => {
   const [showContent, setShowContent] = useState(true);
@@ -28,6 +31,132 @@ const DetailInfo = ({ setDetailImg, setDetailInfo }) => {
   const [csNumber, setCsNumber] = useState('');
   const [kakaoId, setKakaoId] = useState('');
   const [yellowId, setYellowId] = useState('');
+  const [bgImage, setBgImage] = useState(NoImage);
+
+  useEffect(() => {
+    const token = localStorage.getItem('Login_token');
+    axios
+      .get(`${API_URL}/seller/info-get`, { headers: { Authorization: token } })
+      .then(res => {
+        console.log(res);
+        const data = res.data.seller_info;
+        if (data.single_line_intro) {
+          setIntroduce(data.single_line_intro);
+          setDetailInfo(data.single_line_intro, 'introduce');
+        }
+        if (data.detailed_intro) {
+          setDetailIntro(data.detailed_intro);
+          setDetailInfo(data.detailed_intro, 'detailIntro');
+        }
+        if (data.site_url) {
+          setSite(data.site_url);
+          setDetailInfo(data.site_url, 'site');
+        }
+        setDetailInfo(data.seller_representative[0].id, 'managerId');
+        setDetailInfo(data.seller_representative[1].id, 'managerIdSecond');
+        setDetailInfo(data.seller_representative[2].id, 'managerIdThird');
+
+        if (data.seller_representative[0].name) {
+          setName(data.seller_representative[0].name);
+          setDetailInfo(data.seller_representative[0].name, 'managerName');
+        }
+        if (data.seller_representative[0].mobile_number) {
+          setNumber(data.seller_representative[0].mobile_number);
+          setDetailInfo(
+            data.seller_representative[0].mobile_number,
+            'managerNumber',
+          );
+        }
+        if (data.seller_representative[0].email) {
+          setMail(data.seller_representative[0].email);
+          setDetailInfo(data.seller_representative[0].email, 'managerMail');
+        }
+        if (data.seller_representative[1]) {
+          if (data.seller_representative[1].name) {
+            setNameSecond(data.seller_representative[1].name);
+            setDetailInfo(
+              data.seller_representative[1].name,
+              'managerNameSecond',
+            );
+          }
+          if (data.seller_representative[1].mobile_number) {
+            setNumberSecond(data.seller_representative[1].mobile_number);
+            setDetailInfo(
+              data.seller_representative[1].mobile_number,
+              'managerNumberSecond',
+            );
+          }
+          if (data.seller_representative[1].email) {
+            setMailSecond(data.seller_representative[1].email);
+            setDetailInfo(
+              data.seller_representative[1].email,
+              'managerMailSecond',
+            );
+          }
+        }
+        if (data.seller_representative[2]) {
+          if (data.seller_representative[2].name) {
+            setNameThird(data.seller_representative[2].name);
+            setDetailInfo(
+              data.seller_representative[2].name,
+              'managerNameThird',
+            );
+          }
+          if (data.seller_representative[2].mobile_number) {
+            setNumberThird(data.seller_representative[2].mobile_number);
+            setDetailInfo(
+              data.seller_representative[2].mobile_number,
+              'managerNumberThird',
+            );
+          }
+          if (data.seller_representative[2].email) {
+            setMailThird(data.seller_representative[2].email);
+            setDetailInfo(
+              data.seller_representative[2].email,
+              'managerMailThird',
+            );
+          }
+        }
+        if (data.instagram_account) {
+          setInstaId(data.instagram_account);
+          setDetailInfo(data.instagram_account, 'instaId');
+        }
+        if (data.cs_phone_number) {
+          setCsNumber(data.cs_phone_number);
+          setDetailInfo(data.cs_phone_number, 'csNumber');
+        }
+        if (data.cs_kakao_account) {
+          setKakaoId(data.cs_kakao_account);
+          setDetailInfo(data.cs_kakao_account, 'kakaoId');
+        }
+        if (data.cs_yellow_account) {
+          setYellowId(data.cs_yellow_account);
+          setDetailInfo(data.cs_yellow_account, 'yellowId');
+        }
+      });
+  }, []);
+
+  const onChangeBgImage = e => {
+    if (!e.target.files.length) {
+      return;
+    }
+
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('upload', file);
+
+    console.log(e.target.files);
+    fetch(`${API_URL}/seller/image-upload`, {
+      method: 'POST',
+      body: formData,
+    })
+      .then(res => res.json())
+      .then(res => {
+        setDetailImg(res.url, 'backgroundImg');
+        setBgImage(res.url);
+      })
+      .catch(err => console.log(err));
+  };
 
   const onClick = () => {
     setShowContent(!showContent);
@@ -41,6 +170,8 @@ const DetailInfo = ({ setDetailImg, setDetailInfo }) => {
       <BodyWrapper showContent={showContent}>
         <SectionBody>
           <ImgUpload
+            repImage={bgImage}
+            onChange={onChangeBgImage}
             id="background"
             label="셀러 배경이미지"
             text={[

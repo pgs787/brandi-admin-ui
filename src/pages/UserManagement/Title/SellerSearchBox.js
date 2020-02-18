@@ -3,17 +3,20 @@ import styled from 'styled-components';
 import SearchPeriod from 'pages/ProductManagement/Sections/SearchPeriod';
 import SellerName from 'pages/ProductManagement/Sections/SellerName';
 import SearchItem from 'pages/ProductManagement/Sections/SearchItem';
+import SearchInput from './SearchInput';
 
 const ProductSearchBox = () => {
   const [sellerProp, setSellerProp] = useState('전체');
-  const [sellingStatus, setSellingStatus] = useState('전체');
-  const [displayStatus, setDisplayStatus] = useState('전체');
-  const [discountStatus, setDiscountStatus] = useState('전체');
+  const [number, setNumber] = useState('');
+  const [sellerId, setSellerId] = useState('');
+  const [enName, setEnName] = useState('');
+  const [krName, setKrName] = useState('');
+  const [userNumber, setuserNumber] = useState('');
+  const [managerName, setmanagerName] = useState('');
+  const [mangerNumber, setManagerNumber] = useState('');
+  const [managerMail, setmanagerMail] = useState('');
   const [startingDateTime, setStartingDateTime] = useState(new Date());
   const [endingDateTime, setEndingDateTime] = useState(new Date());
-  const [sellerNameInput, setSellerNameInput] = useState('');
-  const [selectOptionInput, setSelectOptionInput] = useState('');
-  const [selectedOption, setSelectedOption] = useState(null);
 
   const onChangeStartingDate = date => {
     setStartingDateTime(date);
@@ -27,26 +30,31 @@ const ProductSearchBox = () => {
     setSellerProp(value);
   };
 
-  const clickSellingStatus = value => {
-    setSellingStatus(value);
+  const changeNumber = value => {
+    setNumber(value);
   };
-  const clickDisplayStatus = value => {
-    setDisplayStatus(value);
+  const changeSellerId = value => {
+    setSellerId(value);
   };
-  const clickDiscountStatus = value => {
-    setDiscountStatus(value);
+  const changeEnName = value => {
+    setEnName(value);
+  };
+  const changeKrName = value => {
+    setKrName(value);
+  };
+  const changeUserNumber = value => {
+    setuserNumber(value);
+  };
+  const changeManagerName = value => {
+    setmanagerName(value);
   };
 
-  const onChangeNameInput = value => {
-    setSellerNameInput(value);
+  const changeManagerNumber = value => {
+    setManagerNumber(value);
   };
 
-  const onChangeOptionInput = value => {
-    setSelectOptionInput(value);
-  };
-
-  const onChangeSelect = value => {
-    setSelectedOption(value);
+  const changeManagerMail = value => {
+    setmanagerMail(value);
   };
 
   const clickSearch = () => {
@@ -55,33 +63,57 @@ const ProductSearchBox = () => {
 
   const clickReset = () => {
     setSellerProp('전체');
-    setSellingStatus('전체');
-    setDisplayStatus('전체');
-    setDiscountStatus('전체');
-    onChangeEndingDate(new Date());
     onChangeStartingDate(new Date());
-    setSellerNameInput('');
-    setSelectOptionInput('');
-    setSelectedOption(null);
+    onChangeEndingDate(new Date());
+    changeNumber('');
+    changeSellerId('');
+    changeEnName('');
+    changeKrName('');
+    changeUserNumber('');
+    changeManagerMail('');
+    changeManagerName('');
+    changeManagerNumber('');
   };
 
   return (
     <>
-      <SearchPeriod
-        startingDateTime={startingDateTime}
-        endingDateTime={endingDateTime}
-        onChangeStartingDate={onChangeStartingDate}
-        onChangeEndingDate={onChangeEndingDate}
-      />
-      <SellerName
-        sellerNameInput={sellerNameInput}
-        selectOptionInput={selectOptionInput}
-        selectedOption={selectedOption}
-        onChangeNameInput={onChangeNameInput}
-        onChangeOptionInput={onChangeOptionInput}
-        onChangeSelect={onChangeSelect}
-      />
       <DivItemWrapper>
+        <SearchInput value={number} onChangeInput={changeNumber} title="번호" />
+        <SearchInput
+          value={sellerId}
+          onChangeInput={changeSellerId}
+          title="셀러 아이디"
+        />
+        <SearchInput
+          value={enName}
+          onChangeInput={changeEnName}
+          title="영문 이름"
+        />
+        <SearchInput
+          value={krName}
+          onChangeInput={changeKrName}
+          title="한글 이름"
+        />
+        <SearchInput
+          value={userNumber}
+          onChangeInput={changeUserNumber}
+          title="회원번호"
+        />
+        <SearchInput
+          value={managerName}
+          onChangeInput={changeManagerName}
+          title="담당자 이름"
+        />
+        <SearchInput
+          value={mangerNumber}
+          onChangeInput={changeManagerNumber}
+          title="담당자 연락처"
+        />
+        <SearchInput
+          value={managerMail}
+          onChangeInput={changeManagerMail}
+          title="담당자 이메일"
+        />
         <SearchItem
           label="셀러속성"
           options={[
@@ -97,23 +129,11 @@ const ProductSearchBox = () => {
           currentState={sellerProp}
           onClick={clickSellerProp}
         />
-        <SearchItem
-          label="판매여부"
-          options={['전체', '판매', '미판매']}
-          currentState={sellingStatus}
-          onClick={clickSellingStatus}
-        />
-        <SearchItem
-          label="진열여부"
-          options={['전체', '진열', '미진열']}
-          currentState={displayStatus}
-          onClick={clickDisplayStatus}
-        />
-        <SearchItem
-          label="할인여부"
-          options={['전체', '할인', '미할인']}
-          currentState={discountStatus}
-          onClick={clickDiscountStatus}
+        <SearchPeriod
+          startingDateTime={startingDateTime}
+          endingDateTime={endingDateTime}
+          onChangeStartingDate={onChangeStartingDate}
+          onChangeEndingDate={onChangeEndingDate}
         />
       </DivItemWrapper>
       <DivBtnWrapper>
@@ -134,7 +154,7 @@ export default ProductSearchBox;
 const DivItemWrapper = styled.div`
   display: flex;
   flex-flow: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 `;
 
 const DivBtnWrapper = styled.div`
