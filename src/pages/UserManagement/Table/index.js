@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useReducer } from 'react';
 import styled from 'styled-components';
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -37,6 +37,8 @@ const StyledTableCell = withStyles(theme => ({
 const StyledDateCell = withStyles(theme => ({
   root: {
     width: 140,
+    color: '#2A6496',
+    cursor: 'pointer',
   },
   head: {
     backgroundColor: '#35363A',
@@ -153,7 +155,14 @@ const Data = [
   },
 ];
 
-const UserTable = () => {
+const UserTable = ({
+  currentPage,
+  offset,
+  optionChange,
+  pageChange,
+  handleButton,
+  sellerData,
+}) => {
   const classes = useStyles();
 
   return (
@@ -166,7 +175,6 @@ const UserTable = () => {
               <StyledDateCell>셀러 아이디</StyledDateCell>
               <StyledTableCell>영문 이름</StyledTableCell>
               <StyledTableCell>한글 이름</StyledTableCell>
-              <StyledTableCell>회원 번호</StyledTableCell>
               <StyledTableCell>담당자 이름</StyledTableCell>
               <StyledTableCell>담당자 연락처</StyledTableCell>
               <StyledTableCell>담당자 이메일</StyledTableCell>
@@ -180,10 +188,11 @@ const UserTable = () => {
             {Data.map((el, idx) => (
               <TableRow key={idx}>
                 <StyledLeftMostCell>{el.number}</StyledLeftMostCell>
-                <StyledDateCell>{el.sellerId}</StyledDateCell>
+                <StyledDateCell onClick={() => console.log('hh')}>
+                  {el.sellerId}
+                </StyledDateCell>
                 <StyledTableCell>{el.enName}</StyledTableCell>
                 <StyledTableCell>{el.krName}</StyledTableCell>
-                <StyledTableCell>{el.userNumber}</StyledTableCell>
                 <StyledTableCell>{el.managerName}</StyledTableCell>
                 <StyledTableCell>{el.managerNumber}</StyledTableCell>
                 <StyledTableCell>{el.managerMail}</StyledTableCell>
@@ -196,7 +205,13 @@ const UserTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <ShowPage />
+      <ShowPage
+        currentPage={currentPage}
+        offset={offset}
+        optionChange={optionChange}
+        pageChange={pageChange}
+        handleButton={handleButton}
+      />
     </>
   );
 };

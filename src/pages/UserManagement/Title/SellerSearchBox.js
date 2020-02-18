@@ -5,78 +5,37 @@ import SellerName from 'pages/ProductManagement/Sections/SellerName';
 import SearchItem from 'pages/ProductManagement/Sections/SearchItem';
 import SearchInput from './SearchInput';
 
-const ProductSearchBox = () => {
-  const [sellerProp, setSellerProp] = useState('전체');
-  const [number, setNumber] = useState('');
-  const [sellerId, setSellerId] = useState('');
-  const [enName, setEnName] = useState('');
-  const [krName, setKrName] = useState('');
-  const [userNumber, setuserNumber] = useState('');
-  const [managerName, setmanagerName] = useState('');
-  const [mangerNumber, setManagerNumber] = useState('');
-  const [managerMail, setmanagerMail] = useState('');
-  const [startingDateTime, setStartingDateTime] = useState(new Date());
-  const [endingDateTime, setEndingDateTime] = useState(new Date());
-
-  const onChangeStartingDate = date => {
-    setStartingDateTime(date);
-  };
-
-  const onChangeEndingDate = date => {
-    setEndingDateTime(date);
-  };
-
-  const clickSellerProp = value => {
-    setSellerProp(value);
-  };
-
-  const changeNumber = value => {
-    setNumber(value);
-  };
-  const changeSellerId = value => {
-    setSellerId(value);
-  };
-  const changeEnName = value => {
-    setEnName(value);
-  };
-  const changeKrName = value => {
-    setKrName(value);
-  };
-  const changeUserNumber = value => {
-    setuserNumber(value);
-  };
-  const changeManagerName = value => {
-    setmanagerName(value);
-  };
-
-  const changeManagerNumber = value => {
-    setManagerNumber(value);
-  };
-
-  const changeManagerMail = value => {
-    setmanagerMail(value);
-  };
-
-  const clickSearch = () => {
-    //쿼리스트링 요청 보내기
-  };
-
-  const clickReset = () => {
-    setSellerProp('전체');
-    onChangeStartingDate(new Date());
-    onChangeEndingDate(new Date());
-    changeNumber('');
-    changeSellerId('');
-    changeEnName('');
-    changeKrName('');
-    changeUserNumber('');
-    changeManagerMail('');
-    changeManagerName('');
-    changeManagerNumber('');
-  };
-
+const ProductSearchBox = ({
+  sellerProp,
+  number,
+  sellerId,
+  enName,
+  krName,
+  managerName,
+  managerNumber,
+  managerMail,
+  startingDateTime,
+  endingDateTime,
+  onChangeStartingDate,
+  onChangeEndingDate,
+  clickSellerProp,
+  changeNumber,
+  changeSellerId,
+  changeEnName,
+  changeKrName,
+  changeManagerName,
+  changeManagerNumber,
+  changeManagerMail,
+  clickReset,
+}) => {
   return (
     <>
+      <SearchPeriod
+        startingDateTime={startingDateTime}
+        endingDateTime={endingDateTime}
+        onChangeStartingDate={onChangeStartingDate}
+        onChangeEndingDate={onChangeEndingDate}
+      />
       <DivItemWrapper>
         <SearchInput value={number} onChangeInput={changeNumber} title="번호" />
         <SearchInput
@@ -95,17 +54,12 @@ const ProductSearchBox = () => {
           title="한글 이름"
         />
         <SearchInput
-          value={userNumber}
-          onChangeInput={changeUserNumber}
-          title="회원번호"
-        />
-        <SearchInput
           value={managerName}
           onChangeInput={changeManagerName}
           title="담당자 이름"
         />
         <SearchInput
-          value={mangerNumber}
+          value={managerNumber}
           onChangeInput={changeManagerNumber}
           title="담당자 연락처"
         />
@@ -114,32 +68,28 @@ const ProductSearchBox = () => {
           onChangeInput={changeManagerMail}
           title="담당자 이메일"
         />
-        <SearchItem
-          label="셀러속성"
-          options={[
-            '전체',
-            '쇼핑몰',
-            '마켓',
-            '로드샵',
-            '디자이너브랜드',
-            '제너럴브랜드',
-            '내셔널브랜드',
-            '뷰티',
-          ]}
-          currentState={sellerProp}
-          onClick={clickSellerProp}
-        />
-        <SearchPeriod
-          startingDateTime={startingDateTime}
-          endingDateTime={endingDateTime}
-          onChangeStartingDate={onChangeStartingDate}
-          onChangeEndingDate={onChangeEndingDate}
-        />
       </DivItemWrapper>
+      <SearchItem
+        label="셀러속성"
+        options={[
+          '전체',
+          '쇼핑몰',
+          '마켓',
+          '로드샵',
+          '디자이너브랜드',
+          '제너럴브랜드',
+          '내셔널브랜드',
+          '뷰티',
+        ]}
+        currentState={sellerProp}
+        onClick={clickSellerProp}
+      />
       <DivBtnWrapper>
         <OptionButton
-          onClick={clickSearch}
-          style={{ backgroundColor: '#36363a', color: 'white' }}
+          style={{
+            backgroundColor: '#36363a',
+            color: 'white',
+          }}
         >
           검색
         </OptionButton>
