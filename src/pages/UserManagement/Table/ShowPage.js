@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 
@@ -16,18 +16,24 @@ const customStyles = {
   }),
 };
 
-const ShowPage = () => {
+const ShowPage = ({
+  currentPage,
+  offset,
+  optionChange,
+  pageChange,
+  handleButton,
+}) => {
   return (
     <DivMainWrapper>
       <DivBtnWrap style={{ marginLeft: 0 }}>
         <Span>현재 페이지</Span>
-        <DivArrowBtn>
+        <DivArrowBtn onClick={() => handleButton('minus')}>
           <IArrow arrow="\f104" />
         </DivArrowBtn>
         <DivInputBtn style={{ padding: 0 }}>
-          <InputCurrentPage />
+          <InputCurrentPage value={currentPage} onChange={pageChange} />
         </DivInputBtn>
-        <DivArrowBtn>
+        <DivArrowBtn onClick={() => handleButton('plus')}>
           <IArrow arrow="\f105" />
         </DivArrowBtn>
         <Span style={{ marginLeft: '10px' }}>총 501페이지</Span>
@@ -36,6 +42,7 @@ const ShowPage = () => {
       <DivBtnWrap>
         <Select
           styles={customStyles}
+          value={offset}
           options={[
             { label: 10, value: 10 },
             { label: 20, value: 20 },
@@ -43,7 +50,7 @@ const ShowPage = () => {
             { label: 100, value: 100 },
             { label: 150, value: 150 },
           ]}
-          placeholder="10"
+          onChange={optionChange}
         />
         <Span style={{ marginLeft: '15px' }}>개씩 보기</Span>
       </DivBtnWrap>
@@ -59,7 +66,6 @@ export default ShowPage;
 const DivMainWrapper = styled.div`
   display: flex;
   padding: 20px;
-  margin-bottom: 150px;
 `;
 
 const DivBtnWrap = styled.div`
