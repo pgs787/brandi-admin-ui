@@ -139,6 +139,7 @@ const BasicOptionList = ({
     const target = list[index].id;
     removeBasicList(target);
   };
+
   return (
     <TableContainer component={Paper} className={classes.container}>
       <Table className={classes.table} aria-label="customized table">
