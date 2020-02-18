@@ -138,6 +138,13 @@ export const setDiscountEndDate = datetime => {
   };
 };
 
+export const optionSet = set => {
+  return {
+    type: 'OPTION_SET',
+    payload: set,
+  };
+};
+
 export const selectBasicColor = color => {
   return {
     type: 'SELECT_BASIC_COLOR',
@@ -158,17 +165,20 @@ export const selectedList = select => {
     payload: select,
   };
 };
-export const removeBasicList = id => {
+export const removeBasicList = item => {
   return {
     type: 'REMOVE_BASIC_LIST',
-    payload: id,
+    payload: item,
   };
 };
 
-export const setStock = set => {
+export const setStock = (set, num) => {
   return {
     type: 'SET_STOCK',
-    payload: set,
+    payload: {
+      set: set,
+      num: num,
+    },
   };
 };
 
@@ -191,9 +201,20 @@ export const sizeChange = (size, target) => {
   };
 };
 
-export const stockChange = (set, target) => {
+export const stockChange = (set, num, target) => {
   return {
     type: 'STOCK_CHANGE',
+    payload: {
+      set: set,
+      num: num,
+      target: target,
+    },
+  };
+};
+
+export const resetStock = (set, target) => {
+  return {
+    type: 'RESET_STOCK',
     payload: {
       set: set,
       target: target,

@@ -16,7 +16,14 @@ import { data } from './Data';
 
 // redux
 import { connect } from 'react-redux';
-import { colorChange, sizeChange, stockChange, setStockCount, removeBasicList } from 'store/actions';
+import {
+  colorChange,
+  sizeChange,
+  stockChange,
+  resetStock,
+  setStockCount,
+  removeBasicList,
+} from 'store/actions';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -96,38 +103,59 @@ const BasicOptionList = ({
   colorChange,
   sizeChange,
   stockChange,
+  resetStock,
   setStockCount,
   removeBasicList,
 }) => {
   const classes = useStyles();
-
+  const [activeId, setActiveId] = useState(0);
+  // select list color change
   const selectedColor = (color, index) => {
-    colorChange(color, index)
+    colorChange(color, index);
   };
+  // select list size change
   const selectedSize = (size, index) => {
     sizeChange(size, index);
   };
+  // select list stock set
   const stockHandler = (idx, index) => {
-    stockChange(idx, index);
+    if (idx === 0) {
+      resetStock('', index);
+      stockChange(false, idx, index);
+      setActiveId(0);
+    } else {
+      stockChange(true, idx, index);
+      setActiveId(1);
+    }
   };
+  // stock count change
   const setCount = (e, index) => {
-    console.log(e.target.value)
-    console.log(index)
-
+    console.log(e.target.value);
     setStockCount(e.target.value, index);
-  }
-  const removeList = id => {
-    removeBasicList(id);
   };
+  // select list remove
+  const removeList = index => {
+    console.log('remove : ', list[index].id);
+    const target = list[index].id;
+    removeBasicList(target);
+  };
+
   return (
     <TableContainer component={Paper} className={classes.container}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead className={classes.title}>
           <TableRow>
-            <StyledTableCell className={classes.titleCell}>
+            <StyledTableCell
+              style={{ width: '20%' }}
+              className={classes.titleCell}
+            >
               색 상
             </StyledTableCell>
-            <StyledTableCell className={classes.info} align="left">
+            <StyledTableCell
+              style={{ width: '20%' }}
+              className={classes.info}
+              align="left"
+            >
               사이즈
             </StyledTableCell>
             <StyledTableCell className={classes.info} align="left">
@@ -153,7 +181,10 @@ const BasicOptionList = ({
                   onChange={value => {
                     selectedColor(value, index);
                   }}
-                  value={{ value: element.color, label: element.color }}
+                  value={{
+                    value: element.basic_options_colors_id,
+                    label: element.basic_options_colors_id,
+                  }}
                 />
               </StyledTableCell>
               <StyledTableCell className={classes.info} align="left">
@@ -163,7 +194,10 @@ const BasicOptionList = ({
                   onChange={value => {
                     selectedSize(value, index);
                   }}
-                  value={{ value: element.size, label: element.size }}
+                  value={{
+                    value: element.basic_options_sizes_id,
+                    label: element.basic_options_sizes_id,
+                  }}
                 />
               </StyledTableCell>
               <StyledTableCell className={classes.stockCell} align="left">
@@ -175,17 +209,18 @@ const BasicOptionList = ({
                       onClick={() => {
                         stockHandler(idx, index);
                       }}
-                      activeId={element.stock === idx}
+                      activeId={element.stockState === idx}
                       value={option}
                     >
                       {option}
                     </OptionButton>
                   ))}
                 </ButtonGroupWrapper>
-                <InputTag type='number'
-                  disabled={element.stock === 0 ? true : false} 
-                  onChange={(e) => setCount(e, index)}
-                  value={element.count}
+                <InputTag
+                  type="number"
+                  disabled={element.stockState === 0 ? true : false}
+                  onChange={e => setCount(e, index)}
+                  value={element.stock_volume}
                 ></InputTag>
               </StyledTableCell>
               <StyledTableCell
@@ -196,9 +231,7 @@ const BasicOptionList = ({
                 <Button
                   variant="contained"
                   className={classes.removeBtn}
-                  onClick={() => {
-                    removeList(index);
-                  }}
+                  onClick={() => removeList(index)}
                 >
                   <RemoveIcon />
                 </Button>
@@ -250,6 +283,7 @@ export default connect(mapStateToProps, {
   colorChange,
   sizeChange,
   stockChange,
+  resetStock,
   setStockCount,
   removeBasicList,
 })(BasicOptionList);
