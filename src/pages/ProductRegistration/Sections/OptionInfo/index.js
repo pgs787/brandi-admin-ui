@@ -7,12 +7,17 @@ import SectionField from 'components/SectionField';
 import BasicOptionInfo from './BasicOptionInfo';
 import NonOption from './NonOption';
 
-const OptionInfo = () => {
+// redux
+import { connect } from 'react-redux';
+import { optionSet } from 'store/actions';
+
+const OptionInfo = ({ optionSet }) => {
   const [showContent, setShowContent] = useState(true);
   const [activeId, setActiveId] = useState(0);
   const options = ['기본옵션', '옵션없음'];
 
   const settingChange = id => {
+    optionSet(id);
     setActiveId(id);
   };
   const onClick = () => {
@@ -73,4 +78,4 @@ const OptionButton = styled.button`
       border: 1px solid #36363a;
     `}
 `;
-export default OptionInfo;
+export default connect(null, { optionSet })(OptionInfo);
