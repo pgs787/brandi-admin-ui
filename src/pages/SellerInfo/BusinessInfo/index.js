@@ -11,7 +11,7 @@ import axios from 'axios';
 import { API_URL } from '../../../utils/callUrl';
 import NoImage from '../../../images/no_image.png';
 
-const BusinessInfo = ({ setBusinessImg, setBusinessInfo }) => {
+const BusinessInfo = ({ setBusinessImg, setBusinessInfo, match }) => {
   const [showContent, setShowContent] = useState(true);
   const [ceoName, setCeoName] = useState('');
   const [sellerName, setSellerName] = useState('');
@@ -21,36 +21,70 @@ const BusinessInfo = ({ setBusinessImg, setBusinessInfo }) => {
   const [sellingImg, setSellingImg] = useState(NoImage);
 
   useEffect(() => {
-    const token = localStorage.getItem('Login_token');
-    axios
-      .get(`${API_URL}/seller/info-get`, { headers: { Authorization: token } })
-      .then(res => {
-        const data = res.data.seller_info;
-        if (data.ceo_name) {
-          setCeoName(data.ceo_name);
-          setBusinessInfo(data.ceo_name, 'ceoName');
-        }
-        if (data.company_name) {
-          setSellerName(data.company_name);
-          setBusinessInfo(data.company_name, 'sellerName');
-        }
-        if (data.company_code) {
-          setBusinessNumber(data.company_code);
-          setBusinessInfo(data.company_code, 'businessNumber');
-        }
-        if (data.mail_order_code) {
-          setCorrespondNumber(data.mail_order_code);
-          setBusinessInfo(data.mail_order_code, 'correspondNumber');
-        }
-        if (data.company_certi_image) {
-          setRegistImg(data.company_certi_image);
-          setBusinessImg(data.company_certi_image, 'registImg');
-        }
-        if (data.mail_order_image) {
-          setSellingImg(data.mail_order_image);
-          setBusinessImg(data.mail_order_image, 'sellingImg');
-        }
-      });
+    if (match.params.id) {
+      axios
+        .get(`${API_URL}/seller/list-info-get/${match.params.id}`)
+        .then(res => {
+          const data = res.data.seller_info;
+          if (data.ceo_name) {
+            setCeoName(data.ceo_name);
+            setBusinessInfo(data.ceo_name, 'ceoName');
+          }
+          if (data.company_name) {
+            setSellerName(data.company_name);
+            setBusinessInfo(data.company_name, 'sellerName');
+          }
+          if (data.company_code) {
+            setBusinessNumber(data.company_code);
+            setBusinessInfo(data.company_code, 'businessNumber');
+          }
+          if (data.mail_order_code) {
+            setCorrespondNumber(data.mail_order_code);
+            setBusinessInfo(data.mail_order_code, 'correspondNumber');
+          }
+          if (data.company_certi_image) {
+            setRegistImg(data.company_certi_image);
+            setBusinessImg(data.company_certi_image, 'registImg');
+          }
+          if (data.mail_order_image) {
+            setSellingImg(data.mail_order_image);
+            setBusinessImg(data.mail_order_image, 'sellingImg');
+          }
+        });
+    } else {
+      const token = localStorage.getItem('Login_token');
+      axios
+        .get(`${API_URL}/seller/info-get`, {
+          headers: { Authorization: token },
+        })
+        .then(res => {
+          const data = res.data.seller_info;
+          if (data.ceo_name) {
+            setCeoName(data.ceo_name);
+            setBusinessInfo(data.ceo_name, 'ceoName');
+          }
+          if (data.company_name) {
+            setSellerName(data.company_name);
+            setBusinessInfo(data.company_name, 'sellerName');
+          }
+          if (data.company_code) {
+            setBusinessNumber(data.company_code);
+            setBusinessInfo(data.company_code, 'businessNumber');
+          }
+          if (data.mail_order_code) {
+            setCorrespondNumber(data.mail_order_code);
+            setBusinessInfo(data.mail_order_code, 'correspondNumber');
+          }
+          if (data.company_certi_image) {
+            setRegistImg(data.company_certi_image);
+            setBusinessImg(data.company_certi_image, 'registImg');
+          }
+          if (data.mail_order_image) {
+            setSellingImg(data.mail_order_image);
+            setBusinessImg(data.mail_order_image, 'sellingImg');
+          }
+        });
+    }
   }, []);
 
   const onChangeRegistImg = e => {

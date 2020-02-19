@@ -13,7 +13,7 @@ import { API_URL } from '../../../utils/callUrl';
 import NoImage from '../../../images/no_image.png';
 import axios from 'axios';
 
-const DetailInfo = ({ setDetailImg, setDetailInfo }) => {
+const DetailInfo = ({ setDetailImg, setDetailInfo, match, setLoading }) => {
   const [showContent, setShowContent] = useState(true);
   const [introduce, setIntroduce] = useState('');
   const [detailIntro, setDetailIntro] = useState('');
@@ -34,106 +34,214 @@ const DetailInfo = ({ setDetailImg, setDetailInfo }) => {
   const [bgImage, setBgImage] = useState(NoImage);
 
   useEffect(() => {
-    const token = localStorage.getItem('Login_token');
-    axios
-      .get(`${API_URL}/seller/info-get`, { headers: { Authorization: token } })
-      .then(res => {
-        console.log(res);
-        const data = res.data.seller_info;
-        if (data.single_line_intro) {
-          setIntroduce(data.single_line_intro);
-          setDetailInfo(data.single_line_intro, 'introduce');
-        }
-        if (data.detailed_intro) {
-          setDetailIntro(data.detailed_intro);
-          setDetailInfo(data.detailed_intro, 'detailIntro');
-        }
-        if (data.site_url) {
-          setSite(data.site_url);
-          setDetailInfo(data.site_url, 'site');
-        }
-        setDetailInfo(data.seller_representative[0].id, 'managerId');
-        setDetailInfo(data.seller_representative[1].id, 'managerIdSecond');
-        setDetailInfo(data.seller_representative[2].id, 'managerIdThird');
+    if (match.params.id) {
+      setLoading(true);
+      axios
+        .get(`${API_URL}/seller/list-info-get/${match.params.id}`)
+        .then(res => {
+          console.log(res);
+          const data = res.data.seller_info;
+          if (data.single_line_intro) {
+            setIntroduce(data.single_line_intro);
+            setDetailInfo(data.single_line_intro, 'introduce');
+          }
+          if (data.detailed_intro) {
+            setDetailIntro(data.detailed_intro);
+            setDetailInfo(data.detailed_intro, 'detailIntro');
+          }
+          if (data.site_url) {
+            setSite(data.site_url);
+            setDetailInfo(data.site_url, 'site');
+          }
+          setDetailInfo(data.seller_representative[0].id, 'managerId');
+          setDetailInfo(data.seller_representative[1].id, 'managerIdSecond');
+          setDetailInfo(data.seller_representative[2].id, 'managerIdThird');
 
-        if (data.seller_representative[0].name) {
-          setName(data.seller_representative[0].name);
-          setDetailInfo(data.seller_representative[0].name, 'managerName');
-        }
-        if (data.seller_representative[0].mobile_number) {
-          setNumber(data.seller_representative[0].mobile_number);
-          setDetailInfo(
-            data.seller_representative[0].mobile_number,
-            'managerNumber',
-          );
-        }
-        if (data.seller_representative[0].email) {
-          setMail(data.seller_representative[0].email);
-          setDetailInfo(data.seller_representative[0].email, 'managerMail');
-        }
-        if (data.seller_representative[1]) {
-          if (data.seller_representative[1].name) {
-            setNameSecond(data.seller_representative[1].name);
+          if (data.seller_representative[0].name) {
+            setName(data.seller_representative[0].name);
+            setDetailInfo(data.seller_representative[0].name, 'managerName');
+          }
+          if (data.seller_representative[0].mobile_number) {
+            setNumber(data.seller_representative[0].mobile_number);
             setDetailInfo(
-              data.seller_representative[1].name,
-              'managerNameSecond',
+              data.seller_representative[0].mobile_number,
+              'managerNumber',
             );
           }
-          if (data.seller_representative[1].mobile_number) {
-            setNumberSecond(data.seller_representative[1].mobile_number);
+          if (data.seller_representative[0].email) {
+            setMail(data.seller_representative[0].email);
+            setDetailInfo(data.seller_representative[0].email, 'managerMail');
+          }
+          if (data.seller_representative[1]) {
+            if (data.seller_representative[1].name) {
+              setNameSecond(data.seller_representative[1].name);
+              setDetailInfo(
+                data.seller_representative[1].name,
+                'managerNameSecond',
+              );
+            }
+            if (data.seller_representative[1].mobile_number) {
+              setNumberSecond(data.seller_representative[1].mobile_number);
+              setDetailInfo(
+                data.seller_representative[1].mobile_number,
+                'managerNumberSecond',
+              );
+            }
+            if (data.seller_representative[1].email) {
+              setMailSecond(data.seller_representative[1].email);
+              setDetailInfo(
+                data.seller_representative[1].email,
+                'managerMailSecond',
+              );
+            }
+          }
+          if (data.seller_representative[2]) {
+            if (data.seller_representative[2].name) {
+              setNameThird(data.seller_representative[2].name);
+              setDetailInfo(
+                data.seller_representative[2].name,
+                'managerNameThird',
+              );
+            }
+            if (data.seller_representative[2].mobile_number) {
+              setNumberThird(data.seller_representative[2].mobile_number);
+              setDetailInfo(
+                data.seller_representative[2].mobile_number,
+                'managerNumberThird',
+              );
+            }
+            if (data.seller_representative[2].email) {
+              setMailThird(data.seller_representative[2].email);
+              setDetailInfo(
+                data.seller_representative[2].email,
+                'managerMailThird',
+              );
+            }
+          }
+          if (data.instagram_account) {
+            setInstaId(data.instagram_account);
+            setDetailInfo(data.instagram_account, 'instaId');
+          }
+          if (data.cs_phone_number) {
+            setCsNumber(data.cs_phone_number);
+            setDetailInfo(data.cs_phone_number, 'csNumber');
+          }
+          if (data.cs_kakao_account) {
+            setKakaoId(data.cs_kakao_account);
+            setDetailInfo(data.cs_kakao_account, 'kakaoId');
+          }
+          if (data.cs_yellow_account) {
+            setYellowId(data.cs_yellow_account);
+            setDetailInfo(data.cs_yellow_account, 'yellowId');
+          }
+        });
+      setLoading(false);
+    } else {
+      setLoading(true);
+      const token = localStorage.getItem('Login_token');
+      axios
+        .get(`${API_URL}/seller/info-get`, {
+          headers: { Authorization: token },
+        })
+        .then(res => {
+          console.log(res);
+          const data = res.data.seller_info;
+          if (data.single_line_intro) {
+            setIntroduce(data.single_line_intro);
+            setDetailInfo(data.single_line_intro, 'introduce');
+          }
+          if (data.detailed_intro) {
+            setDetailIntro(data.detailed_intro);
+            setDetailInfo(data.detailed_intro, 'detailIntro');
+          }
+          if (data.site_url) {
+            setSite(data.site_url);
+            setDetailInfo(data.site_url, 'site');
+          }
+          setDetailInfo(data.seller_representative[0].id, 'managerId');
+          setDetailInfo(data.seller_representative[1].id, 'managerIdSecond');
+          setDetailInfo(data.seller_representative[2].id, 'managerIdThird');
+
+          if (data.seller_representative[0].name) {
+            setName(data.seller_representative[0].name);
+            setDetailInfo(data.seller_representative[0].name, 'managerName');
+          }
+          if (data.seller_representative[0].mobile_number) {
+            setNumber(data.seller_representative[0].mobile_number);
             setDetailInfo(
-              data.seller_representative[1].mobile_number,
-              'managerNumberSecond',
+              data.seller_representative[0].mobile_number,
+              'managerNumber',
             );
           }
-          if (data.seller_representative[1].email) {
-            setMailSecond(data.seller_representative[1].email);
-            setDetailInfo(
-              data.seller_representative[1].email,
-              'managerMailSecond',
-            );
+          if (data.seller_representative[0].email) {
+            setMail(data.seller_representative[0].email);
+            setDetailInfo(data.seller_representative[0].email, 'managerMail');
           }
-        }
-        if (data.seller_representative[2]) {
-          if (data.seller_representative[2].name) {
-            setNameThird(data.seller_representative[2].name);
-            setDetailInfo(
-              data.seller_representative[2].name,
-              'managerNameThird',
-            );
+          if (data.seller_representative[1]) {
+            if (data.seller_representative[1].name) {
+              setNameSecond(data.seller_representative[1].name);
+              setDetailInfo(
+                data.seller_representative[1].name,
+                'managerNameSecond',
+              );
+            }
+            if (data.seller_representative[1].mobile_number) {
+              setNumberSecond(data.seller_representative[1].mobile_number);
+              setDetailInfo(
+                data.seller_representative[1].mobile_number,
+                'managerNumberSecond',
+              );
+            }
+            if (data.seller_representative[1].email) {
+              setMailSecond(data.seller_representative[1].email);
+              setDetailInfo(
+                data.seller_representative[1].email,
+                'managerMailSecond',
+              );
+            }
           }
-          if (data.seller_representative[2].mobile_number) {
-            setNumberThird(data.seller_representative[2].mobile_number);
-            setDetailInfo(
-              data.seller_representative[2].mobile_number,
-              'managerNumberThird',
-            );
+          if (data.seller_representative[2]) {
+            if (data.seller_representative[2].name) {
+              setNameThird(data.seller_representative[2].name);
+              setDetailInfo(
+                data.seller_representative[2].name,
+                'managerNameThird',
+              );
+            }
+            if (data.seller_representative[2].mobile_number) {
+              setNumberThird(data.seller_representative[2].mobile_number);
+              setDetailInfo(
+                data.seller_representative[2].mobile_number,
+                'managerNumberThird',
+              );
+            }
+            if (data.seller_representative[2].email) {
+              setMailThird(data.seller_representative[2].email);
+              setDetailInfo(
+                data.seller_representative[2].email,
+                'managerMailThird',
+              );
+            }
           }
-          if (data.seller_representative[2].email) {
-            setMailThird(data.seller_representative[2].email);
-            setDetailInfo(
-              data.seller_representative[2].email,
-              'managerMailThird',
-            );
+          if (data.instagram_account) {
+            setInstaId(data.instagram_account);
+            setDetailInfo(data.instagram_account, 'instaId');
           }
-        }
-        if (data.instagram_account) {
-          setInstaId(data.instagram_account);
-          setDetailInfo(data.instagram_account, 'instaId');
-        }
-        if (data.cs_phone_number) {
-          setCsNumber(data.cs_phone_number);
-          setDetailInfo(data.cs_phone_number, 'csNumber');
-        }
-        if (data.cs_kakao_account) {
-          setKakaoId(data.cs_kakao_account);
-          setDetailInfo(data.cs_kakao_account, 'kakaoId');
-        }
-        if (data.cs_yellow_account) {
-          setYellowId(data.cs_yellow_account);
-          setDetailInfo(data.cs_yellow_account, 'yellowId');
-        }
-      });
+          if (data.cs_phone_number) {
+            setCsNumber(data.cs_phone_number);
+            setDetailInfo(data.cs_phone_number, 'csNumber');
+          }
+          if (data.cs_kakao_account) {
+            setKakaoId(data.cs_kakao_account);
+            setDetailInfo(data.cs_kakao_account, 'kakaoId');
+          }
+          if (data.cs_yellow_account) {
+            setYellowId(data.cs_yellow_account);
+            setDetailInfo(data.cs_yellow_account, 'yellowId');
+          }
+        });
+      setLoading(false);
+    }
   }, []);
 
   const onChangeBgImage = e => {

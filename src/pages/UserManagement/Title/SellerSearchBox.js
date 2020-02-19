@@ -27,6 +27,11 @@ const ProductSearchBox = ({
   changeManagerNumber,
   changeManagerMail,
   clickReset,
+  handleSearch,
+  siteUrl,
+  changeSite,
+  currentPage,
+  offset,
 }) => {
   return (
     <>
@@ -68,6 +73,11 @@ const ProductSearchBox = ({
           onChangeInput={changeManagerMail}
           title="담당자 이메일"
         />
+        <SearchInput
+          value={siteUrl}
+          onChangeInput={changeSite}
+          title="사이트"
+        />
       </DivItemWrapper>
       <SearchItem
         label="셀러속성"
@@ -86,6 +96,7 @@ const ProductSearchBox = ({
       />
       <DivBtnWrapper>
         <OptionButton
+          onClick={() => handleSearch(currentPage, offset)}
           style={{
             backgroundColor: '#36363a',
             color: 'white',

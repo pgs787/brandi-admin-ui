@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import styled from 'styled-components';
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -9,12 +9,16 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import ShowPage from './ShowPage';
+import { API_URL } from '../../../utils/callUrl';
+import { withRouter } from 'react-router-dom';
+import Loading from 'components/Loading';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 1400,
   },
   container: {
+    position: 'relative',
     maxHeight: 750,
   },
 });
@@ -82,88 +86,33 @@ const StyledProdCodeCell = withStyles(theme => ({
   },
 }))(TableCell);
 
-const Data = [
-  {
-    number: 18737,
-    sellerId: 'clzls047',
-    enName: '	friday',
-    krName: '	목요일',
-    userNumber: '	1731966',
-    managerName: '김채원',
-    managerNumber: '	010-7616-6616',
-    managerMail: '	kimcw@brandi.co.kr',
-    sellerProp: '쇼핑몰',
-    productCount: '5',
-    URL: 'http://www.naver.com',
-    registDate: '2020-02-13 10:32:57',
-  },
-  {
-    number: 18737,
-    sellerId: 'clzls047',
-    enName: '	friday',
-    krName: '	목요일',
-    userNumber: '	1731966',
-    managerName: '김채원',
-    managerNumber: '	010-7616-6616',
-    managerMail: '	kimcw@brandi.co.kr',
-    sellerProp: '쇼핑몰',
-    productCount: '5',
-    URL: 'http://www.naver.com',
-    registDate: '2020-02-13 10:32:57',
-  },
-  {
-    number: 18737,
-    sellerId: 'clzls047',
-    enName: '	friday',
-    krName: '	목요일',
-    userNumber: '	1731966',
-    managerName: '김채원',
-    managerNumber: '	010-7616-6616',
-    managerMail: '	kimcw@brandi.co.kr',
-    sellerProp: '쇼핑몰',
-    productCount: '5',
-    URL: 'http://www.naver.com',
-    registDate: '2020-02-13 10:32:57',
-  },
-  {
-    number: 18737,
-    sellerId: 'clzls047',
-    enName: '	friday',
-    krName: '	목요일',
-    userNumber: '	1731966',
-    managerName: '김채원',
-    managerNumber: '	010-7616-6616',
-    managerMail: '	kimcw@brandi.co.kr',
-    sellerProp: '쇼핑몰',
-    productCount: '5',
-    URL: 'http://www.naver.com',
-    registDate: '2020-02-13 10:32:57',
-  },
-  {
-    number: 18737,
-    sellerId: 'clzls047',
-    enName: '	friday',
-    krName: '	목요일',
-    userNumber: '	1731966',
-    managerName: '김채원',
-    managerNumber: '	010-7616-6616',
-    managerMail: '	kimcw@brandi.co.kr',
-    sellerProp: '쇼핑몰',
-    productCount: '5',
-    URL: 'http://www.naver.com',
-    registDate: '2020-02-13 10:32:57',
-  },
-];
-
 const UserTable = ({
+  handleSearch,
   currentPage,
   offset,
   optionChange,
   pageChange,
   handleButton,
   sellerData,
+  total,
+  history,
 }) => {
   const classes = useStyles();
+  const checkType = type => {
+    if (type === 1) return '쇼핑몰';
+    if (type === 2) return '마켓';
+    if (type === 3) return '로드샵';
+    if (type === 4) return '디자이너브랜드';
+    if (type === 5) return '제너럴브랜드';
+    if (type === 6) return '내셔널브랜드';
+    if (type === 7) return '뷰티';
+  };
+
+  useEffect(() => {
+    handleSearch(currentPage, offset);
+  }, []);
+
+  if (!sellerData) return null;
 
   return (
     <>
@@ -185,21 +134,27 @@ const UserTable = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {Data.map((el, idx) => (
+            {sellerData.map((el, idx) => (
               <TableRow key={idx}>
-                <StyledLeftMostCell>{el.number}</StyledLeftMostCell>
-                <StyledDateCell onClick={() => console.log('hh')}>
-                  {el.sellerId}
+                <StyledLeftMostCell>{el.id}</StyledLeftMostCell>
+                <StyledDateCell
+                  onClick={() => history.push(`/seller/information/${el.id}`)}
+                >
+                  {el.account}
                 </StyledDateCell>
-                <StyledTableCell>{el.enName}</StyledTableCell>
-                <StyledTableCell>{el.krName}</StyledTableCell>
-                <StyledTableCell>{el.managerName}</StyledTableCell>
-                <StyledTableCell>{el.managerNumber}</StyledTableCell>
-                <StyledTableCell>{el.managerMail}</StyledTableCell>
-                <StyledTableCell>{el.sellerProp}</StyledTableCell>
-                <StyledTableCell>{el.productCount}</StyledTableCell>
-                <StyledTableCell>{el.URL}</StyledTableCell>
-                <StyledTableCell>{el.registDate}</StyledTableCell>
+                <StyledTableCell>{el.name_en}</StyledTableCell>
+                <StyledTableCell>{el.name_kr}</StyledTableCell>
+                <StyledTableCell>{el.representative_name}</StyledTableCell>
+                <StyledTableCell>{el.mobile_number}</StyledTableCell>
+                <StyledTableCell>{el.email}</StyledTableCell>
+                <StyledTableCell>
+                  {checkType(el.seller_types_id)}
+                </StyledTableCell>
+                <StyledTableCell>{el.product_count}</StyledTableCell>
+                <StyledTableCell>{el.site_url}</StyledTableCell>
+                <StyledTableCell>
+                  {el.created_at.slice(0, el.created_at.length - 3)}
+                </StyledTableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -211,9 +166,10 @@ const UserTable = ({
         optionChange={optionChange}
         pageChange={pageChange}
         handleButton={handleButton}
+        total={total}
       />
     </>
   );
 };
 
-export default UserTable;
+export default withRouter(UserTable);

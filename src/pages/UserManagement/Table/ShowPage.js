@@ -22,21 +22,34 @@ const ShowPage = ({
   optionChange,
   pageChange,
   handleButton,
+  total,
 }) => {
   return (
     <DivMainWrapper>
       <DivBtnWrap style={{ marginLeft: 0 }}>
         <Span>현재 페이지</Span>
-        <DivArrowBtn onClick={() => handleButton('minus')}>
+        <DivArrowBtn
+          onClick={() => {
+            if (currentPage > 1) handleButton('minus');
+          }}
+        >
           <IArrow arrow="\f104" />
         </DivArrowBtn>
         <DivInputBtn style={{ padding: 0 }}>
           <InputCurrentPage value={currentPage} onChange={pageChange} />
         </DivInputBtn>
-        <DivArrowBtn onClick={() => handleButton('plus')}>
+        <DivArrowBtn
+          onClick={() => {
+            if (currentPage < Math.ceil(total / offset.value)) {
+              handleButton('plus');
+            }
+          }}
+        >
           <IArrow arrow="\f105" />
         </DivArrowBtn>
-        <Span style={{ marginLeft: '10px' }}>총 501페이지</Span>
+        <Span style={{ marginLeft: '10px' }}>{`총 ${Math.ceil(
+          total / offset.value,
+        )}페이지`}</Span>
         <Span></Span>
       </DivBtnWrap>
       <DivBtnWrap>
@@ -55,7 +68,7 @@ const ShowPage = ({
         <Span style={{ marginLeft: '15px' }}>개씩 보기</Span>
       </DivBtnWrap>
       <DivBtnWrap>
-        <Span>총 5006명의 셀러</Span>
+        <Span>{`총 ${total}명의 셀러`}</Span>
       </DivBtnWrap>
     </DivMainWrapper>
   );

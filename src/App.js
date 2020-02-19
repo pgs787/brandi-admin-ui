@@ -15,6 +15,7 @@ const App = () => {
         <Route path="/login" component={Login} />
         <Route path="/product/registration" component={ProductRegistration} />
         <Route path="/product/management" component={ProductManagement} />
+        <Route path="/seller/information/:id" component={SellerInfo} />
         <Route path="/seller/information" component={SellerInfo} />
         <Route path="/seller/management" component={UserManagement} />
       </Switch>

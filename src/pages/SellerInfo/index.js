@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import BoxDesign from '../../components/BoxDesign';
 import Navigation from '../../components/Navigation/Navigation';
@@ -7,20 +7,24 @@ import BusinessInfo from './BusinessInfo';
 import DetailInfo from './DetailInfo';
 import DeliveryInfo from './DeliveryInfo';
 import ButtonGroup from './GeneralInfo/ButtonGroup';
+import Loading from 'components/Loading';
 
-const SellerInfo = () => {
+const SellerInfo = ({ match }) => {
+  const [loading, setLoading] = useState(false);
+
   return (
     <Navigation>
+      {loading && <Loading />}
       <PageWrapper>
         <BoxDesign>
           <PageTitle>
             셀러 정보 수정페이지 <RequiredSpan>* 필수 항목</RequiredSpan>
           </PageTitle>
         </BoxDesign>
-        <GeneralInfo />
-        <BusinessInfo />
-        <DetailInfo />
-        <DeliveryInfo />
+        <GeneralInfo match={match} />
+        <BusinessInfo match={match} />
+        <DetailInfo setLoading={setLoading} match={match} />
+        <DeliveryInfo match={match} />
         <ButtonGroup />
       </PageWrapper>
     </Navigation>

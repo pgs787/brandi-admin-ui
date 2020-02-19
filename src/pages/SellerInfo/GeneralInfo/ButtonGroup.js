@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { API_URL } from '../../../utils/callUrl';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 const ButtonGroup = props => {
@@ -37,6 +38,8 @@ const ButtonGroup = props => {
     yellowId,
     deliveryInfo,
     refundInfo,
+    history,
+    match,
   } = props;
 
   const onRegister = () => {
@@ -168,32 +171,63 @@ const ButtonGroup = props => {
         site_url: site,
       },
     };
-    const token = localStorage.getItem('Login_token');
-    fetch(`${API_URL}/seller/info-update`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-      body: JSON.stringify(data),
-    })
-      .then(res => res.json())
-      .then(res => {
-        alert('정상적으로 수정 되었습니다.');
-        console.log(res);
-        location.reload();
+
+    if (match.params.id) {
+      fetch(`${API_URL}/seller/list-info-update/${match.params.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       })
-      .catch(err => {
-        console.log(data);
-        console.log(token);
-        console.log(err);
-      });
+        .then(res => res.json())
+        .then(res => {
+          alert('정상적으로 수정 되었습니다.');
+          console.log(res);
+          history.push('/seller/management');
+        })
+        .catch(err => {
+          console.log(data);
+          console.log(token);
+          console.log(err);
+        });
+    } else {
+      const token = localStorage.getItem('Login_token');
+      fetch(`${API_URL}/seller/info-update`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+        body: JSON.stringify(data),
+      })
+        .then(res => res.json())
+        .then(res => {
+          alert('정상적으로 수정 되었습니다.');
+          console.log(res);
+          history.push('/seller/management');
+        })
+        .catch(err => {
+          console.log(data);
+          console.log(token);
+          console.log(err);
+        });
+    }
   };
 
   return (
     <ButtonGroupWrapper>
       <SaveButton onClick={onRegister}>저장</SaveButton>
-      <CancelButton>취소</CancelButton>
+      <CancelButton
+        onClick={() => {
+          const result = confirm('정보 수정을 중단하시겠습니까?');
+          if (result) {
+            history.push('/seller/management');
+          }
+        }}
+      >
+        취소
+      </CancelButton>
     </ButtonGroupWrapper>
   );
 };
@@ -234,7 +268,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(ButtonGroup);
+export default withRouter(connect(mapStateToProps)(ButtonGroup));
 
 // Styled Components
 

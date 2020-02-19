@@ -25,6 +25,11 @@ const Title = ({
   changeManagerNumber,
   changeManagerMail,
   clickReset,
+  handleSearch,
+  siteUrl,
+  changeSite,
+  currentPage,
+  offset,
 }) => {
   return (
     <>
@@ -54,6 +59,11 @@ const Title = ({
           changeManagerNumber={changeManagerNumber}
           changeManagerMail={changeManagerMail}
           clickReset={clickReset}
+          handleSearch={handleSearch}
+          siteUrl={siteUrl}
+          changeSite={changeSite}
+          currentPage={currentPage}
+          offset={offset}
         />
       </BoxDesign>
     </>

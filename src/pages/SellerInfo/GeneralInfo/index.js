@@ -22,7 +22,7 @@ const reducer = (state, action, status) => {
   };
 };
 
-const GeneralInfo = ({ setSellerName, setSellerImg }) => {
+const GeneralInfo = ({ setSellerName, setSellerImg, match }) => {
   const [showContent, setShowContent] = useState(true);
   const [sellerNameKr, setSellerNameKr] = useState('');
   const [sellerNameEn, setSellerNameEn] = useState('');
@@ -31,31 +31,63 @@ const GeneralInfo = ({ setSellerName, setSellerImg }) => {
   const [type, setType] = useState(1);
 
   useEffect(() => {
-    const token = localStorage.getItem('Login_token');
-    axios
-      .get(`${API_URL}/seller/info-get`, { headers: { Authorization: token } })
-      .then(res => {
-        console.log(res);
-        const data = res.data.seller_info;
-        if (data.name_kr) {
-          setSellerNameKr(data.name_kr);
-          setSellerName(data.name_kr, 'kr');
-        }
-        if (data.name_en) {
-          setSellerNameEn(data.name_en);
-          setSellerName(data.name_en, 'en');
-        }
-        if (data.account) {
-          setAccount(data.account);
-        }
-        if (data.profile_image) {
-          setRepImage(data.profile_image);
-          setSellerImg(data.profile_image);
-        }
-        if (data.seller_types_id) {
-          setType(data.seller_types_id);
-        }
-      });
+    // console.log(match.params) === {}
+    if (match.params.id) {
+      console.log('잇다');
+      axios
+        .get(`${API_URL}/seller/list-info-get/${match.params.id}`)
+        .then(res => {
+          console.log(res);
+          const data = res.data.seller_info;
+          if (data.name_kr) {
+            setSellerNameKr(data.name_kr);
+            setSellerName(data.name_kr, 'kr');
+          }
+          if (data.name_en) {
+            setSellerNameEn(data.name_en);
+            setSellerName(data.name_en, 'en');
+          }
+          if (data.account) {
+            setAccount(data.account);
+          }
+          if (data.profile_image) {
+            setRepImage(data.profile_image);
+            setSellerImg(data.profile_image);
+          }
+          if (data.seller_types_id) {
+            setType(data.seller_types_id);
+          }
+        });
+    } else {
+      console.log('없다');
+      const token = localStorage.getItem('Login_token');
+      axios
+        .get(`${API_URL}/seller/info-get`, {
+          headers: { Authorization: token },
+        })
+        .then(res => {
+          console.log(res);
+          const data = res.data.seller_info;
+          if (data.name_kr) {
+            setSellerNameKr(data.name_kr);
+            setSellerName(data.name_kr, 'kr');
+          }
+          if (data.name_en) {
+            setSellerNameEn(data.name_en);
+            setSellerName(data.name_en, 'en');
+          }
+          if (data.account) {
+            setAccount(data.account);
+          }
+          if (data.profile_image) {
+            setRepImage(data.profile_image);
+            setSellerImg(data.profile_image);
+          }
+          if (data.seller_types_id) {
+            setType(data.seller_types_id);
+          }
+        });
+    }
   }, []);
 
   const onChangeRepImage = e => {
