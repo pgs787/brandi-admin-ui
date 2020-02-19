@@ -9,26 +9,44 @@ import { setOtherInfo } from 'store/actions';
 import { API_URL } from '../../../utils/callUrl';
 import axios from 'axios';
 
-const DeliveryInfo = ({ setOtherInfo }) => {
+const DeliveryInfo = ({ setOtherInfo, match }) => {
   const [showContent, setShowContent] = useState(true);
   const [deliveryInfo, setDeliveryInfo] = useState('');
   const [refundInfo, setRefundInfo] = useState('');
 
   useEffect(() => {
-    const token = localStorage.getItem('Login_token');
-    axios
-      .get(`${API_URL}/seller/info-get`, { headers: { Authorization: token } })
-      .then(res => {
-        const data = res.data.seller_info;
-        if (data.shopping_info) {
-          setDeliveryInfo(data.shopping_info);
-          setOtherInfo(data.shopping_info, 'deliveryInfo');
-        }
-        if (data.refund_info) {
-          setRefundInfo(data.refund_info);
-          setOtherInfo(data.refund_info, 'refundInfo');
-        }
-      });
+    if (match.params.id) {
+      axios
+        .get(`${API_URL}/seller/list-info-get/${match.params.id}`)
+        .then(res => {
+          const data = res.data.seller_info;
+          if (data.shopping_info) {
+            setDeliveryInfo(data.shopping_info);
+            setOtherInfo(data.shopping_info, 'deliveryInfo');
+          }
+          if (data.refund_info) {
+            setRefundInfo(data.refund_info);
+            setOtherInfo(data.refund_info, 'refundInfo');
+          }
+        });
+    } else {
+      const token = localStorage.getItem('Login_token');
+      axios
+        .get(`${API_URL}/seller/info-get`, {
+          headers: { Authorization: token },
+        })
+        .then(res => {
+          const data = res.data.seller_info;
+          if (data.shopping_info) {
+            setDeliveryInfo(data.shopping_info);
+            setOtherInfo(data.shopping_info, 'deliveryInfo');
+          }
+          if (data.refund_info) {
+            setRefundInfo(data.refund_info);
+            setOtherInfo(data.refund_info, 'refundInfo');
+          }
+        });
+    }
   }, []);
 
   const onClick = () => {
