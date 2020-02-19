@@ -4,7 +4,7 @@ import BoxDesign from 'components/BoxDesign';
 import Navigation from 'components/Navigation/Navigation';
 import DataList from 'pages/ProductManagement/Sections/DataList';
 import ProductControlSearch from './Sections/ProductControlSearch';
-
+import ShowPage from './Sections/ShowPage';
 const ProductManagement = () => {
   return (
     <Navigation>
@@ -12,6 +12,7 @@ const ProductManagement = () => {
         <ProductControlSearch />
         <BoxDesign>
           <DataList />
+          <ShowPage />
         </BoxDesign>
       </PageWrapper>
     </Navigation>

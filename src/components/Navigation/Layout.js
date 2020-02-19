@@ -20,7 +20,7 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import logoImg from '../../images/logo_2.png';
 import axios from 'axios';
-import API_URL from '../../utils/callUrl';
+import { API_URL } from 'utils/callUrl';
 // component
 import SideList from './SideList';
 
