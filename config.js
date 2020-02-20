@@ -1,6 +1,6 @@
 import no_image from './src/images/no_image.png';
 
-export const server_url = 'http://192.168.7.4:5000';
+export const server_url = 'http://192.168.7.14:5000';
 /* http://192.168.1.194:5000/product
  */ export const data = {
   generalInfo: {

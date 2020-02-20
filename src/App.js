@@ -13,6 +13,10 @@ const App = () => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/login" component={Login} />
+        <Route
+          path="/product/registration/:serial_number"
+          component={ProductRegistration}
+        />
         <Route path="/product/registration" component={ProductRegistration} />
         <Route path="/product/management" component={ProductManagement} />
         <Route path="/seller/information/:id" component={SellerInfo} />

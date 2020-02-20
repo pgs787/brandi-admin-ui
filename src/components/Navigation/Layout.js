@@ -21,10 +21,11 @@ import Tooltip from '@material-ui/core/Tooltip';
 import logoImg from '../../images/logo_2.png';
 import axios from 'axios';
 import { API_URL } from 'utils/callUrl';
+import { withRouter } from 'react-router-dom';
 // component
 import SideList from './SideList';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, history }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -354,4 +355,4 @@ const FooterContent = styled.div`
   font-size: 12px;
 `;
 
-export default Layout;
+export default withRouter(Layout);

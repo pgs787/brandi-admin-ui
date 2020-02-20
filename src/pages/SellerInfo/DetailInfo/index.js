@@ -53,10 +53,11 @@ const DetailInfo = ({ setDetailImg, setDetailInfo, match, setLoading }) => {
             setSite(data.site_url);
             setDetailInfo(data.site_url, 'site');
           }
-          setDetailInfo(data.seller_representative[0].id, 'managerId');
-          setDetailInfo(data.seller_representative[1].id, 'managerIdSecond');
-          setDetailInfo(data.seller_representative[2].id, 'managerIdThird');
-
+          if (data.seller_representative) {
+            setDetailInfo(data.seller_representative[0].id, 'managerId');
+            setDetailInfo(data.seller_representative[1].id, 'managerIdSecond');
+            setDetailInfo(data.seller_representative[2].id, 'managerIdThird');
+          }
           if (data.seller_representative[0].name) {
             setName(data.seller_representative[0].name);
             setDetailInfo(data.seller_representative[0].name, 'managerName');
@@ -158,69 +159,71 @@ const DetailInfo = ({ setDetailImg, setDetailInfo, match, setLoading }) => {
             setSite(data.site_url);
             setDetailInfo(data.site_url, 'site');
           }
-          setDetailInfo(data.seller_representative[0].id, 'managerId');
-          setDetailInfo(data.seller_representative[1].id, 'managerIdSecond');
-          setDetailInfo(data.seller_representative[2].id, 'managerIdThird');
+          if (data.seller_representative) {
+            setDetailInfo(data.seller_representative[0].id, 'managerId');
+            setDetailInfo(data.seller_representative[1].id, 'managerIdSecond');
+            setDetailInfo(data.seller_representative[2].id, 'managerIdThird');
 
-          if (data.seller_representative[0].name) {
-            setName(data.seller_representative[0].name);
-            setDetailInfo(data.seller_representative[0].name, 'managerName');
-          }
-          if (data.seller_representative[0].mobile_number) {
-            setNumber(data.seller_representative[0].mobile_number);
-            setDetailInfo(
-              data.seller_representative[0].mobile_number,
-              'managerNumber',
-            );
-          }
-          if (data.seller_representative[0].email) {
-            setMail(data.seller_representative[0].email);
-            setDetailInfo(data.seller_representative[0].email, 'managerMail');
-          }
-          if (data.seller_representative[1]) {
-            if (data.seller_representative[1].name) {
-              setNameSecond(data.seller_representative[1].name);
+            if (data.seller_representative[0].name) {
+              setName(data.seller_representative[0].name);
+              setDetailInfo(data.seller_representative[0].name, 'managerName');
+            }
+            if (data.seller_representative[0].mobile_number) {
+              setNumber(data.seller_representative[0].mobile_number);
               setDetailInfo(
-                data.seller_representative[1].name,
-                'managerNameSecond',
+                data.seller_representative[0].mobile_number,
+                'managerNumber',
               );
             }
-            if (data.seller_representative[1].mobile_number) {
-              setNumberSecond(data.seller_representative[1].mobile_number);
-              setDetailInfo(
-                data.seller_representative[1].mobile_number,
-                'managerNumberSecond',
-              );
+            if (data.seller_representative[0].email) {
+              setMail(data.seller_representative[0].email);
+              setDetailInfo(data.seller_representative[0].email, 'managerMail');
             }
-            if (data.seller_representative[1].email) {
-              setMailSecond(data.seller_representative[1].email);
-              setDetailInfo(
-                data.seller_representative[1].email,
-                'managerMailSecond',
-              );
+            if (data.seller_representative[1]) {
+              if (data.seller_representative[1].name) {
+                setNameSecond(data.seller_representative[1].name);
+                setDetailInfo(
+                  data.seller_representative[1].name,
+                  'managerNameSecond',
+                );
+              }
+              if (data.seller_representative[1].mobile_number) {
+                setNumberSecond(data.seller_representative[1].mobile_number);
+                setDetailInfo(
+                  data.seller_representative[1].mobile_number,
+                  'managerNumberSecond',
+                );
+              }
+              if (data.seller_representative[1].email) {
+                setMailSecond(data.seller_representative[1].email);
+                setDetailInfo(
+                  data.seller_representative[1].email,
+                  'managerMailSecond',
+                );
+              }
             }
-          }
-          if (data.seller_representative[2]) {
-            if (data.seller_representative[2].name) {
-              setNameThird(data.seller_representative[2].name);
-              setDetailInfo(
-                data.seller_representative[2].name,
-                'managerNameThird',
-              );
-            }
-            if (data.seller_representative[2].mobile_number) {
-              setNumberThird(data.seller_representative[2].mobile_number);
-              setDetailInfo(
-                data.seller_representative[2].mobile_number,
-                'managerNumberThird',
-              );
-            }
-            if (data.seller_representative[2].email) {
-              setMailThird(data.seller_representative[2].email);
-              setDetailInfo(
-                data.seller_representative[2].email,
-                'managerMailThird',
-              );
+            if (data.seller_representative[2]) {
+              if (data.seller_representative[2].name) {
+                setNameThird(data.seller_representative[2].name);
+                setDetailInfo(
+                  data.seller_representative[2].name,
+                  'managerNameThird',
+                );
+              }
+              if (data.seller_representative[2].mobile_number) {
+                setNumberThird(data.seller_representative[2].mobile_number);
+                setDetailInfo(
+                  data.seller_representative[2].mobile_number,
+                  'managerNumberThird',
+                );
+              }
+              if (data.seller_representative[2].email) {
+                setMailThird(data.seller_representative[2].email);
+                setDetailInfo(
+                  data.seller_representative[2].email,
+                  'managerMailThird',
+                );
+              }
             }
           }
           if (data.instagram_account) {
