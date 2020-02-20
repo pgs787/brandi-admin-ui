@@ -2,9 +2,10 @@ const basicDate = date => {
   const year = date.getFullYear() + '';
   const month =
     date.getMonth() + 1 < 10
-      ? '0' + (date.getMonth() + 1)
-      : '' + (date.getMonth() + 1);
-  const day = date.getDate() < 10 ? '0' + date.getDate() : '' + date.getDate();
+      ? '-0' + (date.getMonth() + 1)
+      : '-' + (date.getMonth() + 1);
+  const day =
+    date.getDate() < 10 ? '-0' + date.getDate() : '-' + date.getDate();
   const set = year + month + day;
   return set;
 };
@@ -13,8 +14,8 @@ const initialState = {
   currentPage: 1,
   showList: { label: 10, value: 10 },
   pagenateData: {
-    startDate: '20200101',
-    endDate: '20200219',
+    startDate: '2020-01-01',
+    endDate: '2020-02-20',
     sellingStatus: '전체',
     displayStatus: '전체',
     discountStatus: '전체',

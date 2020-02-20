@@ -143,6 +143,7 @@ const SignUpInfo = ({ handleClick }) => {
           cs_kakao_account: inputState.kakaoId,
         })
         .then(res => {
+          alert('정상적으로 가입 되었습니다.');
           location.reload();
         })
         .catch(error => {
