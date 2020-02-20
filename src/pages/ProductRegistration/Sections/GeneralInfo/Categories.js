@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 import SectionField from 'components/SectionField';
@@ -6,24 +6,58 @@ import { data } from '../../../../../config';
 import { connect } from 'react-redux';
 import { setFirstCategory, setSecondCategory } from 'store/actions';
 import { customStylesCategories } from 'styles/customStyles';
-
-const firstCategory = data.generalInfo.categories.firstCategory;
-const secondCategory = data.generalInfo.categories.secondCategory;
+import { server_url } from '../../../../../config';
 
 const Categories = ({ setFirstCategory, setSecondCategory }) => {
-  const [selectedOptionFirst, setSelectedOptionFirst] = useState(null);
-  const [selectedOptionSecond, setSelectedOptionSecond] = useState(null);
+  const [selectedOptionFirst, setSelectedOptionFirst] = useState('');
+  const [selectedOptionSecond, setSelectedOptionSecond] = useState('');
+  const [firstCategoryData, setFirstCategoryData] = useState('');
+  const [secondCategoryData, setSecondCategoryData] = useState([
+    {
+      value: '1차 카테고리를 선택해주세요.',
+      label: '1차 카테고리를 선택해주세요.',
+    },
+  ]);
 
-  const onChangeFirst = ({ value }) => {
-    setSelectedOptionFirst(value);
-    setFirstCategory(value);
+  // 1차 카테고리 데이터 호출 API
+  useEffect(() => {
+    fetch(`${server_url}/first_category`)
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        setFirstCategoryData(
+          res.map(element => {
+            return { value: element.id, label: element.name };
+          }),
+        );
+      })
+      .catch(err => console.log(err));
+  }, []);
 
+  const onChangeFirst = value => {
     // API 호출: 2차 카테고리
+    console.log(value);
+    if (!selectedOptionFirst) {
+      fetch(`${server_url}/second_category?first_id=${value.value}`)
+        .then(res => res.json())
+        .then(res => {
+          console.log(res);
+          setSecondCategoryData(
+            res.map(element => {
+              return { value: element.id, label: element.name };
+            }),
+          );
+        })
+        .catch(err => console.log(err));
+    }
+    setSelectedOptionFirst(value.value);
+    setFirstCategory(value.label);
   };
 
-  const onChangeSecond = ({ value }) => {
-    setSelectedOptionSecond(value);
-    setSecondCategory(value);
+  const onChangeSecond = value => {
+    console.log(value);
+    setSelectedOptionSecond(value.value);
+    setSecondCategory(value.label);
   };
 
   return (
@@ -37,7 +71,7 @@ const Categories = ({ setFirstCategory, setSecondCategory }) => {
           <CategoryLabel>1차 카테고리</CategoryLabel>
           <Select
             onChange={onChangeFirst}
-            options={firstCategory}
+            options={firstCategoryData}
             styles={customStylesCategories}
             placeholder="1차 카테고리를 선택해주세요"
           />
@@ -46,9 +80,9 @@ const Categories = ({ setFirstCategory, setSecondCategory }) => {
           <CategoryLabel>2차 카테고리</CategoryLabel>
           <Select
             onChange={onChangeSecond}
-            options={secondCategory}
+            options={secondCategoryData}
             styles={customStylesCategories}
-            placeholder="1차 카테고리부터 선택해주세요"
+            placeholder="2차 카테고리부터 선택해주세요"
           />
         </CategoryBox>
       </CategoriesContentWrapper>

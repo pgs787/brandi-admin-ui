@@ -220,7 +220,7 @@ const BasicOptionList = ({
                   type="number"
                   disabled={element.stockState === 0 ? true : false}
                   onChange={e => setCount(e, index)}
-                  value={element.stock_volume}
+                  value={element.stock_volume ? element.stock_volume : ''}
                 ></InputTag>
               </StyledTableCell>
               <StyledTableCell

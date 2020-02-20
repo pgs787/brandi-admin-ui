@@ -28,11 +28,16 @@ const ProductSearchBox = ({
   const [sellingStatus, setSellingStatus] = useState('전체');
   const [displayStatus, setDisplayStatus] = useState('전체');
   const [discountStatus, setDiscountStatus] = useState('전체');
-  const [startingDateTime, setStartingDateTime] = useState(new Date());
+  const [startingDateTime, setStartingDateTime] = useState(
+    new Date('2020-01-01T03:24:00'),
+  );
   const [endingDateTime, setEndingDateTime] = useState(new Date());
   const [sellerNameInput, setSellerNameInput] = useState('');
   const [selectOptionInput, setSelectOptionInput] = useState('');
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState({
+    value: '상품명',
+    label: '상품명',
+  });
   const [startDate, setStartDate] = useState('20200101');
   const [endDate, setEndDate] = useState('20200219');
   const [pagenate, setPagenate] = useState('');
@@ -141,7 +146,7 @@ const ProductSearchBox = ({
   };
   // 옵션 선택
   const onChangeSelect = value => {
-    console.log('옵션 선택 : ', value);
+    console.log('옵션 선택 : ', value.value);
     setSelectedOption(value);
   };
 
@@ -160,7 +165,7 @@ limit offset은 필수 */
       endDate: endDate,
       sellingStatus: sellingStatus,
       displayStatus: displayStatus,
-      discountStatus: displayStatus,
+      discountStatus: discountStatus,
       sellerNameInput: sellerNameInput,
       selectOptionInput: selectOptionInput,
       selectedOption: selectedOption,
@@ -199,10 +204,10 @@ limit offset은 필수 */
     setDisplayStatus('전체');
     setDiscountStatus('전체');
     onChangeEndingDate(new Date());
-    onChangeStartingDate(new Date());
+    onChangeStartingDate(new Date('2020-01-01T03:24:00'));
     setSellerNameInput('');
     setSelectOptionInput('');
-    setSelectedOption(null);
+    setSelectedOption({ value: '상품명', label: '상품명' });
   };
 
   return (

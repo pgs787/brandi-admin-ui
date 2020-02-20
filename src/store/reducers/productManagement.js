@@ -20,7 +20,7 @@ const initialState = {
     discountStatus: '전체',
     sellerNameInput: '',
     selectOptionInput: '',
-    selectedOption: null,
+    selectedOption: { value: '상품명', label: '상품명' },
   },
   totalProductCount: '',
   setMaxPage: 10,

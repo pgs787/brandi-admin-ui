@@ -19,7 +19,9 @@ const UserManagement = () => {
   const [managerNumber, setManagerNumber] = useState('');
   const [managerMail, setmanagerMail] = useState('');
   const [siteUrl, setSiteUrl] = useState('');
-  const [startingDateTime, setStartingDateTime] = useState(new Date());
+  const [startingDateTime, setStartingDateTime] = useState(
+    new Date('2020-01-01T03:24:00'),
+  );
   const [endingDateTime, setEndingDateTime] = useState(new Date());
   const [currentPage, setCurrentPage] = useState(1);
   const [offset, setOffset] = useState({ label: 10, value: 10 });
@@ -121,7 +123,7 @@ const UserManagement = () => {
 
   const clickReset = () => {
     setSellerProp('전체');
-    onChangeStartingDate(new Date());
+    onChangeStartingDate(new Date('2020-01-01T03:24:00'));
     onChangeEndingDate(new Date());
     changeNumber('');
     changeSellerId('');

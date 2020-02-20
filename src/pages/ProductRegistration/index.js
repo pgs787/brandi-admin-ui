@@ -7,7 +7,7 @@ import OptionInfo from './Sections/OptionInfo';
 import SaleInfo from './Sections/SaleInfo';
 import ButtonGroup from './Sections/ButtonGroup';
 
-const ProductRegistration = () => {
+const ProductRegistration = ({ match }) => {
   return (
     <Navigation>
       <PageWrapper>
@@ -19,7 +19,7 @@ const ProductRegistration = () => {
         <GeneralInfo />
         <OptionInfo />
         <SaleInfo />
-        <ButtonGroup />
+        <ButtonGroup match={match} />
       </PageWrapper>
     </Navigation>
   );

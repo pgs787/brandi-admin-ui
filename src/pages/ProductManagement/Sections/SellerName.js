@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 
+import { connect } from 'react-redux';
+
 const customStyles = {
   control: () => ({
     width: 120,
@@ -39,9 +41,9 @@ const SellerName = ({
               onChangeSelect(e);
             }}
             options={[
-              { value: 'option1', label: 'Option 1' },
-              { value: 'option2', label: 'Option 2' },
-              { value: 'option3', label: 'Option 3' },
+              { value: '상품명', label: '상품명' },
+              { value: '상품번호', label: '상품번호' },
+              { value: '상품코드', label: '상품코드' },
             ]}
             styles={customStyles}
             placeholder="Select"
@@ -56,8 +58,10 @@ const SellerName = ({
     </DivListWrapper>
   );
 };
-
-export default SellerName;
+const mapStateToProps = state => {
+  return {};
+};
+export default connect()(SellerName);
 
 const DivListWrapper = styled.div`
   display: flex;

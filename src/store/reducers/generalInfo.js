@@ -3,7 +3,7 @@ const initialState = {
   isSelling: true,
   isDisplaying: true,
   categories: {
-    firstCategory: null,
+    firstCategory: '',
     secondCategory: null,
   },
   useProvisionNotice: false,
