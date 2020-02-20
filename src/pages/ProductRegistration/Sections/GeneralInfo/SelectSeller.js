@@ -18,7 +18,7 @@ const SelectSeller = ({ setSeller }) => {
 
   useEffect(() => {
     fetch(
-      `${API_URL}/seller/list?limit=${30}&offset=${1}&start_date=${'2020-02-18'}&end_date=${'2020-02-20'}`,
+      `${API_URL}/seller/list?limit=${10}&offset=${2}&start_date=${'2020-02-18'}&end_date=${'2020-02-20'}`,
       {
         method: 'GET',
       },
