@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 import SectionField from 'components/SectionField';
 import { connect } from 'react-redux';
 import { setSeller } from 'store/actions';
 import { data } from '../../../../../config';
+import { API_URL } from '../../../../utils/callUrl';
 import { customStylesSelectSeller } from 'styles/customStyles';
 
 const options = data.generalInfo.sellers;
@@ -13,7 +14,26 @@ const SelectSeller = ({ setSeller }) => {
   const [showModal, setShowModal] = useState(false);
   const [tempSelectedValue, setTempSelectedValue] = useState('');
   const [selectedSeller, setSelectedSeller] = useState('');
+  const [userData, setUserData] = useState([]);
 
+  useEffect(() => {
+    fetch(
+      `${API_URL}/seller/list?limit=${30}&offset=${1}&start_date=${'2020-02-18'}&end_date=${'2020-02-19'}`,
+      {
+        method: 'GET',
+      },
+    )
+      .then(res => res.json())
+      .then(res => {
+        console.log('res: ', res.seller_info);
+        setUserData(
+          res.seller_info.map(element => {
+            return { value: element.account, label: element.account };
+          }),
+        );
+      })
+      .catch(err => console.log('err: ', err));
+  }, []);
   const onChange = ({ value }) => {
     setTempSelectedValue(value);
   };
@@ -54,7 +74,7 @@ const SelectSeller = ({ setSeller }) => {
             <Select
               styles={customStylesSelectSeller}
               placeholder="셀러 검색"
-              options={options}
+              options={userData}
               onChange={onChange}
             />
           </ModalBody>

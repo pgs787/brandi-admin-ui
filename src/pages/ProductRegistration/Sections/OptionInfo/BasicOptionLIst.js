@@ -120,7 +120,7 @@ const BasicOptionList = ({
   // select list stock set
   const stockHandler = (idx, index) => {
     if (idx === 0) {
-      resetStock('', index);
+      resetStock(null, index);
       stockChange(false, idx, index);
       setActiveId(0);
     } else {

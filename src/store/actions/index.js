@@ -138,40 +138,44 @@ export const setDiscountEndDate = datetime => {
   };
 };
 
+/*              옵션정보 액션함수             */
+
+// 옵션정보 선택
 export const optionSet = set => {
   return {
     type: 'OPTION_SET',
     payload: set,
   };
 };
-
+// 기본정보 컬러 선택
 export const selectBasicColor = color => {
   return {
     type: 'SELECT_BASIC_COLOR',
     payload: color,
   };
 };
-
+// 기본정보 사이즈 선택
 export const selectBasicSize = size => {
   return {
     type: 'SELECT_BASIC_SIZE',
     payload: size,
   };
 };
-
+// 선택된 옵션 리스트
 export const selectedList = select => {
   return {
     type: 'SELECTED_LIST',
     payload: select,
   };
 };
+// 선택된 기본옵션 리스트 삭제
 export const removeBasicList = item => {
   return {
     type: 'REMOVE_BASIC_LIST',
     payload: item,
   };
 };
-
+// 재고정보 일괄 선택
 export const setStock = (set, num) => {
   return {
     type: 'SET_STOCK',
@@ -181,7 +185,7 @@ export const setStock = (set, num) => {
     },
   };
 };
-
+// 선택된 기본옵션 컬러 변경
 export const colorChange = (color, target) => {
   return {
     type: 'COLOR_CHANGE',
@@ -191,6 +195,7 @@ export const colorChange = (color, target) => {
     },
   };
 };
+// 선택된 기본옵션 사이즈 변경
 export const sizeChange = (size, target) => {
   return {
     type: 'SIZE_CHANGE',
@@ -200,7 +205,7 @@ export const sizeChange = (size, target) => {
     },
   };
 };
-
+// 선택된 기본옵션 재고정보 변경
 export const stockChange = (set, num, target) => {
   return {
     type: 'STOCK_CHANGE',
@@ -211,7 +216,7 @@ export const stockChange = (set, num, target) => {
     },
   };
 };
-
+// 기본옵션 재고정보 리셋
 export const resetStock = (set, target) => {
   return {
     type: 'RESET_STOCK',
@@ -221,7 +226,7 @@ export const resetStock = (set, target) => {
     },
   };
 };
-
+// 선택된 기본옵션 재고정보 수량변경
 export const setStockCount = (count, target) => {
   return {
     type: 'SET_STOCK_COUNT',
@@ -231,13 +236,66 @@ export const setStockCount = (count, target) => {
     },
   };
 };
-export const setType = type => {
+// 옵션없음
+export const nonOptionStock = stock => {
   return {
-    type: 'SET_TYPE',
-    payload: type,
+    type: 'NON_OPTION_STOCK',
+    payload: stock,
   };
 };
 
+/*                  상품관리 액션함수                 */
+
+// 이전페이지
+export const setBeforePage = set => {
+  return {
+    type: 'SET_BEFORE_PAGE',
+    payload: set,
+  };
+};
+// 다음페이지
+export const setAfterPage = set => {
+  return {
+    type: 'SET_AFTER_PAGE',
+    payload: set,
+  };
+};
+// 페이지 선택
+export const selectedPage = set => {
+  return {
+    type: 'SELECTED_PAGE',
+    payload: set,
+  };
+};
+// 페이지 상품 개수
+export const setShowList = set => {
+  return {
+    type: 'SET_SHOW_LIST',
+    payload: set,
+  };
+};
+
+// 페이지 제한
+export const setMaxPage = set => {
+  return {
+    type: 'SET_MAX_PAGE',
+    payload: set,
+  };
+};
+// 페이지네이션 정보
+export const pagenateData = set => {
+  return {
+    type: 'PAGENATE_DATA',
+    payload: set,
+  };
+};
+// 제품 총 개수
+export const totalProductCount = count => {
+  return {
+    type: 'TOTAL_PRODUCT_COUNT',
+    payload: count,
+  };
+};
 export const addAutonomyOption = () => {
   return {
     type: 'ADD_AUTONOMY_OPTION',
@@ -261,13 +319,6 @@ export const setProductTags = arr => {
   return {
     type: 'SET_PRODUCT_TAGS',
     payload: arr,
-  };
-};
-
-export const nonOptionStock = stock => {
-  return {
-    type: 'NON_OPTION_STOCK',
-    payload: stock,
   };
 };
 

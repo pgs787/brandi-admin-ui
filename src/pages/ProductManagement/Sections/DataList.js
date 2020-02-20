@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import { productData } from '../../../../config';
@@ -9,6 +9,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { server_url } from '../../../../config';
+
+import { connect } from 'react-redux';
+import { totalProductCount, setMaxPage } from 'store/actions';
 
 const useStyles = makeStyles({
   table: {
@@ -116,15 +120,41 @@ const createData = ({
 
 const rows = productData.map((product, idx) => createData(product));
 
-const DataList = () => {
+const DataList = ({
+  currentPage,
+  showList,
+  pagenateData,
+  totalProductCount,
+  setMaxPage,
+}) => {
   const classes = useStyles();
+  const [list, setList] = useState([]);
+  /* &seller_attribute=${sellerProp} */
+  useEffect(() => {
+    fetch(
+      `${server_url}/product_list?limit=${showList.value}&offset=${currentPage}&seller_name=${pagenateData.sellerNameInput}&start_date=${pagenateData.startDate}&end_date=${pagenateData.endDate}`,
+      {
+        method: 'GET',
+      },
+    )
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        console.log(
+          `${server_url}/product_list?limit=${showList.value}&offset=${currentPage}&seller_name=${pagenateData.sellerNameInput}&start_date=${pagenateData.startDate}&end_date=${pagenateData.endDate}`,
+        );
+        totalProductCount(res.search_count);
+        setMaxPage(Math.ceil(res.search_count / showList.value));
+        setList(res.products_data);
+      })
+      .catch(err => console.log(err));
+  }, [currentPage, showList, pagenateData]);
 
   return (
     <TableContainer className={classes.container} component={Paper}>
       <Table className={classes.table} stickyHeader aria-label="simple table">
         <TableHead>
           <TableRow>
-            <StyledLeftMostCell>등록상태</StyledLeftMostCell>
             <StyledDateCell>등록일</StyledDateCell>
             <StyledTableCell>대표이미지</StyledTableCell>
             <StyledTableCell>상품명</StyledTableCell>
@@ -137,32 +167,31 @@ const DataList = () => {
             <StyledTableCell>판매여부</StyledTableCell>
             <StyledTableCell>진열여부</StyledTableCell>
             <StyledTableCell>할인여부</StyledTableCell>
-            <StyledTableCell>배송구분</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, idx) => (
+          {list.map((row, idx) => (
             <TableRow key={idx}>
-              <StyledLeftMostCell>{row.registerStatus}</StyledLeftMostCell>
-              <StyledDateCell>{row.registerDate}</StyledDateCell>
+              <StyledDateCell>{row.created_at}</StyledDateCell>
               <StyledTableCell>
-                <RepImageBox src={row.repImage} />
+                <RepImageBox src={row.main_image} />
               </StyledTableCell>
-              <StyledTableCell>{row.productName}</StyledTableCell>
-              <StyledProdCodeCell>{row.productCode}</StyledProdCodeCell>
-              <StyledTableCell>{row.productNumber}</StyledTableCell>
-              <StyledTableCell>{row.sellerType}</StyledTableCell>
-              <StyledTableCell>{row.sellerName}</StyledTableCell>
+              <StyledTableCell>{row.name}</StyledTableCell>
+              <StyledProdCodeCell>{row.serial_number}</StyledProdCodeCell>
+              <StyledTableCell>{row.product_number}</StyledTableCell>
+              <StyledTableCell>{row.seller_type}</StyledTableCell>
+              <StyledTableCell>{row.seller_name}</StyledTableCell>
               <StyledTableCell>
-                {parseInt(row.salePrice).toLocaleString()}
+                {parseInt(row.price).toLocaleString()}
               </StyledTableCell>
               <StyledTableCell>
-                {parseInt(row.discountedPrice).toLocaleString()}
+                {row.discounted_price
+                  ? parseInt(row.discounted_price).toLocaleString()
+                  : 0}
               </StyledTableCell>
-              <StyledTableCell>{row.isSelling}</StyledTableCell>
-              <StyledTableCell>{row.isDisplaying}</StyledTableCell>
-              <StyledTableCell>{row.isDiscounted}</StyledTableCell>
-              <StyledTableCell>{row.deliveryType}</StyledTableCell>
+              <StyledTableCell>{row.is_sold}</StyledTableCell>
+              <StyledTableCell>{row.is_displayed}</StyledTableCell>
+              <StyledTableCell>{row.is_discounted}</StyledTableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -170,8 +199,16 @@ const DataList = () => {
     </TableContainer>
   );
 };
-
-export default DataList;
+const mapStateToProps = state => {
+  return {
+    pagenateData: state.productManagement.pagenateData,
+    currentPage: state.productManagement.currentPage,
+    showList: state.productManagement.showList,
+  };
+};
+export default connect(mapStateToProps, { totalProductCount, setMaxPage })(
+  DataList,
+);
 
 // Functions
 

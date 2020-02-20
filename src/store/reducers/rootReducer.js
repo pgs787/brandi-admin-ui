@@ -6,6 +6,7 @@ import userGeneralInfo from './userGeneralInfo';
 import userBusinessInfo from './userBusinessInfo';
 import userDetailInfo from './userDetailInfo';
 import otherInfo from './otherInfo';
+import productManagement from './productManagement';
 
 export default combineReducers({
   generalInfo,
@@ -15,4 +16,5 @@ export default combineReducers({
   userBusinessInfo,
   userDetailInfo,
   otherInfo,
+  productManagement,
 });

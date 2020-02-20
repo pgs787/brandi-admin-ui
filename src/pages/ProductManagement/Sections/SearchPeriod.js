@@ -21,7 +21,7 @@ const SearchPeriod = ({
           <DatePicker
             selected={startingDateTime}
             onChange={onChangeStartingDate}
-            dateFormat="yyyy-MM-dd"
+            format="yy-mm-dd"
           />
         </DatePickerWrapper>
         <CalendarButton>~</CalendarButton>
@@ -29,7 +29,7 @@ const SearchPeriod = ({
           <DatePicker
             selected={endingDateTime}
             onChange={onChangeEndingDate}
-            dateFormat="yyyy-MM-dd"
+            format="yy-mm-dd"
           />
         </DatePickerWrapper>
         {!validateDateRange() && <PErrMsg>올바른 날짜를 입력해주세요.</PErrMsg>}
